@@ -1,49 +1,35 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator
-} from "react-native";
+import {StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator} from "react-native";
 import * as Facebook from "expo-facebook";
 import { ImageBackground } from "react-native";
+import Welcome from './components/Welcome.js';
 
-console.disableYellowBox = true;
+//console.disableYellowBox = true;
 
 export default function App() {
   const [isLoggedin, setLoggedinStatus] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isImageLoading, setImageLoadStatus] = useState(false);
 
-  facebookLogIn = async () => {
+  login = async () => {
     try {
-      const {
-        type,
-        token,
-        expires,
-        permissions,
-        declinedPermissions
-      } = await Facebook.logInWithReadPermissionsAsync("4127928860565729", {
+      const fbResponse = await Facebook.logInWithReadPermissionsAsync("4127928860565729", {
         permissions: ["public_profile"]
       });
-      if (type === "success") {
+
+      if (fbResponse.type === "success") {
         // Get the user's name using Facebook's Graph API
-        fetch(
-          `https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`
-        )
+        fetch(`https://graph.facebook.com/me?access_token=${fbResponse.token}&fields=id,name,email,picture.height(500)`)
           .then(response => response.json())
           .then(data => {
+            //console.log(data);
             setLoggedinStatus(true);
             setUserData(data);
           })
           .catch(e => console.log(e));
-      } else {
-        // type === 'cancel'
       }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
+    } catch ({ error }) {
+      alert(`Facebook Login Error: ${error}`);
     }
   };
 
@@ -53,63 +39,54 @@ export default function App() {
     setImageLoadStatus(false);
   };
 
-  return isLoggedin ? (
-    userData ? (
+  if (isLoggedin && userData) {
+    return <Welcome userData={userData} isImageLoading={isImageLoading} />
+    // return (
+    //   <View style={styles.container}>
+    //     <Image
+    //       style={{ width: 200, height: 200, borderRadius: 40 }}
+    //       source={{ uri: userData.picture.data.url }}
+    //       onLoadEnd={() => setImageLoadStatus(true)}/>
+    //     <ActivityIndicator
+    //       size="large"
+    //       color="#0000ff"
+    //       animating={!isImageLoading}
+    //       style={{ position: "absolute" }}/>
+    //     <Text style={{ fontSize: 22, marginVertical: 10 }}>Hi {userData.name}!</Text>
+    //     <TouchableOpacity style={styles.logoutButton} onPress={this.logout}>
+    //       <Text style={{ color: "#fff" }}>Logout</Text>
+    //     </TouchableOpacity>
+    //   </View>)
+  } else {
+    return (
       <View style={styles.container}>
-        <Image
-          style={{ width: 200, height: 200, borderRadius: 50 }}
-          source={{ uri: userData.picture.data.url }}
-          onLoadEnd={() => setImageLoadStatus(true)}
-        />
-        <ActivityIndicator
-          size="large"
-          color="#0000ff"
-          animating={!isImageLoading}
-          style={{ position: "absolute" }}
-        />
-        <Text style={{ fontSize: 22, marginVertical: 10 }}>
-          Hi {userData.name}!
-        </Text>
-        <TouchableOpacity style={styles.logoutBtn} onPress={this.logout}>
-          <Text style={{ color: "#fff" }}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-    ) : null
-  ) : (
-    <View style={styles.container}>
       <ImageBackground
         style={styles.backgroundImage}
-        source={require("./assets/background.jpg")}
-      >
-        <Text style={styles.text}> P O L L E E </Text>
-        <Text style={{fontSize: 20, paddingBottom: 60, color: "#e9ebee"}}> Are you ready for the real tea?</Text>
-        {/* <Image
-          style={{ width: 200, height: 200, borderRadius: 50, marginVertical: 20 }}
-          source={require("./assets/pollee.png")} /> */}
-        <TouchableOpacity style={styles.loginBtn} onPress={this.facebookLogIn}>
-          <Text style={{ fontSize: 20, color: "#e9ebee" }}>
-            Login with Facebook
-          </Text>
-        </TouchableOpacity>
-      </ImageBackground>
-    </View>
-  );
+        source={require("./assets/background.jpg")}>
+        <Text style={styles.text}>P O L L E E</Text>
+        <Text style={{fontSize: 20, paddingBottom: 60, color: "#e9ebee"}}>Are you ready for the real tea?</Text>
+        <TouchableOpacity style={styles.loginButton} onPress={this.login}>
+        <Text style={{ fontSize: 20, color: "#e9ebee" }}>Login with Facebook</Text>
+      </TouchableOpacity>
+    </ImageBackground>
+    </View>)
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e9ebee", //'#e9ebee'
+    backgroundColor: "#e9ebee",
     alignItems: "center",
     justifyContent: "center"
   },
-  loginBtn: {
+  loginButton: {
     backgroundColor: "#4267b2",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 30
   },
-  logoutBtn: {
+  logoutButton: {
     backgroundColor: "grey",
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -122,7 +99,6 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "cover",
     alignItems: "center"
-    //justifyContent: 'center'
   },
   text: {
     paddingTop: 150,
