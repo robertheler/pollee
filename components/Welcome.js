@@ -5,54 +5,50 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {StyleSheet, Image, TouchableOpacity, ActivityIndicator} from "react-native";
-import {Animated} from "react-native";
-import Home from './screens/facebook-welcome.js'
 import Feed from './screens/Feed.js'
+import Post from './screens/Post.js'
+import You from './screens/You.js'
 
+const HomeStack = createStackNavigator();
 
-function FeedScreen({ navigation, screenProps }) {
-  //console.log('screen Props:', screenProps);
+function FeedScreen({route, navigation}) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>{screenProps}</Text>
-      {/* <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      /> */}
-    </View>
+    <HomeStack.Navigator>
+      <HomeStack.Screen  name="P O L L E E" component={Feed} initialParams={{route: route.params.props}}/>
+    </HomeStack.Navigator>
   );
 }
 
-function SettingsScreen({ navigation }) {
+function PostScreen({route, navigation}) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings screen</Text>
-      {/* <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      /> */}
-    </View>
+    <HomeStack.Navigator>
+      <HomeStack.Screen  name="P O L L E E" component={Post} initialParams={{route: route.params.props}}/>
+    </HomeStack.Navigator>
   );
 }
 
+function YouScreen({route, navigation}) {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen  name="P O L L E E" component={You} initialParams={{route: route.params.props}}/>
+    </HomeStack.Navigator>
+  );
+}
 
 const Tab = createBottomTabNavigator();
 
 export default class Welcome extends Component {
   constructor(props){
     super(props);
-    this.state = {
-
-    };
   }
 
   render () {
     return (
       <NavigationContainer style={{position: "absolute"}}>
         <Tab.Navigator>
-          <Tab.Screen name="Feed" component={Feed} initialParams={{props: this.props}}/>
-
-          <Tab.Screen name="Settings" component={SettingsScreen}/>
+          <Tab.Screen name="Feed" component={FeedScreen} initialParams={{props: this.props}}/>
+          <Tab.Screen name="Post" component={PostScreen} initialParams={{props: this.props}}/>
+          <Tab.Screen name="You" component={YouScreen} initialParams={{props: this.props}}/>
         </Tab.Navigator>
       </NavigationContainer>
     );
