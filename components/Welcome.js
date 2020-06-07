@@ -1,47 +1,106 @@
-import React, { useState, Component } from "react";
-import {StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator} from "react-native";
+import * as React from 'react';
+import { Component, Fragment} from "react";
+import { Button, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {StyleSheet, Image, TouchableOpacity, ActivityIndicator} from "react-native";
 import {Animated} from "react-native";
+import Home from './screens/Home.js'
 
+function DetailsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Details!</Text>
+    </View>
+  );
+}
+
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home screen</Text>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details')}
+      />
+    </View>
+  );
+}
+
+function SettingsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings screen</Text>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details')}
+      />
+    </View>
+  );
+}
+
+const HomeStack = createStackNavigator();
+
+function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Details" component={DetailsScreen} />
+    </HomeStack.Navigator>
+  );
+}
+
+const SettingsStack = createStackNavigator();
+
+function SettingsStackScreen() {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen name="Settings" component={SettingsScreen} />
+      <SettingsStack.Screen name="Details" component={DetailsScreen} />
+    </SettingsStack.Navigator>
+  );
+}
+
+const Tab = createBottomTabNavigator();
 
 export default class Welcome extends Component {
   constructor(props){
     super(props);
     this.state = {
-      fadeValue: new Animated.Value(1)
+      fadeOutValue: new Animated.Value(1),
+      fadeInValue: new Animated.Value(0)
     };
   }
 
   componentDidMount = () => {
-    this.fadeOut();
+    this.fadeOutAndDisplayApp();
   }
-  fadeOut = () => {
-    console.log('fading');
-    Animated.timing(this.state.fadeValue, {
+
+  fadeOutAndDisplayApp = () => {
+    Animated.timing(this.state.fadeOutValue, {
       toValue: 0,
+      duration: 2000
+    }).start();
+    Animated.timing(this.state.fadeInValue, {
+      toValue: 1,
       duration: 2000
     }).start();
   };
 
-  render() {
-    return (
-        <Animated.View style={{
-          flex: 1,
-          backgroundColor: "#e9ebee",
-          alignItems: "center",
-          justifyContent: "center",
-          opacity: this.state.fadeValue,
-        }}>
-          <Image
-            style={{ width: 200, height: 200, borderRadius: 40 }}
-            source={{ uri: this.props.userData.picture.data.url }}/>
-          <Text style={{ fontSize: 22, marginVertical: 10 }}>Hi {this.props.userData.name}!</Text>
-          {/* <TouchableOpacity style={styles.logoutButton} onPress={this.logout}>
-            <Text style={{ color: "#fff" }}>Logout</Text>
-          </TouchableOpacity> */}
-        </Animated.View>)
-  }
 
+  render () {
+    return (
+      <NavigationContainer style={{position: "absolute"}}>
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={HomeStackScreen} />
+          <Tab.Screen name="Settings" component={SettingsStackScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    );
+  }
 }
+
 
 const styles = StyleSheet.create({
   container: {
