@@ -1,12 +1,9 @@
 const { Pool, Client } = require("pg");
-const moment = require("moment"); // require
-moment().format();
-const each = require("async/each");
 
 const pool = new Pool({
-  host: "ec2-3-221-234-184.compute-1.amazonaws.com",
-  //host: "postgres", // change from local to postgres for deploying
-  database: "ratemyrestaurant",
+  //host: "ec2-3-221-234-184.compute-1.amazonaws.com",
+  host: "localhost",
+  database: "pollee",
   user: "postgres",
   password: "",
   port: 5432,
@@ -16,35 +13,26 @@ const pool = new Pool({
   server_prepare_mode: "transaction"
 });
 
-//GET api/restaurants/:id
-const getRestaurant = (id, callback) => {
-  pool.query(`SELECT * FROM restaurants WHERE id = ${id}`, (err, res) => {
+//GET api/poll/:user
+const getPoll = (by, callback) => {
+  pool.query(`SELECT * FROM polls WHERE by = $1`, ["" + by], (err, res) => {
     if (err) {
       console.log(err);
       callback(err);
     } else {
-      callback(null, res.rows[0]);
+      callback(null, res.rows);
     }
   });
 };
 
-//POST api/restaurants
-const postRestaurant = (restaurant, callback) => {
+//arrays should look like this "{This is answer number 1, This is answer number 2}"
+//POST api/polls
+const postPoll = (poll, callback) => {
   query = `INSERT INTO
-            restaurants(name, address, phone, website, costrating, review, opens, closes, reservationslot)
-          VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
+            polls(by, question, answers, results)
+          VALUES($1, $2, $3, $4)`;
 
-  values = [
-    restaurant.name,
-    restaurant.address,
-    restaurant.phone,
-    restaurant.website,
-    restaurant.costrating,
-    restaurant.review,
-    restaurant.opens,
-    restaurant.closes,
-    restaurant.reservationslot
-  ];
+  values = [poll.by, poll.question, poll.answers, "{0,0,0,0}"];
 
   pool
     .query(query, values)
@@ -55,84 +43,24 @@ const postRestaurant = (restaurant, callback) => {
     });
 };
 
-//DELETE api/restaurants/:id
-const deleteRestaurant = (id, callback) => {
-    pool.query(
-      `DELETE FROM availability
-                WHERE table_id IN (
-                SELECT id FROM tables WHERE restaurant_id = ${id})`,
-      (err, res) => {
-        if (err) {
-          console.log(err);
-          callback(err);
-        } else {
-          pool.query(
-            `DELETE FROM tables WHERE restaurant_id = ${id}`,
-            (err, res) => {
-              if (err) {
-                console.log(err);
-                callback(err);
-              } else {
-                pool.query(
-                  `DELETE FROM restaurants WHERE id = ${id}`,
-                  (err, res) => {
-                    if (err) {
-                      console.log(err);
-                      callback(err);
-                    } else {
-                      callback(null, res);
-                    }
-                  }
-                );
-              }
-            }
-          );
-        }
-      }
-    );
-};
-
-//PATCH api/restaurants/:id
-const patchRestaurant = (id, updates, callback) => {
-  each(
-    Object.keys(updates),
-    function(update, resolve) {
-      pool.query(
-        `UPDATE restaurants SET ${update} = $1 WHERE id = $2`,
-        [updates[update], id],
-        (err, res) => {
-          if (err) {
-            console.log(err);
-            resolve(err);
-          } else {
-            resolve();
-          }
-        }
-      );
-    },
-    function(err) {
-      callback();
-    }
-  );
-};
-
-//GET api/tables/:id
-const getTable = (id, callback) => {
-  pool.query(`SELECT * FROM tables WHERE id = ${id}`, (err, res) => {
-    if (err) {
+//api/polls/:id/:user/:vote
+const patchPoll = (id, user, vote, callback) => {
+  pool.query(`UPDATE polls SET results[$1] = results[$1] + 1, voters = array_cat(voters, $3) WHERE id = $2`,[vote, id, `{${user}}`])
+    .then(results => callback(null, results))
+    .catch(err => {
       console.log(err);
       callback(err);
-    } else {
-      callback(null, res.rows[0]);
-    }
-  });
+    });
 };
 
-//POST api/tables
-const postTable = (table, callback) => {
-  query = `INSERT INTO tables(restaurant_id, capacity) VALUES($1, $2)`;
+//arrays should look like this "{This is answer number 1, This is answer number 2}"
+//POST api/user
+const postUsers = (user, callback) => {
+  query = `INSERT INTO
+            users(id, first, last, email, friends)
+          VALUES($1, $2, $3, $4, $5)`;
 
-  values = [table.restaurant_id, table.capacity];
+  values = [user.id, user.first, user.last, user.email, user.friends];
 
   pool
     .query(query, values)
@@ -141,221 +69,11 @@ const postTable = (table, callback) => {
       console.log(err);
       callback(err);
     });
-};
-
-//DELETE api/table/:id
-const deleteTable = (id, callback) => {
-  pool.query(`DELETE FROM availability WHERE table_id = ${id}`, (err, res) => {
-    if (err) {
-      console.log(err);
-      callback(err);
-    } else {
-      pool.query(`DELETE FROM tables WHERE id = ${id}`, (err, res) => {
-        if (err) {
-          console.log(err);
-          callback(err);
-        } else {
-          callback(null, res);
-        }
-      });
-    }
-  });
-};
-
-//PATCH api/tables/:id
-const patchTable = (id, updates, callback) => {
-  each(
-    Object.keys(updates),
-    function(update, resolve) {
-      pool.query(
-        `UPDATE tables SET ${update} = $1 WHERE id = $2`,
-        [updates[update], id],
-        (err, res) => {
-          if (err) {
-            console.log(err);
-            resolve(err);
-          } else {
-            resolve();
-          }
-        }
-      );
-    },
-    function(err) {
-      callback();
-    }
-  );
-};
-
-//GET api/availability/:id
-const getAvailability = (id, callback) => {
-    pool.query(`SELECT * FROM availability WHERE id = ${id}`, (err, res) => {
-      if (err) {
-        console.log(err);
-        callback(err);
-      } else {
-        callback(null, res.rows[0]);
-      }
-    });
-};
-
-//POST api/availability
-const postAvailability = (availability, callback) => {
-    query = `INSERT INTO availability(table_id, date, times) VALUES($1, $2, $3)`;
-    values = [availability.table_id, availability.date, availability.times];
-    pool
-      .query(query, values)
-      .then(results => callback(null, results))
-      .catch(err => {
-        console.log(err);
-        callback(err);
-      });
-};
-
-//DELETE api/availability/:id
-const deleteAvailability = (id, callback) => {
-  pool.query(`DELETE FROM availability WHERE id = ${id}`, (err, res) => {
-    if (err) {
-      console.log(err);
-      callback(err);
-    } else {
-      callback(null, res);
-    }
-  });
-};
-
-//PATCH api/availability/:id
-const patchAvailability = (id, updates, callback) => {
-  each(
-    Object.keys(updates),
-    function(update, resolve) {
-      pool.query(
-        `UPDATE availability SET ${update} = $1 WHERE id = $2`,
-        [updates[update], id],
-        (err, res) => {
-          if (err) {
-            console.log(err);
-            resolve(err);
-          } else {
-            resolve();
-          }
-        }
-      );
-    },
-    function(err) {
-      callback();
-    }
-  );
-};
-
-//GET api/restaurants/:id
-const getAllAvailability = (id, callback) => {
-  pool.query(`SELECT name FROM restaurants WHERE id = ${id}`, (err, name) => {
-    if (err) {
-      callback(err);
-    } else if (name.rows.length === 0) {
-      callback(null, {});
-    } else {
-      pool.query(
-        `SELECT * FROM availability INNER JOIN tables ON (availability.table_id = tables.id) WHERE tables.restaurant_id = ${id}`,
-        (err, res) => {
-          if (err) {
-            callback(err);
-          } else {
-            let result = {
-              id: id,
-              name: name.rows[0].name,
-              dates: {}
-            };
-            for (var i = 0; i < res.rows.length; i++) {
-              let date = moment(res.rows[i].date).format("MM/DD/YYYY");
-              if (!result.dates[date]) {
-                result.dates[date] = [
-                  {
-                    id: res.rows[i].table_id,
-                    capacity: res.rows[i].capacity,
-                    times: res.rows[i].times
-                  }
-                ];
-              } else {
-                result.dates[date].push({
-                  id: res.rows[i].table_id,
-                  capacity: res.rows[i].capacity,
-                  times: res.rows[i].times
-                });
-              }
-            }
-            callback(err, result);
-          }
-        }
-      );
-    }
-  });
-};
-
-
-//GET /api/restaurants/:id/:date/:size
-const getSpecificAvailability = (id, date, size, callback) => {
-  // pool.query(`SELECT name FROM restaurants WHERE id = ${id}`, (err, name) => {
-  // if (err) {
-  //       callback(err);
-  //     } else if (name.rows.length === 0) {
-  //       callback(null, {});
-  //     } else {
-        pool.query(
-          // `SELECT *
-          //   FROM availability
-          //   WHERE date::date = '${date}'
-          //   AND
-          //   table_id IN (SELECT id
-          //                 FROM tables
-          //                 WHERE restaurant_id = ${id}
-          //                 AND capacity >= ${size})`,
-          `SELECT *
-            FROM availability INNER JOIN tables
-            ON (availability.table_id = tables.id)
-            WHERE tables.restaurant_id = ${id}
-            AND tables.capacity >= ${size}
-            AND availability.date::date = '${date}'`,
-          (err, res) => {
-            if (err) {
-              callback(err);
-            } else {
-              let result = {
-                id: id,
-                //name: name.rows[0].name,
-                date: date,
-                tables: []
-              };
-              for (var i = 0; i < res.rows.length; i++) {
-                result.tables.push({
-                  id: res.rows[i].table_id,
-                  capacity: res.rows[i].capacity,
-                  times: res.rows[i].times
-                });
-              }
-              callback(err, result);
-            }
-          }
-        );
-
-    // });
 };
 
 module.exports.pool = pool;
-module.exports.getRestaurant = getRestaurant;
-module.exports.postRestaurant = postRestaurant;
-module.exports.deleteRestaurant = deleteRestaurant;
-module.exports.patchRestaurant = patchRestaurant;
+module.exports.getPoll = getPoll;
+module.exports.postPoll = postPoll;
+module.exports.patchPoll = patchPoll;
 
-module.exports.getTable = getTable;
-module.exports.postTable = postTable;
-module.exports.deleteTable = deleteTable;
-module.exports.patchTable = patchTable;
-
-module.exports.getAvailability = getAvailability;
-module.exports.postAvailability = postAvailability;
-module.exports.deleteAvailability = deleteAvailability;
-module.exports.patchAvailability = patchAvailability;
-
-module.exports.getAllAvailability = getAllAvailability;
-module.exports.getSpecificAvailability = getSpecificAvailability;
+module.exports.postUsers = postUsers;

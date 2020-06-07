@@ -1,47 +1,36 @@
-DROP DATABASE IF EXISTS ratemyrestaurant;
 DROP DATABASE IF EXISTS pollee;
 
 CREATE DATABASE pollee;
 
 \c pollee;
-
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS polls;
+DROP TABLE IF EXISTS users;
 
 
 CREATE TABLE users(
-   id BIGINT NOT NULL PRIMARY KEY,
+   id VARCHAR(255) NOT NULL PRIMARY KEY,
    first VARCHAR(255) NOT NULL,
    last VARCHAR(255) NOT NULL,
-   phone BIGINT CHECK (phone BETWEEN 1000000000 AND 9999999999) NOT NULL,
-   email VARCHAR(255) NOT NULL,
-   friends BIGINT[]
+   email VARCHAR(255),
+   friends VARCHAR(255)[]
 );
 
 CREATE TABLE polls(
    id SERIAL PRIMARY KEY,
-   user BIGINT NOT NULL,
-   timestamp TIMESTAMP NOT NULL,
+   by VARCHAR(255) NOT NULL REFERENCES users(id),
+   created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
    question VARCHAR(255) NOT NULL,
-   first_answer VARCHAR(255) NOT NULL,
-   second_answer VARCHAR(255) NOT NULL,
-   third_answer VARCHAR(255),
-   fourth_answer VARCHAR(255),
-   first_votes INTEGER DEFAULT 0,
-   second_votes INTEGER DEFAULT 0,
-   third_votes INTEGER DEFAULT 0,
-   fourth_votes INTEGER DEFAULT 0,
-   users BIGINT[]
+   answers VARCHAR(255)[] NOT NULL,
+   results INTEGER[],
+   voters VARCHAR(255)[]
 );
 
-COPY users (name, address, phone, website, costrating, review, opens, closes, reservationslot) FROM '/db/restaurants.csv' DELIMITER ',' CSV HEADER;
+-- COPY users (id, first, last, phone, email, friends) FROM '/database/users.csv' DELIMITER ',' CSV HEADER;
 
-COPY polls (restaurant_id, capacity) FROM '/db/tables.csv' DELIMITER ',' CSV HEADER;
+-- COPY polls (by, timestamp, question, first_answer, second_answer, third_answe, fourth_answer, first_votes, second_votes, third_votes, fourth_votes, voters) FROM '/database/polls.csv' DELIMITER ',' CSV HEADER;
 
 CREATE INDEX ON users(id);
 CREATE INDEX ON polls(id);
-CREATE INDEX ON polls(user);
-CREATE INDEX ON polls(timestamp);
+CREATE INDEX ON polls(by);
+CREATE INDEX ON polls(created);
 
-ALTER TABLE polls
-ADD CONSTRAINT polls_foreign FOREIGN KEY (user) REFERENCES users (id);
