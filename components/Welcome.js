@@ -6,13 +6,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {StyleSheet, Image, TouchableOpacity, ActivityIndicator} from "react-native";
 import {Animated} from "react-native";
-import Home from './screens/Home.js'
+import Home from './screens/facebook-welcome.js'
+import Feed from './screens/Feed.js'
 
 
-function FeedScreen({ navigation }) {
+function FeedScreen({ navigation, screenProps }) {
+  //console.log('screen Props:', screenProps);
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Feed screen</Text>
+      <Text>{screenProps}</Text>
       {/* <Button
         title="Go to Details"
         onPress={() => navigation.navigate('Details')}
@@ -48,8 +50,9 @@ export default class Welcome extends Component {
     return (
       <NavigationContainer style={{position: "absolute"}}>
         <Tab.Navigator>
-          <Tab.Screen name="Feed" component={FeedScreen} />
-          <Tab.Screen name="Settings" component={SettingsScreen} />
+          <Tab.Screen name="Feed" component={Feed} initialParams={{props: this.props}}/>
+
+          <Tab.Screen name="Settings" component={SettingsScreen}/>
         </Tab.Navigator>
       </NavigationContainer>
     );
