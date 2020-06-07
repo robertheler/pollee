@@ -8,6 +8,7 @@ import {StyleSheet, Image, TouchableOpacity, ActivityIndicator} from "react-nati
 import Feed from './screens/Feed.js'
 import Post from './screens/Post.js'
 import You from './screens/You.js'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const HomeStack = createStackNavigator();
 
@@ -46,9 +47,35 @@ export default class Welcome extends Component {
     return (
       <NavigationContainer style={{position: "absolute"}}>
         <Tab.Navigator>
-          <Tab.Screen name="Feed" component={FeedScreen} initialParams={{props: this.props}}/>
-          <Tab.Screen name="Post" component={PostScreen} initialParams={{props: this.props}}/>
-          <Tab.Screen name="You" component={YouScreen} initialParams={{props: this.props}}/>
+          <Tab.Screen
+            name="Feed"
+            component={FeedScreen}
+            initialParams={{props: this.props}}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="home" color={color} size={30} />
+              ),
+            }}/>
+          <Tab.Screen
+            name="New"
+            component={PostScreen}
+            initialParams={{props: this.props}}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="poll" color={color} size={30} />
+              ),
+            }}/>
+            <Tab.Screen
+            name="You"
+            component={YouScreen}
+            initialParams={{props: this.props}}
+            options={{
+              tabBarLabel: "You",
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="face-profile" color={color} size={30} />
+              ),
+            }}/>
+
         </Tab.Navigator>
       </NavigationContainer>
     );
