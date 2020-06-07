@@ -48,6 +48,23 @@ export default class Welcome extends Component {
         }
 }
 
+// return (
+//   <View style={styles.container}>
+//     <Image
+//       style={{ width: 200, height: 200, borderRadius: 40 }}
+//       source={{ uri: userData.picture.data.url }}
+//       onLoadEnd={() => setImageLoadStatus(true)}/>
+//     <ActivityIndicator
+//       size="large"
+//       color="#0000ff"
+//       animating={!isImageLoading}
+//       style={{ position: "absolute" }}/>
+//     <Text style={{ fontSize: 22, marginVertical: 10 }}>Hi {userData.name}!</Text>
+//     <TouchableOpacity style={styles.logoutButton} onPress={this.logout}>
+//       <Text style={{ color: "#fff" }}>Logout</Text>
+//     </TouchableOpacity>
+//   </View>)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
