@@ -26,7 +26,7 @@ export default class Post extends Component {
     };
 
     this.onSubmit = this.onSubmit.bind(this);
-    this.postPoll = this.postPoll.bind(this);
+    // this.postPoll = this.postPoll.bind(this);
   }
 
   onSubmit() {
@@ -62,14 +62,14 @@ export default class Post extends Component {
       method: "post",
       body: JSON.stringify(poll)
     })
-      .then(function(response) {
+      .then(response =>  {
         this.setState({
           question: "",
           answer1: "",
           answer2: "",
           answer3: "",
           answer4: ""
-        });
+        }, alert('Poll was submitted! Check the feed to see responses!'))
       })
       .catch(error => {
         console.log(error);
@@ -86,7 +86,7 @@ export default class Post extends Component {
                 placeholder="Question (e.g. Am I pretty?)"
                 val={this.state.question}
                 getRef={ref => (this.SearchInput = ref)}
-                onChangeText={value => this.setState({ question: value })}
+                onChangeText={val => this.setState({ question: val })}
                 id="question"
               />
             </Item>
@@ -94,7 +94,7 @@ export default class Post extends Component {
               <Input
                 placeholder="Answer 1"
                 val={this.state.answer1}
-                onChangeText={value => this.setState({ answer1: value })}
+                onChangeText={val => this.setState({ answer1: val })}
                 id="answer1"
               />
             </Item>
@@ -102,7 +102,7 @@ export default class Post extends Component {
               <Input
                 placeholder="Answer 2"
                 val={this.state.answer2}
-                onChangeText={value => this.setState({ answer2: value })}
+                onChangeText={val => this.setState({ answer2: val })}
                 id="answer2"
               />
             </Item>
@@ -110,7 +110,7 @@ export default class Post extends Component {
               <Input
                 placeholder="Answer 3 (optional)"
                 val={this.state.answer3}
-                onChangeText={value => this.setState({ answer3: value })}
+                onChangeText={val => this.setState({ answer3: val })}
                 id="answer3"
               />
             </Item>
@@ -118,7 +118,7 @@ export default class Post extends Component {
               <Input
                 placeholder="Answer 4 (optional)"
                 val={this.state.answer4}
-                onChangeText={value => this.setState({ answer4: value })}
+                onChangeText={val => this.setState({ answer4: val })}
                 id="answer4"
               />
             </Item>
