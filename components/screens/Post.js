@@ -66,14 +66,14 @@ export default class Post extends Component {
       body: JSON.stringify(poll)
     })
       .then(response =>
-        alert('Poll was submitted! Check the feed to see responses!')
-        // this.setState({
-        //   question: "",
-        //   answer1: "",
-        //   answer2: "",
-        //   answer3: "",
-        //   answer4: ""
-        // }, alert('Poll was submitted! Check the feed to see responses!'))
+        //alert('Poll was submitted! Check the feed to see responses!')
+        this.setState({
+          question: "",
+          answer1: "",
+          answer2: "",
+          answer3: "",
+          answer4: ""
+        }, alert('Poll was submitted! Check the feed to see responses!'))
       )
       .catch(error => {
         console.log(error);
@@ -88,7 +88,7 @@ export default class Post extends Component {
             <Item>
               <Input
                 placeholder="Question (e.g. Am I pretty?)"
-                val={this.state.question}
+                value={this.state.question}
                 getRef={(ref) => { this.SearchInput = ref; }}
                 onChangeText={val => this.setState({ question: val })}
                 id="question"
@@ -97,7 +97,7 @@ export default class Post extends Component {
             <Item last>
               <Input
                 placeholder="Answer 1"
-                val={this.state.answer1}
+                value={this.state.answer1}
                 getRef={(ref) => { this.SearchInput = ref; }}
                 onChangeText={val => this.setState({ answer1: val })}
                 id="answer1"
@@ -107,7 +107,7 @@ export default class Post extends Component {
               <Input
                 placeholder="Answer 2"
                 getRef={(ref) => { this.SearchInput = ref; }}
-                val={this.state.answer2}
+                value={this.state.answer2}
                 onChangeText={val => this.setState({ answer2: val })}
                 id="answer2"
               />
@@ -116,7 +116,7 @@ export default class Post extends Component {
               <Input
                 placeholder="Answer 3 (optional)"
                 getRef={(ref) => { this.SearchInput = ref; }}
-                val={this.state.answer3}
+                value={this.state.answer3}
                 onChangeText={val => this.setState({ answer3: val })}
                 id="answer3"
               />
@@ -154,7 +154,6 @@ const styles = StyleSheet.create({
   container: {
     borderTopWidth: 1,
     borderColor: "#F2F2F2",
-    backgroundColor: "#FDDE4E",
     flex: 1,
     alignItems: "center"
   },

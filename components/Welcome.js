@@ -19,8 +19,9 @@ const HomeStack = createStackNavigator();
 
 function FeedScreen({ route, navigation }) {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator style={{backgroundColor:'white'}}>
       <HomeStack.Screen
+        style={{backgroundColor:'white'}}
         name="P O L L E E"
         component={Feed}
         initialParams={{ route: route.params.props }}
@@ -87,9 +88,10 @@ export default class Welcome extends Component {
   }
   render() {
     return (
-      <NavigationContainer>
-        <Tab.Navigator>
+      <NavigationContainer style={{backgroundColor:'white'}}>
+        <Tab.Navigator style={{backgroundColor:'white'}}>
           <Tab.Screen
+          style={{backgroundColor:'white'}}
             name="Answer"
             component={FeedScreen}
             initialParams={{ props: this.props }}
@@ -100,6 +102,7 @@ export default class Welcome extends Component {
             }}
           />
           <Tab.Screen
+          style={{backgroundColor:'white'}}
             name="Ask"
             component={PostScreen}
             initialParams={{ props: this.props }}
@@ -110,6 +113,7 @@ export default class Welcome extends Component {
             }}
           />
           <Tab.Screen
+          style={{backgroundColor:'white'}}
             name="You"
             component={YouScreen}
             initialParams={{ props: this.props }}

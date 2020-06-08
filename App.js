@@ -4,6 +4,8 @@ import * as Facebook from "expo-facebook";
 import { ImageBackground } from "react-native";
 import Welcome from './components/Welcome.js';
 
+
+
 //console.disableYellowBox = true;
 
 export default function App() {

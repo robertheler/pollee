@@ -1,6 +1,8 @@
 import React, { useState, Component, Fragment } from "react";
 import {
   StyleSheet,
+  Container,
+  Content,
   Text,
   View,
   Image,
@@ -8,14 +10,15 @@ import {
   ActivityIndicator
 } from "react-native";
 import Poll from "../Poll.js";
-import {ScrollView} from 'react-native-gesture-handler';
-
+import { ScrollView } from "react-native-gesture-handler";
+import PTRView from "react-native-pull-to-refresh";
 
 export default class You extends Component {
   constructor({ route, navigation }) {
     super();
     this.state = route.params.route;
     this.state.polls = [];
+    this.refresh = this.refresh.bind(this);
   }
 
   componentDidMount() {
@@ -24,29 +27,55 @@ export default class You extends Component {
     });
   }
 
+  refresh() {
+    fetchPollsByUser(this.state.userData.id)
+      .then(polls => {
+        this.setState({ polls });
+      })
+      .catch(error => console.log(error));
+  }
+
   render() {
     if (this.state.polls) {
       return (
-        <ScrollView>
-
-        <View style={styles.container}>
-          <Image
-            style={styles.image}
-            source={{ uri: this.state.userData.picture.data.url }}/>
-          <Text style={{fontSize:20}}>Hi {this.state.userData.name}!</Text>
-          {this.state.polls.map((poll, i) =>  <Poll key={i} poll={poll} />)}
-        </View>
-
-        </ScrollView>
+        <PTRView onRefresh={this.refresh}>
+          <ScrollView style={{backgroundColor: "white"}} >
+            <View style={styles.container}>
+            <Text
+              style={{
+                marginTop: 20,
+                marginBottom: 10,
+                alignSelf: "center",
+                backgroundColor: "white"
+              }}
+            >
+              Pull to refresh
+            </Text>
+              <Image
+                style={styles.image}
+                source={{ uri: this.state.userData.picture.data.url }}
+              />
+              <Text style={{ fontSize: 20 }}>
+                Hi {this.state.userData.name}!
+              </Text>
+              {this.state.polls.map((poll, i) => (
+                <Poll key={i} poll={poll} />
+              ))}
+            </View>
+          </ScrollView>
+        </PTRView>
       );
     } else {
       return (
-        <View style={styles.container}>
-          <Image
-            style={styles.image}
-            source={{ uri: this.state.userData.picture.data.url }}/>
-          <Text style={{fontSize:20}}>Hi {this.state.userData.name}!</Text>
-        </View>
+        <PTRView onRefresh={this.refresh}>
+          <View style={styles.container}>
+            <Image
+              style={styles.image}
+              source={{ uri: this.state.userData.picture.data.url }}
+            />
+            <Text style={{ fontSize: 20 }}>Hi {this.state.userData.name}!</Text>
+          </View>
+        </PTRView>
       );
     }
   }
@@ -68,9 +97,9 @@ const styles = StyleSheet.create({
   container: {
     borderTopWidth: 1,
     borderColor: "#F2F2F2",
-    backgroundColor: "#FDDE4E",
     flex: 1,
     alignItems: "center",
+    backgroundColor: "white"
   },
   image: {
     borderTopWidth: 2,

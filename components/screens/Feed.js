@@ -38,9 +38,11 @@ export default class Feed extends Component {
   render() {
     if (this.state.polls) {
       return (
-        <PTRView onRefresh={this.refresh} >
-        <ScrollView>
-        <Text style={{marginVertical: 20, alignSelf: 'center'}}>Pull to refresh</Text>
+        <PTRView onRefresh={this.refresh} style={{borderTopWidth: 1,
+          borderColor: "#F2F2F2"}} >
+        <ScrollView style={{backgroundColor:'white'}}>
+
+        <Text style={{marginTop: 20, marginBottom: 10, alignSelf: 'center'}}>Pull to refresh</Text>
         <View style={styles.container}>
           {this.state.polls.map((poll, i) =>  <Poll key={i} poll={poll} />)}
         </View>
@@ -75,9 +77,6 @@ function fetchPollsForUser(id) {
 
 const styles = StyleSheet.create({
   container: {
-    borderTopWidth: 1,
-    borderColor: "#F2F2F2",
-    backgroundColor: "#FDDE4E",
     flex: 1,
     alignItems: "center",
   },
