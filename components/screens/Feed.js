@@ -4,7 +4,6 @@ import {Animated} from "react-native";
 
 export default function Feed ({route, navigation}){
   let params = route.params.route
-  console.log(params);
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>F E E D</Text>

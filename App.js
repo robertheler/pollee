@@ -19,7 +19,7 @@ export default function App() {
 
       if (fbResponse.type === "success") {
         // Get the user's name using Facebook's Graph API
-        fetch(`https://graph.facebook.com/me?access_token=${fbResponse.token}&fields=id,name,email,picture.height(500)`)
+        fetch(`https://graph.facebook.com/me?access_token=${fbResponse.token}&fields=id,name,email,picture.height(500),friends`)
           .then(response => response.json())
           .then(data => {
             //console.log(data);
@@ -38,9 +38,21 @@ export default function App() {
     setUserData(null);
     setImageLoadStatus(false);
   };
-
+  let fakeData = {
+    "id": "10158294838614730",
+    "name": "Robert Heler",
+    "picture": {
+      "data": {
+        "height": 720,
+        "is_silhouette": false,
+        "url": "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10158294838614730&height=500&ext=1594176755&hash=AeSSm7OG2O09s7O8",
+        "width": 719,
+      },
+    },
+  };
+  return <Welcome userData={fakeData}/>
   if (isLoggedin && userData) {
-    return <Welcome userData={userData} isImageLoading={isImageLoading} />
+    return <Welcome userData={userData}/>
   } else {
     return (
       <View style={styles.container}>

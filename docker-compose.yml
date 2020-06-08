@@ -1,0 +1,13 @@
+version: "2"
+services:
+  server:
+    build: ./server
+    ports:
+      - "3001:3001"
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "ratemyrestaurant"
+      POSTGRES_HOST_AUTH_METHOD: "trust"

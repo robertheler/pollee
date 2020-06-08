@@ -7,20 +7,55 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from "react-native";
-import { Animated } from "react-native";
+import Poll from "../Poll.js";
 
-export default function You({ route, navigation }) {
-  let params = route.params.route;
-  console.log(params);
-  return (
-    <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={{ uri: params.userData.picture.data.url }}
-      />
-      <Text>Hi {params.userData.name}!</Text>
-    </View>
-  );
+export default class You extends Component {
+  constructor({ route, navigation }) {
+    super();
+    this.state = route.params.route;
+    this.state.polls = [];
+  }
+
+  componentDidMount() {
+    fetchPollsByUser(this.state.userData.id).then(polls => {
+      this.setState({ polls });
+    });
+  }
+
+  render() {
+    if (this.state.polls) {
+      return (
+        <View style={styles.container}>
+          <Image
+            style={styles.image}
+            source={{ uri: this.state.userData.picture.data.url }}/>
+          <Text style={{fontSize:20}}>Hi {this.state.userData.name}!</Text>
+          {this.state.polls.map((poll, i) =>  <Poll key={i} poll={poll} />)}
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Image
+            style={styles.image}
+            source={{ uri: this.state.userData.picture.data.url }}/>
+          <Text style={{fontSize:20}}>Hi {this.state.userData.name}!</Text>
+        </View>
+      );
+    }
+  }
+}
+
+//{this.state.polls.map(poll =>  <Text>{poll.toString()}</Text>)}
+function fetchPollsByUser(id) {
+  return fetch(`http://3.221.234.184:3001/api/polls/${id}`)
+    .then(response => response.json())
+    .then(json => {
+      return json;
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 const styles = StyleSheet.create({
