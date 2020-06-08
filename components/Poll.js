@@ -14,29 +14,64 @@ import { ScrollView } from "react-native-gesture-handler";
 export default class You extends Component {
   constructor(props) {
     super(props);
-    this.handleVote = this.handleVote.bind(this);
+    this.state = {
+      user: undefined
+    }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.grabUserInfo(this.props.poll.by).then(user => {
+      this.setState({ user });
+    });
+  }
   handleVote() {}
-  render() {
-    let poll = this.props.poll;
-    console.log(poll);
 
-    return (
-      <View style={styles.container}>
-        <Text style={styles.question}>{poll.question}</Text>
-        {poll.answers.map((answer, i) => {
-          return <Text style={styles.answer}key={i}>{answer + ": " + poll.results[i]}</Text>;
-        })}
-      </View>
-    );
+  grabUserInfo(id) {
+    return fetch(`http://3.221.234.184:3001/api/users/${id}`)
+      .then(response => response.json())
+      .then(json => {
+        return json[0];
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  render() {
+    if (this.state.user) {
+      return (
+        <View style={styles.container}>
+          <Text>{`${this.state.user.name} asked...`}</Text>
+          <Text style={styles.question}>{this.props.poll.question}</Text>
+          {this.props.poll.answers.map((answer, i) => {
+            return (
+              <Text style={styles.answer} key={i}>
+                {answer + ": " + this.props.poll.results[i]}
+              </Text>
+            );
+          })}
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.question}>{this.props.poll.question}</Text>
+          {this.props.poll.answers.map((answer, i) => {
+            return (
+              <Text style={styles.answer} key={i}>
+                {answer + ": " + this.props.poll.results[i]}
+              </Text>
+            );
+          })}
+        </View>
+      );
+    }
   }
 }
 
 const styles = StyleSheet.create({
   question: {
-    fontSize: 20,
+    fontSize: 20
   },
   answer: {
     fontSize: 15,

@@ -58,8 +58,34 @@ const Tab = createBottomTabNavigator();
 export default class Welcome extends Component {
   constructor(props) {
     super(props);
+    this.saveUser(this.props.userData);
   }
 
+  saveUser(userData) {
+    let newUser = {
+      id: userData.id,
+      name: userData.name,
+      url: userData.picture.data.url,
+      friends: userData.friends || []
+    };
+    fetch("http://3.221.234.184:3001/api/users", {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "post",
+      body: JSON.stringify(newUser)
+    })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        console.log("User entered: ", data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
   render() {
     return (
       <NavigationContainer>
@@ -70,7 +96,7 @@ export default class Welcome extends Component {
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="home" color={color} size={30}/>
+                <MaterialCommunityIcons name="home" color={color} size={30} />
               )
             }}
           />
