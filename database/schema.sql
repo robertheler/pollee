@@ -9,8 +9,7 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users(
    id VARCHAR(255) NOT NULL PRIMARY KEY,
-   first VARCHAR(255) NOT NULL,
-   last VARCHAR(255) NOT NULL,
+   name VARCHAR(255) NOT NULL,
    email VARCHAR(255),
    friends VARCHAR(255)[]
 );
