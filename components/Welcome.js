@@ -80,7 +80,6 @@ export default class Welcome extends Component {
         return response.json();
       })
       .then(function(data) {
-        console.log("User entered: ", data);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -91,18 +90,8 @@ export default class Welcome extends Component {
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen
-            name="Feed"
+            name="Answer"
             component={FeedScreen}
-            initialParams={{ props: this.props }}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="home" color={color} size={30} />
-              )
-            }}
-          />
-          <Tab.Screen
-            name="New"
-            component={PostScreen}
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
@@ -111,11 +100,20 @@ export default class Welcome extends Component {
             }}
           />
           <Tab.Screen
+            name="Ask"
+            component={PostScreen}
+            initialParams={{ props: this.props }}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="comment-question-outline" color={color} size={30} />
+              )
+            }}
+          />
+          <Tab.Screen
             name="You"
             component={YouScreen}
             initialParams={{ props: this.props }}
             options={{
-              tabBarLabel: "You",
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons
                   name="face-profile"
