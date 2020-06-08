@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from "react-native";
+import Poll from 'react-polls';
+
 
 export default class You extends Component {
   constructor(props) {
