@@ -8,6 +8,8 @@ import {
   ActivityIndicator
 } from "react-native";
 import Poll from "../Poll.js";
+import {ScrollView} from 'react-native-gesture-handler';
+
 
 export default class You extends Component {
   constructor({ route, navigation }) {
@@ -25,6 +27,8 @@ export default class You extends Component {
   render() {
     if (this.state.polls) {
       return (
+        <ScrollView>
+
         <View style={styles.container}>
           <Image
             style={styles.image}
@@ -32,6 +36,8 @@ export default class You extends Component {
           <Text style={{fontSize:20}}>Hi {this.state.userData.name}!</Text>
           {this.state.polls.map((poll, i) =>  <Poll key={i} poll={poll} />)}
         </View>
+
+        </ScrollView>
       );
     } else {
       return (
@@ -62,7 +68,7 @@ const styles = StyleSheet.create({
   container: {
     borderTopWidth: 1,
     borderColor: "#F2F2F2",
-    backgroundColor: "white",
+    backgroundColor: "#FDDE4E",
     flex: 1,
     alignItems: "center",
   },
