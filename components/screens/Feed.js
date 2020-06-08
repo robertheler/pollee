@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Poll from "../Poll.js";
 import {ScrollView} from 'react-native-gesture-handler';
+import PTRView from 'react-native-pull-to-refresh';
 
 
 export default class Feed extends Component {
@@ -16,24 +17,36 @@ export default class Feed extends Component {
     super();
     this.state = route.params.route;
     this.state.polls = [];
+    this.refresh = this.refresh.bind(this);
   }
 
   componentDidMount() {
     fetchPollsForUser(this.state.userData.id).then(polls => {
       this.setState({ polls });
-    });
+    }).catch(error => console.log(error))
   }
+  refresh () {
+    console.log(this.state);
+    fetchPollsForUser(this.state.userData.id)
+      .then(polls => {
+      this.setState({ polls });
+    })
+    .catch(error => console.log(error))
+  }
+
 
   render() {
     if (this.state.polls) {
       return (
+        <PTRView onRefresh={this.refresh} >
         <ScrollView>
-
+        <Text style={{marginVertical: 20, alignSelf: 'center'}}>Pull to refresh</Text>
         <View style={styles.container}>
           {this.state.polls.map((poll, i) =>  <Poll key={i} poll={poll} />)}
         </View>
 
         </ScrollView>
+    </PTRView>
       );
     } else {
       return (

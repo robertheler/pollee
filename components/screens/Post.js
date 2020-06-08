@@ -3,14 +3,16 @@ import {
   Container,
   Header,
   Content,
+  Button,
   Form,
   Item,
   Input,
+  Text,
   Label
 } from "native-base";
 
 import { ScrollView } from "react-native-gesture-handler";
-import { Text, StyleSheet, Button } from "react-native";
+import {StyleSheet } from "react-native";
 
 export default class Post extends Component {
   constructor({ route, navigation }) {
@@ -26,7 +28,8 @@ export default class Post extends Component {
     };
 
     this.onSubmit = this.onSubmit.bind(this);
-    // this.postPoll = this.postPoll.bind(this);
+
+;
   }
 
   onSubmit() {
@@ -62,15 +65,16 @@ export default class Post extends Component {
       method: "post",
       body: JSON.stringify(poll)
     })
-      .then(response =>  {
-        this.setState({
-          question: "",
-          answer1: "",
-          answer2: "",
-          answer3: "",
-          answer4: ""
-        }, alert('Poll was submitted! Check the feed to see responses!'))
-      })
+      .then(response =>
+        alert('Poll was submitted! Check the feed to see responses!')
+        // this.setState({
+        //   question: "",
+        //   answer1: "",
+        //   answer2: "",
+        //   answer3: "",
+        //   answer4: ""
+        // }, alert('Poll was submitted! Check the feed to see responses!'))
+      )
       .catch(error => {
         console.log(error);
       });
@@ -79,13 +83,13 @@ export default class Post extends Component {
   render() {
     return (
       <Container>
-        <Content>
+        <Content contentContainerStyle={styles.contentContainer}>
           <Form>
             <Item>
               <Input
                 placeholder="Question (e.g. Am I pretty?)"
                 val={this.state.question}
-                getRef={ref => (this.SearchInput = ref)}
+                getRef={(ref) => { this.SearchInput = ref; }}
                 onChangeText={val => this.setState({ question: val })}
                 id="question"
               />
@@ -94,6 +98,7 @@ export default class Post extends Component {
               <Input
                 placeholder="Answer 1"
                 val={this.state.answer1}
+                getRef={(ref) => { this.SearchInput = ref; }}
                 onChangeText={val => this.setState({ answer1: val })}
                 id="answer1"
               />
@@ -101,6 +106,7 @@ export default class Post extends Component {
             <Item last>
               <Input
                 placeholder="Answer 2"
+                getRef={(ref) => { this.SearchInput = ref; }}
                 val={this.state.answer2}
                 onChangeText={val => this.setState({ answer2: val })}
                 id="answer2"
@@ -109,6 +115,7 @@ export default class Post extends Component {
             <Item last>
               <Input
                 placeholder="Answer 3 (optional)"
+                getRef={(ref) => { this.SearchInput = ref; }}
                 val={this.state.answer3}
                 onChangeText={val => this.setState({ answer3: val })}
                 id="answer3"
@@ -117,21 +124,22 @@ export default class Post extends Component {
             <Item last>
               <Input
                 placeholder="Answer 4 (optional)"
+                getRef={(ref) => { this.SearchInput = ref; }}
                 val={this.state.answer4}
                 onChangeText={val => this.setState({ answer4: val })}
                 id="answer4"
               />
             </Item>
           </Form>
-          <Text style={{ margin: 20 }}>
+          <Text style={{ marginVertical: 40, marginHorizontal: 20 }}>
             Note: The poll will be public (during development only) and your
-            name will be assoicated with it
+            name will be assoicated with it!
           </Text>
-          <Button
-            title="Submit"
+            <Button primary rounded
             onPress={this.onSubmit}
-            style={{ margin: 40, borderColor: "#FDDE4E" }}
-          ></Button>
+            style={{justifyContent: 'center', width: '50%',  alignSelf: 'center'}}>
+            <Text>Send Poll</Text>
+          </Button>
         </Content>
       </Container>
     );
@@ -139,6 +147,10 @@ export default class Post extends Component {
 }
 
 const styles = StyleSheet.create({
+  contentContainer:{
+    justifyContent: 'center',
+
+  },
   container: {
     borderTopWidth: 1,
     borderColor: "#F2F2F2",
