@@ -21,6 +21,7 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import Choice from "./Choice.js";
 import moment from "moment"; // require
+import {Animated} from "react-native";
 moment().format();
 
 //import Poll from 'react-polls';
@@ -29,11 +30,19 @@ export default class You extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: undefined
+      user: undefined,
+      initialOpacity: new Animated.Value(0)
     };
     this.handleVote = this.handleVote.bind(this);
+
   }
 
+  loadGraphBars = () => {
+    Animated.timing(this.state.initialOpacity, {
+      toValue: 1,
+      duration: 2000
+    }).start();
+  };
   componentDidMount() {
     this.grabUserInfo(this.props.poll.by).then(user => {
       this.setState({ user });
@@ -88,6 +97,7 @@ export default class You extends Component {
           console.error("Error:", error);
         });
     }
+    this.render()
   }
 
   render() {
@@ -179,7 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     alignSelf: 'flex-start',
     paddingLeft: 0,
-    marginVertical: 8,
+    marginVertical: 10,
     fontWeight: 'bold',
     color: '#202020'
   },

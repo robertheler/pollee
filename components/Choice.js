@@ -8,18 +8,42 @@ import {
   ActivityIndicator
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-
+import {Animated} from "react-native";
 //import Poll from 'react-polls';
 
 export default class Choice extends Component {
   constructor(props) {
     super(props);
     this.handleVote = this.handleVote.bind(this);
+    this.state = {
+      width: new Animated.Value(0)
+    };
   }
 
+  componentDidMount() {
+    this.state = {
+      width: new Animated.Value(0)
+    };
+    // console.log('mounted');
+    // let poll = this.props.poll;
+    // let votes = 0;
+    // for (let i = 0; i < poll.answers.length; i++) {
+    //   votes = votes + poll.results[i];
+    // }
+
+    // let percentage = Math.floor(poll.results[this.props.index] / votes * 100)
+    // this.loadGraphBars(percentage);
+  }
   handleVote() {
     return this.props.handleVote(this.props.index);
   }
+
+  loadGraphBars = (finalWidth) => {
+    Animated.timing(this.state.width, {
+      toValue: finalWidth,
+      duration: 1500
+    }).start();
+  };
 
   render() {
     let poll = this.props.poll;
@@ -46,14 +70,21 @@ export default class Choice extends Component {
       }
     }
 
+    let percentage = Math.floor(poll.results[this.props.index] / votes * 100)
+    this.loadGraphBars(percentage);
+
     if (alreadyVoted && percentages[this.props.index] > 0) {
       //current answer is the most popular
       return (
         <TouchableOpacity style={styles.outter}>
-          <View
+          <Animated.View
             style={{
               borderRadius: 20,
-              width: `${Math.floor(percentages[this.props.index])}%`,
+              //width: `${Math.floor(percentages[this.props.index])}%`,
+              width: this.state.width.interpolate({
+                inputRange: [0, 100],
+                outputRange: ['0%', '100%'],
+              }),
               backgroundColor: "#FDDE4E", //FDDE4E //227AFF
               height: 'auto',
               position: 'absolute',
@@ -61,8 +92,9 @@ export default class Choice extends Component {
               bottom: 0,
               selfAlign: "flex-start",
               opacity: `${percentages[this.props.index]/maxPercentage}%` //100 or /maxPercentage
+              //opacity: this.state.opacity
             }}
-          ></View>
+          ></Animated.View>
 
           <View style={styles.answer}>
             <Text style={{width: '80%'}} >{poll.answers[this.props.index]}</Text>
