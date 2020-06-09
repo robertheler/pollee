@@ -87,7 +87,7 @@ export default class Post extends Component {
           <Form>
             <Item>
               <Input
-                placeholder="Question (e.g. Am I pretty?)"
+                placeholder="Ask the world something (e.g. Am I pretty?)"
                 value={this.state.question}
                 getRef={(ref) => { this.SearchInput = ref; }}
                 onChangeText={val => this.setState({ question: val })}

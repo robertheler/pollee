@@ -26,7 +26,6 @@ export default class Feed extends Component {
     }).catch(error => console.log(error))
   }
   refresh () {
-    console.log(this.state);
     fetchPollsForUser(this.state.userData.id)
       .then(polls => {
       this.setState({ polls });
@@ -44,7 +43,7 @@ export default class Feed extends Component {
 
         <Text style={{marginTop: 20, marginBottom: 10, alignSelf: 'center'}}>Pull to refresh</Text>
         <View style={styles.container}>
-          {this.state.polls.map((poll, i) =>  <Poll key={i} poll={poll} />)}
+          {this.state.polls.map((poll, i) =>  <Poll key={i} poll={poll} voter={this.state.userData.id} refresh={this.refresh}/>)}
         </View>
 
         </ScrollView>

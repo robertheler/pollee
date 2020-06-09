@@ -8,6 +8,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import Choice from './Choice.js';
 
 //import Poll from 'react-polls';
 
@@ -17,6 +18,7 @@ export default class You extends Component {
     this.state = {
       user: undefined
     }
+    this.handleVote = this.handleVote.bind(this)
   }
 
   componentDidMount() {
@@ -24,7 +26,6 @@ export default class You extends Component {
       this.setState({ user });
     });
   }
-  handleVote() {}
 
   grabUserInfo(id) {
     return fetch(`http://3.221.234.184:3001/api/users/${id}`)
@@ -37,6 +38,33 @@ export default class You extends Component {
       });
   }
 
+  handleVote(index){
+    //re-render
+    let refresh = this.props.refresh;
+    let vote = {
+      id: this.props.poll.id,
+      user: this.props.voter,
+      choice: index + 1 //postgres is not 0-indexed
+    }
+    console.log(`http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`);
+
+    fetch(`http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "patch"
+    })
+      .then(function(response) {
+        console.log('success');
+        refresh();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+
   render() {
     if (this.state.user) {
       return (
@@ -45,9 +73,8 @@ export default class You extends Component {
           <Text style={styles.question}>{this.props.poll.question}</Text>
           {this.props.poll.answers.map((answer, i) => {
             return (
-              <Text style={styles.answer} key={i}>
-                {answer + ": " + this.props.poll.results[i]}
-              </Text>
+              <Choice key={i} poll={this.props.poll} index={i} handleVote={this.handleVote} voter={this.state.user.id} />
+
             );
           })}
         </View>
@@ -58,15 +85,25 @@ export default class You extends Component {
           <Text style={styles.question}>{this.props.poll.question}</Text>
           {this.props.poll.answers.map((answer, i) => {
             return (
-              <Text style={styles.answer} key={i}>
-                {answer + ": " + this.props.poll.results[i]}
-              </Text>
+              <Choice key={i} poll={this.props.poll} index={i} handleVote={this.handleVote} voter={""} />
+
             );
           })}
         </View>
       );
     }
   }
+}
+
+function fetchPollsByUser(id) {
+  return fetch(`http://3.221.234.184:3001/api/polls/${id}`)
+    .then(response => response.json())
+    .then(json => {
+      return json;
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 const styles = StyleSheet.create({
@@ -79,15 +116,15 @@ const styles = StyleSheet.create({
     color: "#DF5043"
   },
   container: {
-    borderRadius: 30,
+    borderRadius: 20,
     //borderWidth: 1,
     backgroundColor: "#FDDE4E",
     flex: 1,
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
     padding: 15,
-    margin: 5,
-    width: "95%",
+    marginVertical: 10,
+    width: "90%",
     shadowColor: "#d7bd42",
     shadowOffset: {
       width: 0,

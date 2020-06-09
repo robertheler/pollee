@@ -28,8 +28,10 @@ export default class You extends Component {
   }
 
   refresh() {
+    console.log('refreshed');
     fetchPollsByUser(this.state.userData.id)
       .then(polls => {
+        console.log(polls);
         this.setState({ polls });
       })
       .catch(error => console.log(error));
@@ -59,7 +61,7 @@ export default class You extends Component {
                 Hi {this.state.userData.name}!
               </Text>
               {this.state.polls.map((poll, i) => (
-                <Poll key={i} poll={poll} />
+                <Poll key={i} poll={poll} voter={this.state.userData.id} refresh={this.refresh} />
               ))}
             </View>
           </ScrollView>
