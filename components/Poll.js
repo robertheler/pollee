@@ -90,7 +90,8 @@ export default class You extends Component {
             style={{
               flex: 1,
               flexDirection: "row",
-              justifyContet: "space-between",
+              justifyContent: "center",
+              alignItems: 'center'
             }}
           >
             <View style={{
@@ -114,7 +115,10 @@ export default class You extends Component {
               style={{
                 textAlign: "right",
                 alignSelf: "flex-end",
-                fontStyle: "italic"
+                alignContent: 'center',
+                fontStyle: "italic",
+                fontSize: 10,
+                color: 'gray'
               }}
             >
               {moment(this.props.poll.created).fromNow()}
@@ -159,7 +163,7 @@ const styles = StyleSheet.create({
   question: {
     fontSize: 16,
     alignSelf: "flex-start",
-    margin: 5
+    margin: 8
   },
   answer: {
     fontSize: 15,

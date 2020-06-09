@@ -33,11 +33,6 @@ export default class Choice extends Component {
     }
     for (let i = 0; i < poll.answers.length; i++) {
       percentages.push((poll.results[i] / votes) * 100);
-      if (poll.results[i] > maxVotes) {
-        maxVotes = poll.results[i];
-        maxIndex = i;
-        maxExists = true;
-      }
     }
     let alreadyVoted = false;
     if (poll.voters) {
@@ -51,33 +46,26 @@ export default class Choice extends Component {
 
     if (alreadyVoted) {
       //current answer is the most popular
-      if (maxIndex === this.props.index) {
-        return (
-          <View style={styles.outterWon}>
-            {/* <View
-              style={{ borderRadius: 10, width: `${Math.floor(percentages[this.props.index])}%`, borderColor: 'red', borderWidth: 1, selfAlign: "flex-start", opacity: 0.4}}
-            > */}
-            <View style={styles.answer}>
+      return (
+        <View style={styles.outter}>
+          <View
+            style={{
+              borderRadius: 20,
+              width: `${Math.floor(percentages[this.props.index])}%`,
+              backgroundColor: "#227AFF",
+              height: 10,
+              selfAlign: "flex-start",
+              opacity: 1
+            }}
+          ></View>
+
+          <View style={styles.answer}>
             <Text>{poll.answers[this.props.index]}</Text>
-              <Text>{poll.results[this.props.index]}</Text>
-            </View>
+            <Text>{poll.results[this.props.index]}</Text>
           </View>
-          // </View>
-        );
-      } else {
-        return (
-          <View style={styles.outter}>
-            {/* <View
-            style={{ borderRadius: 10, width: `${Math.floor(percentages[this.props.index])}%`, borderColor: 'red', borderWidth: 1, selfAlign: "flex-start", opacity: 0.4}}
-          > */}
-            <View style={styles.answer}>
-              <Text>{poll.answers[this.props.index]}</Text>
-              <Text>{poll.results[this.props.index]}</Text>
-            </View>
-          </View>
-          // </View>
-        );
-      }
+        </View>
+        // </View>
+      );
     } else {
       return (
         <TouchableOpacity style={styles.outter} onPress={this.handleVote}>
@@ -100,16 +88,6 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     margin: 3
   },
-  outterWon: {
-    borderWidth: 1,
-    borderColor: "#E9E9E9",
-    borderRadius: 20,
-    width: "100%",
-    padding: 10,
-    paddingRight: 10,
-    margin: 3
-  },
-
   question: {
     fontSize: 20
   },
@@ -117,10 +95,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingHorizontal: 10,
     color: "black",
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
+    alignItems: "stretch",
+    justifyContent: "space-between",
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   container: {
     borderRadius: 30,
