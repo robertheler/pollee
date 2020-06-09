@@ -57,10 +57,10 @@ export default class Choice extends Component {
             {/* <View
               style={{ borderRadius: 10, width: `${Math.floor(percentages[this.props.index])}%`, borderColor: 'red', borderWidth: 1, selfAlign: "flex-start", opacity: 0.4}}
             > */}
-            <Text style={styles.answer}>
-              <Text>{poll.answers[this.props.index]}</Text>
+            <View style={styles.answer}>
+            <Text>{poll.answers[this.props.index]}</Text>
               <Text>{poll.results[this.props.index]}</Text>
-            </Text>
+            </View>
           </View>
           // </View>
         );
@@ -70,10 +70,10 @@ export default class Choice extends Component {
             {/* <View
             style={{ borderRadius: 10, width: `${Math.floor(percentages[this.props.index])}%`, borderColor: 'red', borderWidth: 1, selfAlign: "flex-start", opacity: 0.4}}
           > */}
-            <Text style={styles.answer}>
+            <View style={styles.answer}>
               <Text>{poll.answers[this.props.index]}</Text>
               <Text>{poll.results[this.props.index]}</Text>
-            </Text>
+            </View>
           </View>
           // </View>
         );
@@ -93,17 +93,17 @@ export default class Choice extends Component {
 const styles = StyleSheet.create({
   outter: {
     borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 15,
+    borderColor: "#E9E9E9",
+    borderRadius: 20,
     width: "100%",
     padding: 10,
     paddingRight: 10,
     margin: 3
   },
   outterWon: {
-    borderWidth: 3,
-    borderColor: "red",
-    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: "#E9E9E9",
+    borderRadius: 20,
     width: "100%",
     padding: 10,
     paddingRight: 10,
@@ -116,7 +116,11 @@ const styles = StyleSheet.create({
   answer: {
     fontSize: 15,
     paddingHorizontal: 10,
-    color: "black"
+    color: "black",
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    flex: 1,
+    flexDirection: 'row'
   },
   container: {
     borderRadius: 30,

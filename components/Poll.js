@@ -94,17 +94,25 @@ export default class You extends Component {
               alignItems: "flex-end"
             }}
           >
-            <Thumbnail
-              source={{ uri: `${this.state.user.url}` }}
+            <View>
+              <Thumbnail
+                source={{ uri: `${this.state.user.url}` }}
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: 10,
+                  marginRight: 10
+                }}
+              />
+              <Text>{`${this.state.user.name}`}</Text>
+            </View>
+            <Text
               style={{
-                width: 20,
-                height: 20,
-                borderRadius: 10,
-                marginRight: 10
+                textAlign: "right",
+                alignSelf: "flex-end",
+                fontStyle: "italic"
               }}
-            />
-            <Text>{`${this.state.user.name}   `}</Text>
-            <Text style={{ textAlign: "right", alignSelf: "flex-end", fontStyle: 'italic' }}>
+            >
               {moment(this.props.poll.created).fromNow()}
             </Text>
           </View>
@@ -142,7 +150,6 @@ export default class You extends Component {
     }
   }
 }
-
 
 const styles = StyleSheet.create({
   question: {
