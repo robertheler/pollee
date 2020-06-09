@@ -46,7 +46,7 @@ export default class Choice extends Component {
       }
     }
 
-    if (alreadyVoted) {
+    if (alreadyVoted && percentages[this.props.index] > 0) {
       //current answer is the most popular
       return (
         <View style={styles.outter}>
@@ -54,7 +54,7 @@ export default class Choice extends Component {
             style={{
               borderRadius: 20,
               width: `${Math.floor(percentages[this.props.index])}%`,
-              backgroundColor: "#227AFF",
+              backgroundColor: "#FDDE4E", //FDDE4E //227AFF
               height: 38,
               position: 'absolute',
               selfAlign: "flex-start",
@@ -72,9 +72,7 @@ export default class Choice extends Component {
     } else {
       return (
         <TouchableOpacity style={styles.outter} onPress={this.handleVote}>
-          <View>
             <Text style={styles.answer}>{poll.answers[this.props.index]} </Text>
-          </View>
         </TouchableOpacity>
       );
     }
@@ -90,11 +88,10 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingRight: 10,
     margin: 3,
-    height: 40
+    height: 40,
+    alignSelf: 'center'
   },
-  question: {
-    fontSize: 20
-  },
+
   answer: {
     fontSize: 15,
     paddingHorizontal: 10,
@@ -102,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "space-between",
     flex: 1,
-    flexDirection: "row"
+    flexDirection: "row",
   },
   container: {
     borderRadius: 30,

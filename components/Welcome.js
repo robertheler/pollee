@@ -102,9 +102,9 @@ export default class Welcome extends Component {
   render() {
     return (
       <NavigationContainer style={{backgroundColor:'white'}} theme={MyTheme}>
-        <Tab.Navigator style={{backgroundColor:'white'}}>
+        <Tab.Navigator style={{backgroundColor:'gray'}}>
           <Tab.Screen
-          style={{backgroundColor:'white'}}
+          style={{backgroundColor:'gray'}}
             name="Answer"
             component={FeedScreen}
             initialParams={{ props: this.props }}

@@ -59,9 +59,7 @@ export default class You extends Component {
       user: this.props.voter,
       choice: index + 1 //postgres is not 0-indexed
     };
-    console.log(
-      `http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`
-    );
+
 
     fetch(
       `http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`,
@@ -74,7 +72,6 @@ export default class You extends Component {
       }
     )
       .then(function(response) {
-        console.log("success");
         refresh();
       })
       .catch(error => {
@@ -168,9 +165,11 @@ export default class You extends Component {
 
 const styles = StyleSheet.create({
   question: {
-    fontSize: 16,
-    alignSelf: "flex-start",
-    margin: 8
+    fontSize: 15,
+    alignSelf: 'flex-start',
+    paddingLeft: 0,
+    marginVertical: 5,
+    fontWeight: 'bold'
   },
   answer: {
     fontSize: 15,

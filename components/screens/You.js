@@ -28,10 +28,8 @@ export default class You extends Component {
   }
 
   refresh() {
-    console.log('refreshed');
     fetchPollsByUser(this.state.userData.id)
       .then(polls => {
-        console.log(polls);
         this.setState({ polls });
       })
       .catch(error => console.log(error));
