@@ -65,9 +65,9 @@ export default class Choice extends Component {
           ></View>
 
           <View style={styles.answer}>
-            <Text style={{width: '90%'}} >{poll.answers[this.props.index]}</Text>
+            <Text style={{width: '80%'}} >{poll.answers[this.props.index]}</Text>
             <View style={{width: 10}}></View>
-            <Text>{poll.results[this.props.index]}</Text>
+            <Text>{`${Number(percentages[this.props.index]).toFixed(0)}%`}</Text>
           </View>
         </TouchableOpacity>
         // </View>
