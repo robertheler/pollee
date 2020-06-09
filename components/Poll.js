@@ -114,14 +114,21 @@ export default class You extends Component {
             <View
               style={{
                 textAlign: "right",
-                alignSelf: "flex-end",
-                alignContent: 'center',
+                alignSelf: "flex-start",
+                alignContent: 'flex-start',
                 fontStyle: "italic",
                 fontSize: 10,
                 color: 'gray'
               }}
             >
-              <Text>{moment(this.props.poll.created).fromNow()}</Text>
+              <Text style={{
+                textAlign: "right",
+                alignSelf: "flex-start",
+                alignContent: 'flex-start',
+                fontStyle: "italic",
+                fontSize: 10,
+                color: 'gray'
+              }}>{moment(this.props.poll.created).fromNow()}</Text>
             </View>
           </View>
           <Text style={styles.question}>{this.props.poll.question}</Text>
