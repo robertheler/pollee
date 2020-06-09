@@ -91,10 +91,14 @@ export default class You extends Component {
               flex: 1,
               flexDirection: "row",
               justifyContet: "space-between",
-              alignItems: "flex-end"
             }}
           >
-            <View>
+            <View style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContet: "center",
+              alignItems: 'center'
+            }}>
               <Thumbnail
                 source={{ uri: `${this.state.user.url}` }}
                 style={{
