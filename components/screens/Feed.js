@@ -52,10 +52,7 @@ export default class Feed extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <Image
-            style={styles.image}
-            source={{ uri: this.state.userData.picture.data.url }}/>
-          <Text style={{fontSize:20}}>Hi {this.state.userData.name}!</Text>
+
         </View>
       );
     }

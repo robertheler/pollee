@@ -149,14 +149,26 @@ const styles = StyleSheet.create({
   contentContainer:{
     marginTop: 50,
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+
 
   },
   container: {
-    borderTopWidth: 1,
-    borderColor: "#F2F2F2",
+    borderRadius: 20,
+    //borderWidth: 1,
+    backgroundColor: "white",
     flex: 1,
-    alignItems: "center"
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    padding: 15,
+    marginVertical: 10,
+    width: "90%",
+
+    shadowColor: "#d9d9d9",
+    shadowOffset: {
+      width: 5,
+      height: 5
+    }
   },
   image: {
     borderTopWidth: 2,

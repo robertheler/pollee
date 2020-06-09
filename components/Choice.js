@@ -60,7 +60,7 @@ export default class Choice extends Component {
               top: 0,
               bottom: 0,
               selfAlign: "flex-start",
-              opacity: `${percentages[this.props.index]/100}%` //100 or /maxPercentage
+              opacity: `${percentages[this.props.index]/maxPercentage}%` //100 or /maxPercentage
             }}
           ></View>
 
