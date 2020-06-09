@@ -18,7 +18,6 @@ export default class Choice extends Component {
   }
 
   handleVote() {
-    console.log("voted inside");
     return this.props.handleVote(this.props.index);
   }
 
@@ -32,23 +31,22 @@ export default class Choice extends Component {
     for (let i = 0; i < poll.answers.length; i++) {
       percentages.push((poll.results[i] / votes) * 100);
     }
+    let alreadyVoted = false;
+    if(poll.voters) {
+      for (let  i =  0; i < poll.voters.length; i++) {
+        if (poll.voters[i] === this.props.voter) {
+          alreadyVoted = true;
+          break
+        }
+      }
+    }
 
-    // let alreadyVoted = false;
-    // for (let voter of poll.voters) {
-    //   console.log(voter);
-    //   if (voter === this.props.voter) {
-    //     alreadyVoted = true;
-    //     break
-    //   }
-    // }
-    // console.log(alreadyVoted);
-
-
-    if (false) {
+    if (alreadyVoted) {
       return (
         <View style={styles.outter}>
+
           <View
-            style={{ borderRadius: 10, width: 0, selfAlign: "flex-start"}}
+            style={{ borderRadius: 10, width: `${Math.floor(percentages[this.props.index])}%`, backgroundColor: 'red', selfAlign: "flex-start"}}
           >
             <Text style={styles.answer}>
               {poll.answers[this.props.index] +
@@ -61,6 +59,7 @@ export default class Choice extends Component {
     } else {
       return (
         <TouchableOpacity style={styles.outter} onPress={this.handleVote}>
+
           <View>
             <Text style={styles.answer}>
               {poll.answers[this.props.index] +
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
   answer: {
     fontSize: 15,
     paddingHorizontal: 10,
-    color: "#DF5043"
+    color: "black"
   },
   container: {
     borderRadius: 30,
