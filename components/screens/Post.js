@@ -131,9 +131,8 @@ export default class Post extends Component {
               />
             </Item>
           </Form>
-          <Text style={{ marginVertical: 40, marginHorizontal: 20 }}>
-            Note: The poll will be public (during development only) and your
-            name will be assoicated with it!
+          <Text style={{ marginVertical: 40, marginHorizontal: 20, textAlign: 'center' }}>
+            Note: The poll will be public and your name will be assoicated with it!
           </Text>
             <Button primary rounded
             onPress={this.onSubmit}
@@ -148,7 +147,9 @@ export default class Post extends Component {
 
 const styles = StyleSheet.create({
   contentContainer:{
+    marginTop: 50,
     justifyContent: 'center',
+    width: '100%'
 
   },
   container: {

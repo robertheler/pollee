@@ -43,23 +43,13 @@ export default class You extends Component {
         <PTRView onRefresh={this.refresh}>
           <ScrollView style={{backgroundColor: "white"}} >
             <View style={styles.container}>
-            <Text
-              style={{
-                marginTop: 20,
-                marginBottom: 10,
-                alignSelf: "center",
-                backgroundColor: "white"
-              }}
-            >
-              Pull to refresh
-            </Text>
+
               <Image
                 style={styles.image}
                 source={{ uri: this.state.userData.picture.data.url }}
               />
-              <Text style={{ fontSize: 20 }}>
-                Hi {this.state.userData.name}!
-              </Text>
+               <Text style={{ fontSize: 20 }}>Welcome {this.state.userData.name.substring(0, this.state.userData.name.indexOf(' '))}!</Text>
+              <Text style={{marginTop: 0, marginBottom: 10, alignSelf: 'center', fontSize:40}}>⌄</Text>
               {this.state.polls.map((poll, i) => (
                 <Poll key={i} poll={poll} voter={this.state.userData.id} refresh={this.refresh} />
               ))}
@@ -70,13 +60,6 @@ export default class You extends Component {
     } else {
       return (
         <PTRView onRefresh={this.refresh}>
-          <View style={styles.container}>
-            <Image
-              style={styles.image}
-              source={{ uri: this.state.userData.picture.data.url }}
-            />
-            <Text style={{ fontSize: 20 }}>Hi {this.state.userData.name}!</Text>
-          </View>
         </PTRView>
       );
     }
@@ -97,8 +80,7 @@ function fetchPollsByUser(id) {
 
 const styles = StyleSheet.create({
   container: {
-    borderTopWidth: 1,
-    borderColor: "#F2F2F2",
+    marginTop:50,
     flex: 1,
     alignItems: "center",
     backgroundColor: "white"

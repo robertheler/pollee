@@ -41,8 +41,8 @@ export default class Feed extends Component {
           borderColor: "#F2F2F2"}} >
         <ScrollView style={{backgroundColor:'white'}}>
 
-        <Text style={{marginTop: 20, marginBottom: 10, alignSelf: 'center'}}>Pull to refresh</Text>
         <View style={styles.container}>
+        <Text style={{marginTop: 0, marginBottom: 10, alignSelf: 'center', fontSize:40}}>⌄</Text>
           {this.state.polls.map((poll, i) =>  <Poll key={i} poll={poll} voter={this.state.userData.id} refresh={this.refresh}/>)}
         </View>
 
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    marginTop:50,
   },
   image: {
     borderTopWidth: 2,

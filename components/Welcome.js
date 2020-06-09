@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Component, Fragment } from "react";
 import { Button, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -15,11 +15,20 @@ import Post from "./screens/Post.js";
 import You from "./screens/You.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'white'
+  },
+};
 const HomeStack = createStackNavigator();
 
 function FeedScreen({ route, navigation }) {
   return (
-    <HomeStack.Navigator style={{backgroundColor:'white'}}>
+    <HomeStack.Navigator style={{backgroundColor:'white'}} screenOptions={{
+      headerShown: false
+    }}>
       <HomeStack.Screen
         style={{backgroundColor:'white'}}
         name="P O L L E E"
@@ -32,7 +41,9 @@ function FeedScreen({ route, navigation }) {
 
 function PostScreen({ route, navigation }) {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator screenOptions={{
+      headerShown: false
+    }}>
       <HomeStack.Screen
         name="P O L L E E"
         component={Post}
@@ -44,7 +55,9 @@ function PostScreen({ route, navigation }) {
 
 function YouScreen({ route, navigation }) {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator screenOptions={{
+      headerShown: false
+    }}>
       <HomeStack.Screen
         name="P O L L E E"
         component={You}
@@ -88,7 +101,7 @@ export default class Welcome extends Component {
   }
   render() {
     return (
-      <NavigationContainer style={{backgroundColor:'white'}}>
+      <NavigationContainer style={{backgroundColor:'white'}} theme={MyTheme}>
         <Tab.Navigator style={{backgroundColor:'white'}}>
           <Tab.Screen
           style={{backgroundColor:'white'}}

@@ -7,8 +7,21 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from "react-native";
+import {
+  Container,
+  Header,
+  Content,
+  List,
+  ListItem,
+  Left,
+  Body,
+  Right,
+  Thumbnail
+} from "native-base";
 import { ScrollView } from "react-native-gesture-handler";
-import Choice from './Choice.js';
+import Choice from "./Choice.js";
+import moment from "moment"; // require
+moment().format();
 
 //import Poll from 'react-polls';
 
@@ -17,8 +30,8 @@ export default class You extends Component {
     super(props);
     this.state = {
       user: undefined
-    }
-    this.handleVote = this.handleVote.bind(this)
+    };
+    this.handleVote = this.handleVote.bind(this);
   }
 
   componentDidMount() {
@@ -38,43 +51,73 @@ export default class You extends Component {
       });
   }
 
-  handleVote(index){
+  handleVote(index) {
     //re-render
     let refresh = this.props.refresh;
     let vote = {
       id: this.props.poll.id,
       user: this.props.voter,
       choice: index + 1 //postgres is not 0-indexed
-    }
-    console.log(`http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`);
+    };
+    console.log(
+      `http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`
+    );
 
-    fetch(`http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: "patch"
-    })
+    fetch(
+      `http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "patch"
+      }
+    )
       .then(function(response) {
-        console.log('success');
+        console.log("success");
         refresh();
       })
-      .catch((error) => {
-        console.error('Error:', error);
+      .catch(error => {
+        console.error("Error:", error);
       });
   }
-
 
   render() {
     if (this.state.user) {
       return (
         <View style={styles.container}>
-          <Text>{`${this.state.user.name} asked...`}</Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContet: "space-between",
+              alignItems: "flex-end"
+            }}
+          >
+            <Thumbnail
+              source={{ uri: `${this.state.user.url}` }}
+              style={{
+                width: 20,
+                height: 20,
+                borderRadius: 10,
+                marginRight: 10
+              }}
+            />
+            <Text>{`${this.state.user.name}   `}</Text>
+            <Text style={{ textAlign: "right", alignSelf: "flex-end", fontStyle: 'italic' }}>
+              {moment(this.props.poll.created).fromNow()}
+            </Text>
+          </View>
           <Text style={styles.question}>{this.props.poll.question}</Text>
           {this.props.poll.answers.map((answer, i) => {
             return (
-              <Choice key={i} poll={this.props.poll} index={i} handleVote={this.handleVote} voter={this.state.user.id} />
-
+              <Choice
+                key={i}
+                poll={this.props.poll}
+                index={i}
+                handleVote={this.handleVote}
+                voter={this.props.voter}
+              />
             );
           })}
         </View>
@@ -85,8 +128,13 @@ export default class You extends Component {
           <Text style={styles.question}>{this.props.poll.question}</Text>
           {this.props.poll.answers.map((answer, i) => {
             return (
-              <Choice key={i} poll={this.props.poll} index={i} handleVote={this.handleVote} voter={""} />
-
+              <Choice
+                key={i}
+                poll={this.props.poll}
+                index={i}
+                handleVote={this.handleVote}
+                voter={""}
+              />
             );
           })}
         </View>
@@ -95,20 +143,12 @@ export default class You extends Component {
   }
 }
 
-function fetchPollsByUser(id) {
-  return fetch(`http://3.221.234.184:3001/api/polls/${id}`)
-    .then(response => response.json())
-    .then(json => {
-      return json;
-    })
-    .catch(error => {
-      console.error(error);
-    });
-}
 
 const styles = StyleSheet.create({
   question: {
-    fontSize: 20
+    fontSize: 16,
+    alignSelf: "flex-start",
+    margin: 5
   },
   answer: {
     fontSize: 15,
@@ -118,22 +158,23 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 20,
     //borderWidth: 1,
-    backgroundColor: "#FDDE4E",
+    backgroundColor: "white",
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
     padding: 15,
     marginVertical: 10,
     width: "90%",
-    shadowColor: "#d7bd42",
-    shadowOffset: {
-      width: 0,
-      height: 8
-    },
-    shadowOpacity: 0.74,
-    shadowRadius: 10.32,
 
-    elevation: 16
+    shadowColor: "#d9d9d9",
+    shadowOffset: {
+      width: 5,
+      height: 5
+    },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+
+    elevation: 30
     // box-shadow:  20px 20px 60px #d7bd42,
     //          -20px -20px 60px #ffff5a;
   },

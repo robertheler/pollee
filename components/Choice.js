@@ -25,47 +25,64 @@ export default class Choice extends Component {
     let poll = this.props.poll;
     let votes = 0;
     let percentages = [];
+    let maxVotes = 0;
+    let maxIndex = 0;
+    let maxExists = true;
     for (let i = 0; i < poll.answers.length; i++) {
       votes = votes + poll.results[i];
     }
     for (let i = 0; i < poll.answers.length; i++) {
       percentages.push((poll.results[i] / votes) * 100);
+      if (poll.results[i] > maxVotes) {
+        maxVotes = poll.results[i];
+        maxIndex = i;
+        maxExists = true;
+      }
     }
     let alreadyVoted = false;
-    if(poll.voters) {
-      for (let  i =  0; i < poll.voters.length; i++) {
+    if (poll.voters) {
+      for (let i = 0; i < poll.voters.length; i++) {
         if (poll.voters[i] === this.props.voter) {
           alreadyVoted = true;
-          break
+          break;
         }
       }
     }
 
     if (alreadyVoted) {
-      return (
-        <View style={styles.outter}>
-
-          <View
-            style={{ borderRadius: 10, width: `${Math.floor(percentages[this.props.index])}%`, backgroundColor: 'red', selfAlign: "flex-start"}}
-          >
+      //current answer is the most popular
+      if (maxIndex === this.props.index) {
+        return (
+          <View style={styles.outterWon}>
+            {/* <View
+              style={{ borderRadius: 10, width: `${Math.floor(percentages[this.props.index])}%`, borderColor: 'red', borderWidth: 1, selfAlign: "flex-start", opacity: 0.4}}
+            > */}
             <Text style={styles.answer}>
-              {poll.answers[this.props.index] +
-                ": " +
-                poll.results[this.props.index]}
+              <Text>{poll.answers[this.props.index]}</Text>
+              <Text>{poll.results[this.props.index]}</Text>
             </Text>
           </View>
-        </View>
-      );
+          // </View>
+        );
+      } else {
+        return (
+          <View style={styles.outter}>
+            {/* <View
+            style={{ borderRadius: 10, width: `${Math.floor(percentages[this.props.index])}%`, borderColor: 'red', borderWidth: 1, selfAlign: "flex-start", opacity: 0.4}}
+          > */}
+            <Text style={styles.answer}>
+              <Text>{poll.answers[this.props.index]}</Text>
+              <Text>{poll.results[this.props.index]}</Text>
+            </Text>
+          </View>
+          // </View>
+        );
+      }
     } else {
       return (
         <TouchableOpacity style={styles.outter} onPress={this.handleVote}>
-
           <View>
-            <Text style={styles.answer}>
-              {poll.answers[this.props.index] +
-                ": " +
-                poll.results[this.props.index]}
-            </Text>
+            <Text style={styles.answer}>{poll.answers[this.props.index]} </Text>
           </View>
         </TouchableOpacity>
       );
@@ -77,11 +94,22 @@ const styles = StyleSheet.create({
   outter: {
     borderWidth: 1,
     borderColor: "black",
-    borderRadius: 10,
+    borderRadius: 15,
     width: "100%",
-    padding: 5,
+    padding: 10,
+    paddingRight: 10,
     margin: 3
   },
+  outterWon: {
+    borderWidth: 3,
+    borderColor: "red",
+    borderRadius: 15,
+    width: "100%",
+    padding: 10,
+    paddingRight: 10,
+    margin: 3
+  },
+
   question: {
     fontSize: 20
   },
