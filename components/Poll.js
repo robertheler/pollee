@@ -103,15 +103,15 @@ export default class You extends Component {
               <Thumbnail
                 source={{ uri: `${this.state.user.url}` }}
                 style={{
-                  width: 20,
-                  height: 20,
-                  borderRadius: 10,
-                  marginRight: 10
+                  width:24,
+                  height: 24,
+                  borderRadius: 12,
+                  marginRight: 10,
                 }}
               />
               <Text>{`${this.state.user.name}`}</Text>
             </View>
-            <Text
+            <View
               style={{
                 textAlign: "right",
                 alignSelf: "flex-end",
@@ -121,8 +121,8 @@ export default class You extends Component {
                 color: 'gray'
               }}
             >
-              {moment(this.props.poll.created).fromNow()}
-            </Text>
+              <Text>{moment(this.props.poll.created).fromNow()}</Text>
+            </View>
           </View>
           <Text style={styles.question}>{this.props.poll.question}</Text>
           {this.props.poll.answers.map((answer, i) => {

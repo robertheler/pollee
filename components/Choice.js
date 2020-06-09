@@ -25,14 +25,16 @@ export default class Choice extends Component {
     let poll = this.props.poll;
     let votes = 0;
     let percentages = [];
-    let maxVotes = 0;
-    let maxIndex = 0;
-    let maxExists = true;
+    let maxPercentage = 0;
+
     for (let i = 0; i < poll.answers.length; i++) {
       votes = votes + poll.results[i];
     }
     for (let i = 0; i < poll.answers.length; i++) {
       percentages.push((poll.results[i] / votes) * 100);
+      if ((poll.results[i] / votes) * 100 > maxPercentage) {
+        maxPercentage = (poll.results[i] / votes) * 100
+      }
     }
     let alreadyVoted = false;
     if (poll.voters) {
@@ -53,9 +55,10 @@ export default class Choice extends Component {
               borderRadius: 20,
               width: `${Math.floor(percentages[this.props.index])}%`,
               backgroundColor: "#227AFF",
-              height: 10,
+              height: 38,
+              position: 'absolute',
               selfAlign: "flex-start",
-              opacity: 1
+              opacity: `${percentages[this.props.index]/100}%` // or /maxPercentage
             }}
           ></View>
 
@@ -86,7 +89,8 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     paddingRight: 10,
-    margin: 3
+    margin: 3,
+    height: 40
   },
   question: {
     fontSize: 20
