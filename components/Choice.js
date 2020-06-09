@@ -55,15 +55,18 @@ export default class Choice extends Component {
               borderRadius: 20,
               width: `${Math.floor(percentages[this.props.index])}%`,
               backgroundColor: "#FDDE4E", //FDDE4E //227AFF
-              height: 38,
+              height: 'auto',
               position: 'absolute',
+              top: 0,
+              bottom: 0,
               selfAlign: "flex-start",
-              opacity: `${percentages[this.props.index]/100}%` // or /maxPercentage
+              opacity: `${percentages[this.props.index]/maxPercentage}%` // or /maxPercentage
             }}
           ></View>
 
           <View style={styles.answer}>
-            <Text>{poll.answers[this.props.index]}</Text>
+            <Text style={{width: '90%'}} >{poll.answers[this.props.index]}</Text>
+            <View style={{width: 10}}></View>
             <Text>{poll.results[this.props.index]}</Text>
           </View>
         </View>
@@ -88,7 +91,6 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingRight: 10,
     margin: 3,
-    height: 40,
     alignSelf: 'center'
   },
 
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingHorizontal: 10,
     color: "black",
-    alignItems: "stretch",
+    alignItems: "center",
     justifyContent: "space-between",
     flex: 1,
     flexDirection: "row",

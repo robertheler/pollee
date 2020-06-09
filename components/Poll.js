@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     alignSelf: 'flex-start',
     paddingLeft: 0,
-    marginVertical: 5,
+    marginVertical: 8,
     fontWeight: 'bold'
   },
   answer: {
