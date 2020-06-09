@@ -59,24 +59,35 @@ export default class You extends Component {
       user: this.props.voter,
       choice: index + 1 //postgres is not 0-indexed
     };
-
-
-    fetch(
-      `http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`,
-      {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        method: "patch"
+    // only vote if haven't voted already
+    let alreadyVoted = false;
+    if (this.props.poll.voters) {
+      for (let i = 0; i < this.props.poll.voters.length; i++) {
+        if (this.props.poll.voters[i] === this.props.voter) {
+          alreadyVoted = true;
+          break;
+        }
       }
-    )
-      .then(function(response) {
-        refresh();
-      })
-      .catch(error => {
-        console.error("Error:", error);
-      });
+    }
+
+    if (!alreadyVoted) {
+      fetch(
+        `http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          method: "patch"
+        }
+      )
+        .then(function(response) {
+          refresh();
+        })
+        .catch(error => {
+          console.error("Error:", error);
+        });
+    }
   }
 
   render() {

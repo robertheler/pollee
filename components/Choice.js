@@ -49,7 +49,7 @@ export default class Choice extends Component {
     if (alreadyVoted && percentages[this.props.index] > 0) {
       //current answer is the most popular
       return (
-        <View style={styles.outter}>
+        <TouchableOpacity style={styles.outter}>
           <View
             style={{
               borderRadius: 20,
@@ -69,7 +69,7 @@ export default class Choice extends Component {
             <View style={{width: 10}}></View>
             <Text>{poll.results[this.props.index]}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
         // </View>
       );
     } else {
