@@ -67,7 +67,7 @@ export default class Choice extends Component {
           <View style={styles.answer}>
             <Text style={{width: '80%'}} >{poll.answers[this.props.index]}</Text>
             <View style={{width: 10}}></View>
-            <Text>{`${Number(percentages[this.props.index]).toFixed(0)}%`}</Text>
+            <Text style={{color: 'gray'}}>{`${Number(percentages[this.props.index]).toFixed(0)}%`}</Text>
           </View>
         </TouchableOpacity>
         // </View>
@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
 
   answer: {
     fontSize: 15,
-    paddingHorizontal: 10,
-    color: "black",
+    paddingHorizontal: 12,
+    color: "#202020",
     alignItems: "center",
     justifyContent: "space-between",
     flex: 1,

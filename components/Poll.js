@@ -117,7 +117,7 @@ export default class You extends Component {
                   marginRight: 10,
                 }}
               />
-              <Text>{`${this.state.user.name}`}</Text>
+              <Text style={{color: '#202020'}}>{`${this.state.user.name}`}</Text>
             </View>
             <View
               style={{
@@ -180,12 +180,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingLeft: 0,
     marginVertical: 8,
-    fontWeight: 'bold'
-  },
-  answer: {
-    fontSize: 15,
-    paddingHorizontal: 10,
-    color: "#DF5043"
+    fontWeight: 'bold',
+    color: '#202020'
   },
   container: {
     borderRadius: 20,

@@ -46,7 +46,7 @@ export default class You extends Component {
                 style={styles.image}
                 source={{ uri: this.state.userData.picture.data.url }}
               />
-               <Text style={{ fontSize: 20 }}>Welcome {this.state.userData.name.substring(0, this.state.userData.name.indexOf(' '))}!</Text>
+               <Text style={{ fontSize: 20, color: '#202020'}}>Welcome {this.state.userData.name.substring(0, this.state.userData.name.indexOf(' '))}!</Text>
               <Text style={{marginTop: 0, marginBottom: 10, alignSelf: 'center', fontSize:40}}>⌄</Text>
               {this.state.polls.map((poll, i) => (
                 <Poll key={i} poll={poll} voter={this.state.userData.id} refresh={this.refresh} />
