@@ -10,7 +10,7 @@ export default class Choice extends Component {
 
   handleVote() {
     this.loadGraphBars(this.props.percentage);
-    return this.props.handleVote(this.props.index);
+    this.props.handleVote(this.props.index);
   }
 
   loadGraphBars(finalWidth) {
