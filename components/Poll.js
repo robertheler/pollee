@@ -109,7 +109,7 @@ export default class You extends Component {
 
     if (this.state.user) {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container]}>
           <View
             style={{
               flex: 1,
@@ -184,24 +184,8 @@ export default class You extends Component {
         </View>
       );
     } else {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.question}>{this.props.poll.question}</Text>
-          {this.props.poll.answers.map((answer, i) => {
-            return (
-              <Choice
-                key={i}
-                poll={this.props.poll}
-                index={i}
-                handleVote={this.handleVote}
-                voter={""}
-                width={new Animated.Value(0)}
-                percentage={this.props.poll.results[i]/votes*100}
-              />
-            );
-          })}
-        </View>
-      );
+      return (<View></View>)
+
     }
   }
 }
@@ -214,6 +198,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontWeight: "bold",
     color: "#202020"
+  },
+  new: {
+    borderColor: '#FDDE4E',
+    borderWidth: 1
   },
   container: {
     borderRadius: 20,

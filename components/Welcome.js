@@ -4,14 +4,10 @@ import { Button, Text, View } from "react-native";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator
-} from "react-native";
-import Feed from "./screens/Feed.js";
-import Post from "./screens/Post.js";
+import { StyleSheet } from "react-native";
+import Answer from "./screens/Answer.js";
+import Results from './screens/Results.js'
+import Ask from "./screens/Ask.js";
 import You from "./screens/You.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -24,7 +20,7 @@ const MyTheme = {
 };
 const HomeStack = createStackNavigator();
 
-function FeedScreen({ route, navigation }) {
+function AnswerScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
       style={{ backgroundColor: "white" }}
@@ -35,14 +31,32 @@ function FeedScreen({ route, navigation }) {
       <HomeStack.Screen
         style={{ backgroundColor: "white" }}
         name="P O L L E E"
-        component={Feed}
+        component={Answer}
         initialParams={{ route: route.params.props }}
       />
     </HomeStack.Navigator>
   );
 }
 
-function PostScreen({ route, navigation }) {
+function ResultsScreen({ route, navigation }) {
+  return (
+    <HomeStack.Navigator
+      style={{ backgroundColor: "white" }}
+      screenOptions={{
+        headerShown: false
+      }}
+    >
+      <HomeStack.Screen
+        style={{ backgroundColor: "white" }}
+        name="P O L L E E"
+        component={Results}
+        initialParams={{ route: route.params.props }}
+      />
+    </HomeStack.Navigator>
+  );
+}
+
+function AskScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -51,7 +65,7 @@ function PostScreen({ route, navigation }) {
     >
       <HomeStack.Screen
         name="P O L L E E"
-        component={Post}
+        component={Ask}
         initialParams={{ route: route.params.props }}
       />
     </HomeStack.Navigator>
@@ -110,25 +124,9 @@ export default class Welcome extends Component {
       <NavigationContainer style={{ backgroundColor: "white" }} theme={MyTheme}>
         <Tab.Navigator style={{ backgroundColor: "gray" }}>
           <Tab.Screen
-            style={{ backgroundColor: "white" }}
-            name="You"
-            component={YouScreen}
-            initialParams={{ props: this.props }}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="face-profile"
-                  color={color}
-                  size={30}
-                />
-              )
-            }}
-          />
-
-          <Tab.Screen
             style={{ backgroundColor: "gray" }}
             name="Answer"
-            component={FeedScreen}
+            component={AnswerScreen}
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
@@ -139,12 +137,42 @@ export default class Welcome extends Component {
           <Tab.Screen
             style={{ backgroundColor: "white" }}
             name="Ask"
-            component={PostScreen}
+            component={AskScreen}
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons
                   name="comment-question-outline"
+                  color={color}
+                  size={30}
+                />
+              )
+            }}
+          />
+          <Tab.Screen
+            style={{ backgroundColor: "white" }}
+            name="Results"
+            component={ResultsScreen}
+            initialParams={{ props: this.props }}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="history"
+                  color={color}
+                  size={30}
+                />
+              )
+            }}
+          />
+          <Tab.Screen
+            style={{ backgroundColor: "white" }}
+            name="You"
+            component={YouScreen}
+            initialParams={{ props: this.props }}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="face-profile"
                   color={color}
                   size={30}
                 />

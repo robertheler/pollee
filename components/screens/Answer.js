@@ -43,7 +43,6 @@ export default class Feed extends Component {
       return (
         <PTRView
           onRefresh={this.refresh}
-          style={{ borderTopWidth: 1, borderColor: "#F2F2F2" }}
         >
           <ScrollView style={{ backgroundColor: "white" }}>
             <View style={styles.container}>
@@ -58,14 +57,25 @@ export default class Feed extends Component {
                 ⌄
               </Text>
               {this.state.polls.map((poll, i) => {
-                // only render votes not posted by logged user
-                if (this.state.userData.id !== poll.by) {
+                let alreadyVoted = false;
+                if (poll.voters) {
+                  for (let i = 0; i < poll.voters.length; i++) {
+                    if (poll.voters[i] === this.state.userData.id) {
+                      alreadyVoted = true;
+                      break;
+                    }
+                  }
+                }
+                let byUser = this.state.userData.id === poll.by
+                // only render polls not already voted and not posted by self
+                if (!byUser && !alreadyVoted) {
                   return (
                     <Poll
                       key={i}
                       poll={poll}
                       voter={this.state.userData.id}
                       refresh={this.refresh}
+                      alreadyVoted={alreadyVoted}
                     />
                   );
                 }
@@ -84,7 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: 50
+    marginVertical: 50
   },
   image: {
     borderTopWidth: 2,
