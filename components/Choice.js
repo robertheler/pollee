@@ -22,17 +22,17 @@ export default class Choice extends Component {
   };
 
   render() {
-    this.loadGraphBars(this.props.percentage);
+    this.props.animate ? this.loadGraphBars(this.props.percentage) : null;
     if (this.props.alreadyVoted) {
       return (
         <TouchableOpacity style={styles.outter}>
           <Animated.View
             style={{
               borderRadius: 20,
-              width: this.props.width.interpolate({
+              width: this.props.animate ? this.props.width.interpolate({
                 inputRange: [0, 100],
                 outputRange: ["0%", "100%"]
-              }),
+              }) : `${this.props.percentage}%`,
               backgroundColor: "#FDDE4E",
               height: "auto",
               position: "absolute",

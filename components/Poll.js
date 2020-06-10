@@ -168,6 +168,7 @@ export default class You extends Component {
                 percentage={this.props.poll.results[i]/votes*100}
                 maxPercentage={maxPercentage}
                 alreadyVoted={alreadyVoted}
+                animate={this.props.animate}
                 isSelf={this.props.voter.id === this.props.poll.by}
               />
             );

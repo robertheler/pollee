@@ -9,7 +9,8 @@ export default class PollFilter extends Component {
     super(props);
     this.state = {
       polls: [],
-      justVoted: [] // continue to render these during these seshion
+      justVoted: [], // continue to render these during these seshion
+      lastVoted: null // the very last poll (only one that should be animated in this seshion)
     };
     this.hardRefresh = this.hardRefresh.bind(this);
     this.softRefresh = this.softRefresh.bind(this);
@@ -42,6 +43,7 @@ export default class PollFilter extends Component {
 
         this.setState({
           polls: polls,
+          lastVoted: idOfJustVotedPoll
         }) //continue to render these inspite of being voted
       })
       .catch(error => console.log(error));
@@ -52,7 +54,8 @@ export default class PollFilter extends Component {
       .then(polls => {
         this.setState({
           polls: polls,
-          justVoted: []
+          justVoted: [],
+          lastVoted: null
         });
       })
       .catch(error => console.log(error));
@@ -87,13 +90,19 @@ export default class PollFilter extends Component {
                 let byUser = this.props.route.userData.id === poll.by;
 
                 let justVoted = false //this.state.justVoted.includes(poll.id)
-
+                let shouldAnimate = true;
                 for (let i = 0; i < this.state.justVoted.length; i++) {
                   if (this.state.justVoted[i] === poll.id) {
                     justVoted = true;
+                    shouldAnimate = false
                     break;
                   }
                 }
+
+                if (poll.id === this.state.lastVoted) {
+                  shouldAnimate = true
+                }
+
 
                 if (
                   (this.props.showSelf == byUser &&
@@ -106,6 +115,7 @@ export default class PollFilter extends Component {
                       poll={poll}
                       voter={this.props.route.userData.id}
                       refresh={this.softRefresh}
+                      animate={shouldAnimate}
                       alreadyVoted={alreadyVoted}
                     />
                   );
