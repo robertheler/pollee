@@ -129,9 +129,9 @@ export default class You extends Component {
               <Thumbnail
                 source={{ uri: `${this.state.user.url}` }}
                 style={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: 12,
+                  width: 30,
+                  height: 30,
+                  borderRadius: 15,
                   marginRight: 10
                 }}
               />
@@ -177,6 +177,7 @@ export default class You extends Component {
                 percentage={this.props.poll.results[i]/votes*100}
                 maxPercentage={maxPercentage}
                 alreadyVoted={alreadyVoted}
+                isSelf={this.props.voter.id === this.props.poll.by}
               />
             );
           })}
@@ -216,7 +217,6 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 20,
-    //borderWidth: 1,
     backgroundColor: "white",
     flex: 1,
     alignItems: "flex-start",
@@ -224,20 +224,16 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 10,
     width: "90%",
-
-    shadowColor: "#d9d9d9", //#FDDE4E //d9d9d9
+    shadowColor: "#d9d9d9",
     shadowOffset: {
       width: 5,
       height: 5
     },
     shadowOpacity: 1,
     shadowRadius: 10,
-
     elevation: 30
-    // box-shadow:  20px 20px 60px #d7bd42,
-    //          -20px -20px 60px #ffff5a;
   },
-  image: {
+  thumbnail: {
     borderTopWidth: 2,
     borderColor: "#F2F2F2",
     width: 100,

@@ -1,12 +1,5 @@
-import React, { useState, Component, Fragment } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator
-} from "react-native";
+import React, { Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import Poll from "../Poll.js";
 import { ScrollView } from "react-native-gesture-handler";
 import PTRView from "react-native-pull-to-refresh";
@@ -20,14 +13,25 @@ export default class Feed extends Component {
   }
 
   componentDidMount() {
-    fetchPollsForUser(this.state.userData.id)
+    this.fetchPollsForUser(this.state.userData.id)
       .then(polls => {
         this.setState({ polls });
       })
       .catch(error => console.log(error));
   }
+
+  fetchPollsForUser(id) {
+    return fetch(`http://3.221.234.184:3001/api/feed/${id}`) //returns all polls ATM
+      .then(response => response.json())
+      .then(json => {
+        return json;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
   refresh() {
-    fetchPollsForUser(this.state.userData.id)
+    this.fetchPollsForUser(this.state.userData.id)
       .then(polls => {
         this.setState({ polls });
       })
@@ -74,18 +78,6 @@ export default class Feed extends Component {
       return <View style={styles.container}></View>;
     }
   }
-}
-
-//{this.state.polls.map(poll =>  <Text>{poll.toString()}</Text>)}
-function fetchPollsForUser(id) {
-  return fetch(`http://3.221.234.184:3001/api/feed/${id}`) //returns all polls ATM
-    .then(response => response.json())
-    .then(json => {
-      return json;
-    })
-    .catch(error => {
-      console.error(error);
-    });
 }
 
 const styles = StyleSheet.create({

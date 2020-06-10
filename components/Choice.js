@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Animated } from "react-native";
+import { Animated, Easing } from "react-native";
 
 export default class Choice extends Component {
   constructor(props) {
@@ -16,7 +16,8 @@ export default class Choice extends Component {
   loadGraphBars(finalWidth) {
     Animated.timing(this.props.width, {
       toValue: finalWidth,
-      duration: 1500
+      duration: 1500,
+      easing: Easing.bounce //can delete, it's pretty aggressive
     }).start();
   };
 
