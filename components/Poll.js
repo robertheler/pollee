@@ -1,30 +1,10 @@
-import React, { useState, Component, Fragment } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator
-} from "react-native";
-import {
-  Container,
-  Header,
-  Content,
-  List,
-  ListItem,
-  Left,
-  Body,
-  Right,
-  Thumbnail
-} from "native-base";
-import { ScrollView } from "react-native-gesture-handler";
+import React, {Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Thumbnail } from "native-base";
 import Choice from "./Choice.js";
 import moment from "moment"; // require
-import {Animated} from "react-native";
+import { Animated } from "react-native";
 moment().format();
-
-//import Poll from 'react-polls';
 
 export default class You extends Component {
   constructor(props) {
@@ -35,7 +15,6 @@ export default class You extends Component {
       hasUpdated: false
     };
     this.handleVote = this.handleVote.bind(this);
-
   }
 
   loadGraphBars = () => {
@@ -100,10 +79,34 @@ export default class You extends Component {
     }
     this.setState({
       hasUpdated: !this.state.hasUpdated
-    })
+    });
   }
 
   render() {
+    let poll = this.props.poll;
+    let votes = 0;
+    let percentages = [];
+    let maxPercentage = 0;
+
+    for (let i = 0; i < poll.answers.length; i++) {
+      votes = votes + poll.results[i];
+    }
+    for (let i = 0; i < poll.answers.length; i++) {
+      percentages.push((poll.results[i] / votes) * 100);
+      if ((poll.results[i] / votes) * 100 > maxPercentage) {
+        maxPercentage = (poll.results[i] / votes) * 100;
+      }
+    }
+    let alreadyVoted = false;
+    if (poll.voters) {
+      for (let i = 0; i < poll.voters.length; i++) {
+        if (poll.voters[i] === this.props.voter) {
+          alreadyVoted = true;
+          break;
+        }
+      }
+    }
+
     if (this.state.user) {
       return (
         <View style={styles.container}>
@@ -112,44 +115,52 @@ export default class You extends Component {
               flex: 1,
               flexDirection: "row",
               justifyContent: "center",
-              alignItems: 'center'
+              alignItems: "center"
             }}
           >
-            <View style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContet: "center",
-              alignItems: 'center'
-            }}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContet: "center",
+                alignItems: "center"
+              }}
+            >
               <Thumbnail
                 source={{ uri: `${this.state.user.url}` }}
                 style={{
-                  width:24,
+                  width: 24,
                   height: 24,
                   borderRadius: 12,
-                  marginRight: 10,
+                  marginRight: 10
                 }}
               />
-              <Text style={{color: '#202020'}}>{`${this.state.user.name}`}</Text>
+              <Text
+                style={{ color: "#202020" }}
+              >{`${this.state.user.name}`}</Text>
             </View>
             <View
               style={{
                 textAlign: "right",
                 alignSelf: "flex-start",
-                alignContent: 'flex-start',
+                alignContent: "flex-start",
                 fontStyle: "italic",
                 fontSize: 10,
-                color: 'gray'
+                color: "gray"
               }}
             >
-              <Text style={{
-                textAlign: "right",
-                alignSelf: "flex-start",
-                alignContent: 'flex-start',
-                fontStyle: "italic",
-                fontSize: 10,
-                color: 'gray'
-              }}>{moment(this.props.poll.created).fromNow()}</Text>
+              <Text
+                style={{
+                  textAlign: "right",
+                  alignSelf: "flex-start",
+                  alignContent: "flex-start",
+                  fontStyle: "italic",
+                  fontSize: 10,
+                  color: "gray"
+                }}
+              >
+                {moment(this.props.poll.created).fromNow()}
+              </Text>
             </View>
           </View>
           <Text style={styles.question}>{this.props.poll.question}</Text>
@@ -162,6 +173,10 @@ export default class You extends Component {
                 handleVote={this.handleVote}
                 voter={this.props.voter}
                 hasUpdated={this.state.hasUpdated}
+                width={new Animated.Value(0)}
+                percentage={this.props.poll.results[i]/votes*100}
+                maxPercentage={maxPercentage}
+                alreadyVoted={alreadyVoted}
               />
             );
           })}
@@ -179,6 +194,8 @@ export default class You extends Component {
                 index={i}
                 handleVote={this.handleVote}
                 voter={""}
+                width={new Animated.Value(0)}
+                percentage={this.props.poll.results[i]/votes*100}
               />
             );
           })}
@@ -191,11 +208,11 @@ export default class You extends Component {
 const styles = StyleSheet.create({
   question: {
     fontSize: 15,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     paddingLeft: 0,
     marginVertical: 10,
-    fontWeight: 'bold',
-    color: '#202020'
+    fontWeight: "bold",
+    color: "#202020"
   },
   container: {
     borderRadius: 20,
