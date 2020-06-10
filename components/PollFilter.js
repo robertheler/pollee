@@ -7,10 +7,12 @@ import PTRView from "react-native-pull-to-refresh";
 export default class PollFilter extends Component {
   constructor(props) {
     super(props);
-    this.state ={
-      polls: []
-    }
-    this.refresh = this.refresh.bind(this);
+    this.state = {
+      polls: [],
+      justVoted: [] // continue to render these during these seshion
+    };
+    this.hardRefresh = this.hardRefresh.bind(this);
+    this.softRefresh = this.softRefresh.bind(this);
   }
 
   componentDidMount() {
@@ -31,20 +33,35 @@ export default class PollFilter extends Component {
         console.error(error);
       });
   }
-  refresh() {
+
+  softRefresh(idOfJustVotedPoll) {
+    console.log('soft refresh');
     this.fetchPollsForUser(this.props.route.userData.id)
       .then(polls => {
-        this.setState({ polls });
+        this.state.justVoted.push(idOfJustVotedPoll)
+
+        this.setState({
+          polls: polls,
+        }) //continue to render these inspite of being voted
+      })
+      .catch(error => console.log(error));
+  }
+
+  hardRefresh() {
+    this.fetchPollsForUser(this.props.route.userData.id)
+      .then(polls => {
+        this.setState({
+          polls: polls,
+          justVoted: []
+        });
       })
       .catch(error => console.log(error));
   }
 
   render() {
-    if (this.state.polls) {
+    if (this.state.polls && this.state.justVoted) {
       return (
-        <PTRView
-          onRefresh={this.refresh}
-        >
+        <PTRView onRefresh={this.hardRefresh}>
           <ScrollView style={{ backgroundColor: "white" }}>
             <View style={styles.container}>
               <Text
@@ -68,20 +85,31 @@ export default class PollFilter extends Component {
                   }
                 }
                 let byUser = this.props.route.userData.id === poll.by;
-                console.log(this.props.showSelf == byUser, this.props.showAlreadyVoted == alreadyVoted, this.props.showRejected == false);
-                if(this.props.showSelf == byUser
-                  && this.props.showAlreadyVoted == alreadyVoted
-                  && this.props.showRejected == false) {
+
+                let justVoted = false //this.state.justVoted.includes(poll.id)
+
+                for (let i = 0; i < this.state.justVoted.length; i++) {
+                  if (this.state.justVoted[i] === poll.id) {
+                    justVoted = true;
+                    break;
+                  }
+                }
+
+                if (
+                  (this.props.showSelf == byUser &&
+                  this.props.showAlreadyVoted == alreadyVoted &&
+                  this.props.showRejected == false) || justVoted
+                ) {
                   return (
                     <Poll
                       key={i}
                       poll={poll}
                       voter={this.props.route.userData.id}
-                      refresh={this.refresh}
+                      refresh={this.softRefresh}
                       alreadyVoted={alreadyVoted}
                     />
                   );
-                } else return <View key={i}></View>
+                } else return <View key={i}></View>;
               })}
             </View>
           </ScrollView>

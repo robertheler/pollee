@@ -11,18 +11,11 @@ export default class You extends Component {
     super(props);
     this.state = {
       user: undefined,
-      initialOpacity: new Animated.Value(0),
-      hasUpdated: false
+      initialOpacity: new Animated.Value(0)
     };
     this.handleVote = this.handleVote.bind(this);
   }
 
-  loadGraphBars = () => {
-    Animated.timing(this.state.initialOpacity, {
-      toValue: 1,
-      duration: 2000
-    }).start();
-  };
   componentDidMount() {
     this.grabUserInfo(this.props.poll.by).then(user => {
       this.setState({ user });
@@ -43,6 +36,7 @@ export default class You extends Component {
   handleVote(index) {
     //re-render
     let refresh = this.props.refresh;
+    let id = this.props.poll.id;
     let vote = {
       id: this.props.poll.id,
       user: this.props.voter,
@@ -71,15 +65,12 @@ export default class You extends Component {
         }
       )
         .then(function(response) {
-          refresh();
+          refresh(id);
         })
         .catch(error => {
           console.error("Error:", error);
         });
     }
-    this.setState({
-      hasUpdated: !this.state.hasUpdated
-    });
   }
 
   render() {
