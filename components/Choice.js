@@ -16,14 +16,15 @@ export default class Choice extends Component {
     super(props);
     this.handleVote = this.handleVote.bind(this);
     this.state = {
-      width: new Animated.Value(0)
+      width: new Animated.Value(0),
+      firstTimeRender: true
     };
   }
 
   componentDidMount() {
-    this.state = {
-      width: new Animated.Value(0)
-    };
+    // this.state = {
+    //   width: new Animated.Value(0)
+    // };
     // console.log('mounted');
     // let poll = this.props.poll;
     // let votes = 0;
@@ -35,6 +36,13 @@ export default class Choice extends Component {
     // this.loadGraphBars(percentage);
   }
   handleVote() {
+    let poll = this.props.poll;
+    let votes = 0;
+    for (let i = 0; i < poll.answers.length; i++) {
+      votes = votes + poll.results[i];
+    }
+    let percentage = Math.floor(this.props.poll.results[this.props.index] / votes * 100)
+    this.loadGraphBars(percentage);
     return this.props.handleVote(this.props.index);
   }
 
@@ -69,8 +77,7 @@ export default class Choice extends Component {
         }
       }
     }
-
-    let percentage = Math.floor(poll.results[this.props.index] / votes * 100)
+    let percentage = Math.floor(this.props.poll.results[this.props.index] / votes * 100)
     this.loadGraphBars(percentage);
 
     if (alreadyVoted && percentages[this.props.index] > 0) {

@@ -19,18 +19,21 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: 'white'
-  },
+    background: "white"
+  }
 };
 const HomeStack = createStackNavigator();
 
 function FeedScreen({ route, navigation }) {
   return (
-    <HomeStack.Navigator style={{backgroundColor:'white'}} screenOptions={{
-      headerShown: false
-    }}>
+    <HomeStack.Navigator
+      style={{ backgroundColor: "white" }}
+      screenOptions={{
+        headerShown: false
+      }}
+    >
       <HomeStack.Screen
-        style={{backgroundColor:'white'}}
+        style={{ backgroundColor: "white" }}
         name="P O L L E E"
         component={Feed}
         initialParams={{ route: route.params.props }}
@@ -41,9 +44,11 @@ function FeedScreen({ route, navigation }) {
 
 function PostScreen({ route, navigation }) {
   return (
-    <HomeStack.Navigator screenOptions={{
-      headerShown: false
-    }}>
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
       <HomeStack.Screen
         name="P O L L E E"
         component={Post}
@@ -55,9 +60,11 @@ function PostScreen({ route, navigation }) {
 
 function YouScreen({ route, navigation }) {
   return (
-    <HomeStack.Navigator screenOptions={{
-      headerShown: false
-    }}>
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
       <HomeStack.Screen
         name="P O L L E E"
         component={You}
@@ -84,8 +91,8 @@ export default class Welcome extends Component {
     };
     fetch("http://3.221.234.184:3001/api/users", {
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       method: "post",
       body: JSON.stringify(newUser)
@@ -93,18 +100,33 @@ export default class Welcome extends Component {
       .then(function(response) {
         return response.json();
       })
-      .then(function(data) {
-      })
-      .catch((error) => {
-        console.error('Error:', error);
+      .then(function(data) {})
+      .catch(error => {
+        console.error("Error:", error);
       });
   }
   render() {
     return (
-      <NavigationContainer style={{backgroundColor:'white'}} theme={MyTheme}>
-        <Tab.Navigator style={{backgroundColor:'gray'}}>
+      <NavigationContainer style={{ backgroundColor: "white" }} theme={MyTheme}>
+        <Tab.Navigator style={{ backgroundColor: "gray" }}>
           <Tab.Screen
-          style={{backgroundColor:'gray'}}
+            style={{ backgroundColor: "white" }}
+            name="You"
+            component={YouScreen}
+            initialParams={{ props: this.props }}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="face-profile"
+                  color={color}
+                  size={30}
+                />
+              )
+            }}
+          />
+
+          <Tab.Screen
+            style={{ backgroundColor: "gray" }}
             name="Answer"
             component={FeedScreen}
             initialParams={{ props: this.props }}
@@ -115,25 +137,14 @@ export default class Welcome extends Component {
             }}
           />
           <Tab.Screen
-          style={{backgroundColor:'white'}}
+            style={{ backgroundColor: "white" }}
             name="Ask"
             component={PostScreen}
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="comment-question-outline" color={color} size={30} />
-              )
-            }}
-          />
-          <Tab.Screen
-          style={{backgroundColor:'white'}}
-            name="You"
-            component={YouScreen}
-            initialParams={{ props: this.props }}
-            options={{
-              tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons
-                  name="face-profile"
+                  name="comment-question-outline"
                   color={color}
                   size={30}
                 />

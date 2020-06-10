@@ -8,9 +8,8 @@ import {
   ActivityIndicator
 } from "react-native";
 import Poll from "../Poll.js";
-import {ScrollView} from 'react-native-gesture-handler';
-import PTRView from 'react-native-pull-to-refresh';
-
+import { ScrollView } from "react-native-gesture-handler";
+import PTRView from "react-native-pull-to-refresh";
 
 export default class Feed extends Component {
   constructor({ route, navigation }) {
@@ -21,40 +20,58 @@ export default class Feed extends Component {
   }
 
   componentDidMount() {
-    fetchPollsForUser(this.state.userData.id).then(polls => {
-      this.setState({ polls });
-    }).catch(error => console.log(error))
-  }
-  refresh () {
     fetchPollsForUser(this.state.userData.id)
       .then(polls => {
-      this.setState({ polls });
-    })
-    .catch(error => console.log(error))
+        this.setState({ polls });
+      })
+      .catch(error => console.log(error));
   }
-
+  refresh() {
+    fetchPollsForUser(this.state.userData.id)
+      .then(polls => {
+        this.setState({ polls });
+      })
+      .catch(error => console.log(error));
+  }
 
   render() {
     if (this.state.polls) {
       return (
-        <PTRView onRefresh={this.refresh} style={{borderTopWidth: 1,
-          borderColor: "#F2F2F2"}} >
-        <ScrollView style={{backgroundColor:'white'}}>
-
-        <View style={styles.container}>
-        <Text style={{marginTop: 0, marginBottom: 10, alignSelf: 'center', fontSize:40}}>⌄</Text>
-          {this.state.polls.map((poll, i) =>  <Poll key={i} poll={poll} voter={this.state.userData.id} refresh={this.refresh}/>)}
-        </View>
-
-        </ScrollView>
-    </PTRView>
+        <PTRView
+          onRefresh={this.refresh}
+          style={{ borderTopWidth: 1, borderColor: "#F2F2F2" }}
+        >
+          <ScrollView style={{ backgroundColor: "white" }}>
+            <View style={styles.container}>
+              <Text
+                style={{
+                  marginTop: 0,
+                  marginBottom: 10,
+                  alignSelf: "center",
+                  fontSize: 40
+                }}
+              >
+                ⌄
+              </Text>
+              {this.state.polls.map((poll, i) => {
+                // only render votes not posted by logged user
+                if (this.state.userData.id !== poll.by) {
+                  return (
+                    <Poll
+                      key={i}
+                      poll={poll}
+                      voter={this.state.userData.id}
+                      refresh={this.refresh}
+                    />
+                  );
+                }
+              })}
+            </View>
+          </ScrollView>
+        </PTRView>
       );
     } else {
-      return (
-        <View style={styles.container}>
-
-        </View>
-      );
+      return <View style={styles.container}></View>;
     }
   }
 }
@@ -75,7 +92,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop:50,
+    marginTop: 50
   },
   image: {
     borderTopWidth: 2,

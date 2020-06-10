@@ -31,7 +31,8 @@ export default class You extends Component {
     super(props);
     this.state = {
       user: undefined,
-      initialOpacity: new Animated.Value(0)
+      initialOpacity: new Animated.Value(0),
+      hasUpdated: false
     };
     this.handleVote = this.handleVote.bind(this);
 
@@ -97,7 +98,9 @@ export default class You extends Component {
           console.error("Error:", error);
         });
     }
-    this.render()
+    this.setState({
+      hasUpdated: !this.state.hasUpdated
+    })
   }
 
   render() {
@@ -158,6 +161,7 @@ export default class You extends Component {
                 index={i}
                 handleVote={this.handleVote}
                 voter={this.props.voter}
+                hasUpdated={this.state.hasUpdated}
               />
             );
           })}
