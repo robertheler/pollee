@@ -1,12 +1,16 @@
-import React from "react";
-import PollFilter from "../PollFilter.js"
+import React, { Fragment } from "react";
+import PollFilter from "../PollFilter.js";
+import {Thumbnail} from "native-base";
+
 export default function({ route, navigation }) {
   return (
-    <PollFilter
-      route={route.params.route}
-      showSelf={true}
-      showAlreadyVoted={true}
-      showRejected={false}
-    />
+    <Fragment>
+      <PollFilter
+        route={route.params.route}
+        showSelf={true}
+        showAlreadyVoted={true}
+        showRejected={false}
+      />
+    </Fragment>
   );
 }

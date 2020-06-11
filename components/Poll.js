@@ -133,8 +133,9 @@ export default class You extends Component {
             <View
               style={{
                 textAlign: "right",
-                alignSelf: "flex-start",
-                alignContent: "flex-start",
+                alignSelf: "center",
+                  alignContent: "center",
+                  justifyContent: "center",
                 fontStyle: "italic",
                 fontSize: 10,
                 color: "gray"

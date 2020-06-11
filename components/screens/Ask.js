@@ -7,18 +7,18 @@ import {
   Form,
   Item,
   Input,
-  Text,
+  Thumbnail,
   Label
 } from "native-base";
 
 import { ScrollView } from "react-native-gesture-handler";
-import {StyleSheet } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 export default class Post extends Component {
   constructor({ route, navigation }) {
     super();
     this.state = {
-      userData: route.params.route.userData,
+      user: route.params.route.userData,
       poll: {},
       question: "",
       answer1: "",
@@ -28,8 +28,6 @@ export default class Post extends Component {
     };
 
     this.onSubmit = this.onSubmit.bind(this);
-
-;
   }
 
   onSubmit() {
@@ -42,7 +40,7 @@ export default class Post extends Component {
       alert("Please fill out the question and at least 2 answers!");
     } else {
       let poll = {
-        by: this.state.userData.id,
+        by: this.state.user.id,
         question: this.state.question,
         answers: [this.state.answer1, this.state.answer2]
       };
@@ -67,13 +65,16 @@ export default class Post extends Component {
     })
       .then(response =>
         //alert('Poll was submitted! Check the feed to see responses!')
-        this.setState({
-          question: "",
-          answer1: "",
-          answer2: "",
-          answer3: "",
-          answer4: ""
-        }, alert('Poll was submitted! Check the feed to see responses!'))
+        this.setState(
+          {
+            question: "",
+            answer1: "",
+            answer2: "",
+            answer3: "",
+            answer4: ""
+          },
+          alert("Poll was submitted! Check the feed to see responses!")
+        )
       )
       .catch(error => {
         console.log(error);
@@ -82,100 +83,201 @@ export default class Post extends Component {
 
   render() {
     return (
-      <Container>
+      <Fragment>
         <Content contentContainerStyle={styles.contentContainer}>
-          <Form>
-            <Item>
-              <Input
-                placeholder="Ask the world something (e.g. Am I pretty?)"
-                value={this.state.question}
-                getRef={(ref) => { this.SearchInput = ref; }}
-                onChangeText={val => this.setState({ question: val })}
-                id="question"
-              />
-            </Item>
-            <Item last>
-              <Input
-                placeholder="Answer 1"
-                value={this.state.answer1}
-                getRef={(ref) => { this.SearchInput = ref; }}
-                onChangeText={val => this.setState({ answer1: val })}
-                id="answer1"
-              />
-            </Item>
-            <Item last>
-              <Input
-                placeholder="Answer 2"
-                getRef={(ref) => { this.SearchInput = ref; }}
-                value={this.state.answer2}
-                onChangeText={val => this.setState({ answer2: val })}
-                id="answer2"
-              />
-            </Item>
-            <Item last>
-              <Input
-                placeholder="Answer 3 (optional)"
-                getRef={(ref) => { this.SearchInput = ref; }}
-                value={this.state.answer3}
-                onChangeText={val => this.setState({ answer3: val })}
-                id="answer3"
-              />
-            </Item>
-            <Item last>
-              <Input
-                placeholder="Answer 4 (optional)"
-                getRef={(ref) => { this.SearchInput = ref; }}
-                val={this.state.answer4}
-                onChangeText={val => this.setState({ answer4: val })}
-                id="answer4"
-              />
-            </Item>
-          </Form>
-          <Text style={{ marginVertical: 40, marginHorizontal: 20, textAlign: 'center' }}>
-            Note: The poll will be public and your name will be assoicated with it!
-          </Text>
-            <Button primary rounded
-            onPress={this.onSubmit}
-            style={{justifyContent: 'center', width: '50%',  alignSelf: 'center'}}>
-            <Text>Send Poll</Text>
-          </Button>
+          <View style={styles.container}>
+            <Content contentContainerStyle={styles.contentContainer}>
+              {this.state.user ? (
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: 40,
+                    marginBottom: 20
+                  }}
+                >
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: "row",
+                      justifyContet: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Thumbnail
+                      source={{ uri: `${this.state.user.picture.data.url}` }}
+                      style={{
+                        width: 30,
+                        height: 30,
+                        borderRadius: 15,
+                        marginRight: 10
+                      }}
+                    />
+                    <Text
+                      style={{ color: "#202020" }}
+                    >{`${this.state.user.name}`}</Text>
+                  </View>
+                </View>
+              ) : (
+                <View></View>
+              )}
+              <Form>
+                <Item style={{ borderBottomWidth: 0 }}>
+                  <Input
+                    placeholder="Type your poll here (e.g. Am I pretty?)"
+                    value={this.state.question}
+                    style={styles.question}
+                    getRef={ref => {
+                      this.SearchInput = ref;
+                    }}
+                    onChangeText={val => this.setState({ question: val })}
+                    id="question"
+                  />
+                </Item>
+
+                <Input
+                  placeholder="Answer 1"
+                  value={this.state.answer1}
+                  getRef={ref => {
+                    this.SearchInput = ref;
+                  }}
+                  onChangeText={val => this.setState({ answer1: val })}
+                  id="answer1"
+                  style={styles.answer}
+                />
+
+                <Input
+                  placeholder="Answer 2"
+                  getRef={ref => {
+                    this.SearchInput = ref;
+                  }}
+                  value={this.state.answer2}
+                  onChangeText={val => this.setState({ answer2: val })}
+                  id="answer2"
+                  style={styles.answer}
+                />
+
+                <Input
+                  placeholder="Answer 3 (optional)"
+                  getRef={ref => {
+                    this.SearchInput = ref;
+                  }}
+                  value={this.state.answer3}
+                  onChangeText={val => this.setState({ answer3: val })}
+                  id="answer3"
+                  style={styles.answer}
+                />
+
+                <Input
+                  placeholder="Answer 4 (optional)"
+                  getRef={ref => {
+                    this.SearchInput = ref;
+                  }}
+                  val={this.state.answer4}
+                  onChangeText={val => this.setState({ answer4: val })}
+                  id="answer4"
+                  style={styles.answer}
+                />
+              </Form>
+
+              <TouchableOpacity style={styles.button}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    alignSelf: "center",
+                    color: "#202020"
+                  }}
+                  onPress={this.onSubmit}
+                >
+                  Submit Poll!
+                </Text>
+              </TouchableOpacity>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  marginHorizontal: 10,
+                  textAlign: "left",
+                  fontStyle: "italic",
+                  fontSize: 12,
+                  alignSelf: "flex-start",
+                  color: "gray"
+                }}
+              >
+                {`Note: The poll will be visible to all your Facebook friends!`}
+              </Text>
+            </Content>
+          </View>
         </Content>
-      </Container>
+      </Fragment>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  contentContainer:{
-    marginTop: 50,
-    justifyContent: 'center',
-    width: '100%',
-
-
+  contentContainer: {
+    justifyContent: "center",
+    paddingHorizontal: 0
+  },
+  outter: {
+    borderWidth: 1,
+    borderColor: "#E9E9E9",
+    borderRadius: 20,
+    width: "100%",
+    paddingVertical: 10,
+    paddingHorizontal: 0,
+    margin: 3,
+    alignSelf: "center"
   },
   container: {
     borderRadius: 20,
-    //borderWidth: 1,
     backgroundColor: "white",
     flex: 1,
-    alignItems: "flex-start",
+    flexDirection: "column",
+    alignItems: "center",
     justifyContent: "flex-start",
-    padding: 15,
-    marginVertical: 10,
-    width: "90%",
-
+    marginBottom: 100,
+    padding: 10,
+    marginHorizontal: 20,
+    marginTop: 25,
     shadowColor: "#d9d9d9",
     shadowOffset: {
       width: 5,
       height: 5
-    }
+    },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 30
   },
-  image: {
-    borderTopWidth: 2,
-    borderColor: "#F2F2F2",
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginVertical: 15
+  question: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#202020"
+  },
+  answer: {
+    fontSize: 15,
+    color: "#202020",
+    borderWidth: 1,
+    borderColor: "#E9E9E9",
+    borderRadius: 20,
+    height: 40,
+    width: "100%",
+    alignSelf: "center",
+    marginVertical: 3,
+    marginHorizontal: 30,
+    paddingHorizontal: 30,
+    paddingHorizontal: 5
+  },
+  button: {
+    borderRadius: 25,
+    height: 50,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    margin: 40,
+    alignSelf: "center",
+    backgroundColor: "#FDDE4E",
+    alignItems: "center",
+    justifyContent: "center"
   }
 });

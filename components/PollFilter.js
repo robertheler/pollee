@@ -36,15 +36,15 @@ export default class PollFilter extends Component {
   }
 
   softRefresh(idOfJustVotedPoll) {
-    console.log('soft refresh');
+    console.log("soft refresh");
     this.fetchPollsForUser(this.props.route.userData.id)
       .then(polls => {
-        this.state.justVoted.push(idOfJustVotedPoll)
+        this.state.justVoted.push(idOfJustVotedPoll);
 
         this.setState({
           polls: polls,
           lastVoted: idOfJustVotedPoll
-        }) //continue to render these inspite of being voted
+        }); //continue to render these inspite of being voted
       })
       .catch(error => console.log(error));
   }
@@ -67,16 +67,6 @@ export default class PollFilter extends Component {
         <PTRView onRefresh={this.hardRefresh}>
           <ScrollView style={{ backgroundColor: "white" }}>
             <View style={styles.container}>
-              <Text
-                style={{
-                  marginTop: 0,
-                  marginBottom: 10,
-                  alignSelf: "center",
-                  fontSize: 40
-                }}
-              >
-                ⌄
-              </Text>
               {this.state.polls.map((poll, i) => {
                 let alreadyVoted = false;
                 if (poll.voters) {
@@ -89,25 +79,25 @@ export default class PollFilter extends Component {
                 }
                 let byUser = this.props.route.userData.id === poll.by;
 
-                let justVoted = false //this.state.justVoted.includes(poll.id)
+                let justVoted = false; //this.state.justVoted.includes(poll.id)
                 let shouldAnimate = true;
                 for (let i = 0; i < this.state.justVoted.length; i++) {
                   if (this.state.justVoted[i] === poll.id) {
                     justVoted = true;
-                    shouldAnimate = false
+                    shouldAnimate = false;
                     break;
                   }
                 }
 
                 if (poll.id === this.state.lastVoted) {
-                  shouldAnimate = true
+                  shouldAnimate = true;
                 }
-
 
                 if (
                   (this.props.showSelf == byUser &&
-                  this.props.showAlreadyVoted == alreadyVoted &&
-                  this.props.showRejected == false) || justVoted
+                    this.props.showAlreadyVoted == alreadyVoted &&
+                    this.props.showRejected == false) ||
+                  justVoted
                 ) {
                   return (
                     <Poll
@@ -135,14 +125,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginVertical: 50
-  },
-  image: {
-    borderTopWidth: 2,
-    borderColor: "#F2F2F2",
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginVertical: 15
+    marginVertical: 75
   }
 });
