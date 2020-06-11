@@ -1,10 +1,12 @@
-import React, {Component } from "react";
+import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Thumbnail } from "native-base";
 import Choice from "./Choice.js";
 import moment from "moment"; // require
 import { Animated } from "react-native";
 moment().format();
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Stat from "./Stat";
 
 export default class You extends Component {
   constructor(props) {
@@ -129,13 +131,14 @@ export default class You extends Component {
               <Text
                 style={{ color: "#202020" }}
               >{`${this.state.user.name}`}</Text>
+              <Stat value={votes} icon="vote" />
             </View>
             <View
               style={{
                 textAlign: "right",
                 alignSelf: "center",
-                  alignContent: "center",
-                  justifyContent: "center",
+                alignContent: "center",
+                justifyContent: "center",
                 fontStyle: "italic",
                 fontSize: 10,
                 color: "gray"
@@ -166,7 +169,7 @@ export default class You extends Component {
                 voter={this.props.voter}
                 hasUpdated={this.state.hasUpdated}
                 width={new Animated.Value(0)}
-                percentage={this.props.poll.results[i]/votes*100}
+                percentage={(this.props.poll.results[i] / votes) * 100}
                 maxPercentage={maxPercentage}
                 alreadyVoted={alreadyVoted}
                 animate={this.props.animate}
@@ -177,8 +180,7 @@ export default class You extends Component {
         </View>
       );
     } else {
-      return (<View></View>)
-
+      return <View></View>;
     }
   }
 }
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
     color: "#202020"
   },
   new: {
-    borderColor: '#FDDE4E',
+    borderColor: "#FDDE4E",
     borderWidth: 1
   },
   container: {

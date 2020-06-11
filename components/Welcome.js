@@ -178,13 +178,13 @@ export default class Welcome extends Component {
         <Tab.Navigator
           tabBarOptions={{
             showLabel: false,
-            inactiveTintColor: "white",
+            inactiveTintColor: "#C1C1C1",
             activeTintColor: "#202020", //"#202020",FDDE4E
             tabStyle: {
               marginTop: 10
             },
             style: {
-              backgroundColor: "#FDC100",
+              backgroundColor: "white", //FDC100
               alingItems: "center",
               justifyContent: "center"
             }
@@ -208,7 +208,7 @@ export default class Welcome extends Component {
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <Ionicons name="ios-globe" color={color} size={42} />
+                <Ionicons name="ios-globe" color={color} size={40} />
               )
             }}
           />

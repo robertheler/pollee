@@ -33,7 +33,7 @@ export default class Choice extends Component {
                 inputRange: [0, 100],
                 outputRange: ["0%", "100%"]
               }) : `${this.props.percentage}%`,
-              backgroundColor: "#FDDE4E",
+              backgroundColor: "#FDC100",
               height: "auto",
               position: "absolute",
               top: 0,
