@@ -6,10 +6,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
 import Answer from "./screens/Answer.js";
-import Results from './screens/Results.js'
+import Results from "./screens/Results.js";
 import Ask from "./screens/Ask.js";
 import You from "./screens/You.js";
+import Discover from "./screens/Discover.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Feather from "react-native-vector-icons/Feather";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -23,9 +25,10 @@ const HomeStack = createStackNavigator();
 function AnswerScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-      style={{ backgroundColor: "white" }}
+      style={{ backgroundColor: "gray" }}
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        style:{ backgroundColor: "gray" }
       }}
     >
       <HomeStack.Screen
@@ -41,15 +44,29 @@ function AnswerScreen({ route, navigation }) {
 function ResultsScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-      style={{ backgroundColor: "white" }}
       screenOptions={{
         headerShown: false
       }}
     >
       <HomeStack.Screen
-        style={{ backgroundColor: "white" }}
         name="P O L L E E"
         component={Results}
+        initialParams={{ route: route.params.props }}
+      />
+    </HomeStack.Navigator>
+  );
+}
+
+function DiscoverScreen({ route, navigation }) {
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
+      <HomeStack.Screen
+        name="P O L L E E"
+        component={Discover}
         initialParams={{ route: route.params.props }}
       />
     </HomeStack.Navigator>
@@ -122,7 +139,21 @@ export default class Welcome extends Component {
   render() {
     return (
       <NavigationContainer style={{ backgroundColor: "white" }} theme={MyTheme}>
-        <Tab.Navigator style={{ backgroundColor: "gray" }}>
+        <Tab.Navigator
+          tabBarOptions={{
+            showLabel: false,
+            inactiveTintColor: "white",
+            activeTintColor: "#202020", //"#202020",
+            tabStyle: {
+              marginTop: 10
+            },
+            style: {
+              backgroundColor: "#FDDE4E",
+              alingItems: "center",
+              justifyContent: "center"
+            }
+          }}
+        >
           <Tab.Screen
             style={{ backgroundColor: "gray" }}
             name="Answer"
@@ -130,7 +161,18 @@ export default class Welcome extends Component {
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="poll" color={color} size={30} />
+                <MaterialCommunityIcons name="poll" color={color} size={35} />
+              )
+            }}
+          />
+          <Tab.Screen
+            style={{ backgroundColor: "gray" }}
+            name="Discover"
+            component={DiscoverScreen}
+            initialParams={{ props: this.props }}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Feather name="search" color={color} size={35} />
               )
             }}
           />
@@ -144,7 +186,7 @@ export default class Welcome extends Component {
                 <MaterialCommunityIcons
                   name="comment-question-outline"
                   color={color}
-                  size={30}
+                  size={35}
                 />
               )
             }}
@@ -159,7 +201,7 @@ export default class Welcome extends Component {
                 <MaterialCommunityIcons
                   name="history"
                   color={color}
-                  size={30}
+                  size={35}
                 />
               )
             }}
@@ -174,7 +216,7 @@ export default class Welcome extends Component {
                 <MaterialCommunityIcons
                   name="face-profile"
                   color={color}
-                  size={30}
+                  size={35}
                 />
               )
             }}

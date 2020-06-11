@@ -136,6 +136,7 @@ export default class Post extends Component {
                     }}
                     onChangeText={val => this.setState({ question: val })}
                     id="question"
+
                   />
 
 
