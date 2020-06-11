@@ -131,7 +131,6 @@ export default class You extends Component {
               <Text
                 style={{ color: "#202020" }}
               >{`${this.state.user.name}`}</Text>
-              <Stat value={votes} icon="vote" />
             </View>
             <View
               style={{
@@ -177,6 +176,22 @@ export default class You extends Component {
               />
             );
           })}
+          <View
+            style={{
+              flex: 1,
+              alignSelf: "center",
+              flexDirection: "row",
+              //alignItems: "space-between",
+              marginTop: 10
+            }}
+          >
+            <Stat items={this.props.poll.voters} type="votes" icon="vote" />
+            <Stat
+              items={this.props.poll.comments}
+              type="comments"
+              icon="comment-text-multiple-outline"
+            />
+          </View>
         </View>
       );
     } else {
