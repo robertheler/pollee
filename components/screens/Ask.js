@@ -8,6 +8,7 @@ import {
   Item,
   Input,
   Thumbnail,
+  Textarea,
   Label
 } from "native-base";
 
@@ -83,10 +84,10 @@ export default class Post extends Component {
 
   render() {
     return (
-      <Fragment>
-        <Content contentContainerStyle={styles.contentContainer}>
+      <ScrollView>
+        <Content contentContainerStyle={styles.contentContainerOuter}>
           <View style={styles.container}>
-            <Content contentContainerStyle={styles.contentContainer}>
+            <Content contentContainerStyle={styles.contentContainerInner}>
               {this.state.user ? (
                 <View
                   style={{
@@ -95,7 +96,7 @@ export default class Post extends Component {
                     justifyContent: "center",
                     alignItems: "center",
                     height: 40,
-                    marginBottom: 20
+                    marginBottom: 0
                   }}
                 >
                   <View
@@ -124,21 +125,24 @@ export default class Post extends Component {
                 <View></View>
               )}
               <Form>
-                <Item style={{ borderBottomWidth: 0 }}>
                   <Input
                     placeholder="Type your poll here (e.g. Am I pretty?)"
+                    placeholderTextColor="gray"
                     value={this.state.question}
                     style={styles.question}
                     getRef={ref => {
                       this.SearchInput = ref;
+
                     }}
                     onChangeText={val => this.setState({ question: val })}
                     id="question"
+                    autoFocus
                   />
-                </Item>
+
 
                 <Input
                   placeholder="Answer 1"
+                  placeholderTextColor="#E9E9E9"
                   value={this.state.answer1}
                   getRef={ref => {
                     this.SearchInput = ref;
@@ -150,6 +154,7 @@ export default class Post extends Component {
 
                 <Input
                   placeholder="Answer 2"
+                  placeholderTextColor="#E9E9E9"
                   getRef={ref => {
                     this.SearchInput = ref;
                   }}
@@ -161,6 +166,7 @@ export default class Post extends Component {
 
                 <Input
                   placeholder="Answer 3 (optional)"
+                  placeholderTextColor="#E9E9E9"
                   getRef={ref => {
                     this.SearchInput = ref;
                   }}
@@ -172,6 +178,7 @@ export default class Post extends Component {
 
                 <Input
                   placeholder="Answer 4 (optional)"
+                  placeholderTextColor="#E9E9E9"
                   getRef={ref => {
                     this.SearchInput = ref;
                   }}
@@ -191,7 +198,7 @@ export default class Post extends Component {
                   }}
                   onPress={this.onSubmit}
                 >
-                  Submit Poll!
+                  Submit Poll
                 </Text>
               </TouchableOpacity>
               <Text
@@ -210,15 +217,18 @@ export default class Post extends Component {
             </Content>
           </View>
         </Content>
-      </Fragment>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
+  contentContainerOuter: {
     justifyContent: "center",
-    paddingHorizontal: 0
+  },
+  contentContainerInner: {
+    justifyContent: "center",
+    paddingHorizontal: 5,
   },
   outter: {
     borderWidth: 1,
@@ -237,10 +247,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginBottom: 100,
-    padding: 10,
+    marginVertical: 100,
+    paddingVertical: 10,
     marginHorizontal: 20,
-    marginTop: 25,
     shadowColor: "#d9d9d9",
     shadowOffset: {
       width: 5,
@@ -253,7 +262,11 @@ const styles = StyleSheet.create({
   question: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#202020"
+    color: "#202020",
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderColor: "#E9E9E9",
+    padding:0
   },
   answer: {
     fontSize: 15,
@@ -265,9 +278,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
     marginVertical: 3,
-    marginHorizontal: 30,
-    paddingHorizontal: 30,
-    paddingHorizontal: 5
+
   },
   button: {
     borderRadius: 25,
