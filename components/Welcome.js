@@ -12,6 +12,9 @@ import You from "./screens/You.js";
 import Discover from "./screens/Discover.js";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Feather from "react-native-vector-icons/Feather";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -25,10 +28,15 @@ const HomeStack = createStackNavigator();
 function AnswerScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-      style={{ backgroundColor: "gray" }}
       screenOptions={{
-        headerShown: false,
-        style:{ backgroundColor: "gray" }
+        headerStyle: {
+          backgroundColor: "#FDC100"
+        },
+        headerTintColor: "#202020",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+        //headerShown: false
       }}
     >
       <HomeStack.Screen
@@ -44,12 +52,19 @@ function AnswerScreen({ route, navigation }) {
 function ResultsScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-      screenOptions={{
-        headerShown: false
-      }}
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: "#FDC100"
+      },
+      headerTintColor: "#202020",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+      //headerShown: false
+    }}
     >
       <HomeStack.Screen
-        name="P O L L E E"
+        name="A C T I V I T Y"
         component={Results}
         initialParams={{ route: route.params.props }}
       />
@@ -60,12 +75,19 @@ function ResultsScreen({ route, navigation }) {
 function DiscoverScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-      screenOptions={{
-        headerShown: false
-      }}
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: "#FDC100"
+      },
+      headerTintColor: "#202020",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+      //headerShown: false
+    }}
     >
       <HomeStack.Screen
-        name="P O L L E E"
+        name="D I S C O V E R"
         component={Discover}
         initialParams={{ route: route.params.props }}
       />
@@ -76,12 +98,19 @@ function DiscoverScreen({ route, navigation }) {
 function AskScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-      screenOptions={{
-        headerShown: false
-      }}
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: "#FDC100"
+      },
+      headerTintColor: "#202020",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+      //headerShown: false
+    }}
     >
       <HomeStack.Screen
-        name="P O L L E E"
+        name="N E W  P O L L"
         component={Ask}
         initialParams={{ route: route.params.props }}
       />
@@ -92,12 +121,19 @@ function AskScreen({ route, navigation }) {
 function YouScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-      screenOptions={{
-        headerShown: false
-      }}
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: "#FDC100"
+      },
+      headerTintColor: "#202020",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+      //headerShown: false
+    }}
     >
       <HomeStack.Screen
-        name="P O L L E E"
+        name="Y O U"
         component={You}
         initialParams={{ route: route.params.props }}
       />
@@ -143,12 +179,12 @@ export default class Welcome extends Component {
           tabBarOptions={{
             showLabel: false,
             inactiveTintColor: "white",
-            activeTintColor: "#202020", //"#202020",
+            activeTintColor: "#202020", //"#202020",FDDE4E
             tabStyle: {
               marginTop: 10
             },
             style: {
-              backgroundColor: "#FDDE4E",
+              backgroundColor: "#FDC100",
               alingItems: "center",
               justifyContent: "center"
             }
@@ -172,7 +208,7 @@ export default class Welcome extends Component {
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <Feather name="search" color={color} size={35} />
+                <Ionicons name="ios-globe" color={color} size={42} />
               )
             }}
           />
@@ -183,11 +219,7 @@ export default class Welcome extends Component {
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="comment-question-outline"
-                  color={color}
-                  size={35}
-                />
+                <MaterialIcons name="add-circle-outline" color={color} size={42} />
               )
             }}
           />
@@ -201,7 +233,7 @@ export default class Welcome extends Component {
                 <MaterialCommunityIcons
                   name="history"
                   color={color}
-                  size={35}
+                  size={44}
                 />
               )
             }}
@@ -213,8 +245,8 @@ export default class Welcome extends Component {
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="face-profile"
+                <FontAwesome
+                  name="user"
                   color={color}
                   size={35}
                 />

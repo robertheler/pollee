@@ -191,7 +191,7 @@ export default class Post extends Component {
               <TouchableOpacity style={styles.button}>
                 <Text
                   style={{
-                    fontSize: 15,
+                    fontSize: 18,
                     alignSelf: "center",
                     color: "#202020"
                   }}
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     margin: 40,
     alignSelf: "center",
-    backgroundColor: "#FDDE4E",
+    backgroundColor: "#FDC100",
     alignItems: "center",
     justifyContent: "center"
   }
