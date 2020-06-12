@@ -40,7 +40,7 @@ export default class You extends Component {
     // if user hasn't already liked, like.
     let id = this.props.poll.id;
     let voter = this.props.voter;
-    let refresh = this.props.refresh;
+    let handleLike = this.props.handleLike;
 
     fetch(`http://3.221.234.184:3001/api/likepoll/${id}/${voter}`, {
       headers: {
@@ -50,8 +50,7 @@ export default class You extends Component {
       method: "patch"
     })
       .then(function(response) {
-        console.log("liked");
-        refresh(id);
+        handleLike(id);
       })
       .catch(error => {
         console.error("Error:", error);
@@ -60,7 +59,7 @@ export default class You extends Component {
 
   handleVote(index) {
     //re-render
-    let refresh = this.props.refresh;
+    let handleVote = this.props.handleVote;
     let id = this.props.poll.id;
     let vote = {
       id: this.props.poll.id,
@@ -79,7 +78,7 @@ export default class You extends Component {
       }
     )
       .then(function(response) {
-        refresh(id);
+        handleVote(id);
       })
       .catch(error => {
         console.error("Error:", error);

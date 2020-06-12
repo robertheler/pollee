@@ -9,11 +9,13 @@ export default class PollFilter extends Component {
     super(props);
     this.state = {
       polls: [],
-      justVoted: [], // continue to render these during these seshion
+      justVoted: [],
+      justLiked: [], // continue to render these during these seshion
       lastVoted: null // the very last poll (only one that should be animated in this seshion)
     };
     this.hardRefresh = this.hardRefresh.bind(this);
-    this.softRefresh = this.softRefresh.bind(this);
+    this.handleVote = this.handleVote.bind(this);
+    this.handleLike = this.handleLike.bind(this);
   }
 
   componentDidMount() {
@@ -35,8 +37,7 @@ export default class PollFilter extends Component {
       });
   }
 
-  softRefresh(idOfJustVotedPoll) {
-    console.log("soft refresh");
+  handleVote(idOfJustVotedPoll) {
     this.fetchPollsForUser(this.props.route.userData.id)
       .then(polls => {
         this.state.justVoted.push(idOfJustVotedPoll);
@@ -44,6 +45,19 @@ export default class PollFilter extends Component {
         this.setState({
           polls: polls,
           lastVoted: idOfJustVotedPoll
+        }); //continue to render these inspite of being voted
+      })
+      .catch(error => console.log(error));
+  }
+
+  handleLike(idOfJustLikedPoll) {
+    this.fetchPollsForUser(this.props.route.userData.id)
+      .then(polls => {
+        this.state.justLiked.push(idOfJustLikedPoll);
+
+        this.setState({
+          polls: polls,
+          lastVoted: null
         }); //continue to render these inspite of being voted
       })
       .catch(error => console.log(error));
@@ -79,8 +93,18 @@ export default class PollFilter extends Component {
                 }
                 let byUser = this.props.route.userData.id === poll.by;
 
-                let justVoted = false; //this.state.justVoted.includes(poll.id)
                 let shouldAnimate = true;
+                let justLiked = false; //this.state.justVoted.includes(poll.id)
+                for (let i = 0; i < this.state.justVoted.length; i++) {
+                  if (this.state.justLiked[i] === poll.id) {
+                    justLiked = true;
+                    shouldAnimate = false;
+                    break;
+                  }
+                }
+
+
+                let justVoted = false; //this.state.justVoted.includes(poll.id)
                 for (let i = 0; i < this.state.justVoted.length; i++) {
                   if (this.state.justVoted[i] === poll.id) {
                     justVoted = true;
@@ -89,8 +113,9 @@ export default class PollFilter extends Component {
                   }
                 }
 
+                // && !justLiked
                 if (poll.id === this.state.lastVoted) {
-                  shouldAnimate = true;
+                    shouldAnimate = true;
                 }
 
                 if (
@@ -104,7 +129,8 @@ export default class PollFilter extends Component {
                       key={i}
                       poll={poll}
                       voter={this.props.route.userData.id}
-                      refresh={this.softRefresh}
+                      handleVote={this.handleVote}
+                      handleLike={this.handleLike}
                       animate={shouldAnimate}
                       alreadyVoted={alreadyVoted}
                     />
