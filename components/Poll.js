@@ -16,6 +16,7 @@ export default class You extends Component {
       initialOpacity: new Animated.Value(0)
     };
     this.handleVote = this.handleVote.bind(this);
+    this.like = this.like.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +36,28 @@ export default class You extends Component {
       });
   }
 
+  like() {
+    // if user hasn't already liked, like.
+    let id = this.props.poll.id;
+    let voter = this.props.voter;
+    let refresh = this.props.refresh;
+
+    fetch(`http://3.221.234.184:3001/api/likepoll/${id}/${voter}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      method: "patch"
+    })
+      .then(function(response) {
+        console.log("liked");
+        refresh(id);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  }
+
   handleVote(index) {
     //re-render
     let refresh = this.props.refresh;
@@ -44,50 +67,35 @@ export default class You extends Component {
       user: this.props.voter,
       choice: index + 1 //postgres is not 0-indexed
     };
-    // only vote if haven't voted already
-    let alreadyVoted = false;
-    if (this.props.poll.voters) {
-      for (let i = 0; i < this.props.poll.voters.length; i++) {
-        if (this.props.poll.voters[i] === this.props.voter) {
-          alreadyVoted = true;
-          break;
-        }
-      }
-    }
 
-    if (!alreadyVoted) {
-      fetch(
-        `http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          method: "patch"
-        }
-      )
-        .then(function(response) {
-          refresh(id);
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });
-    }
+    fetch(
+      `http://3.221.234.184:3001/api/polls/${vote.id}/${vote.user}/${vote.choice}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "patch"
+      }
+    )
+      .then(function(response) {
+        refresh(id);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
   }
 
   render() {
     let poll = this.props.poll;
-    let votes = 0;
+
     let percentages = [];
     let maxPercentage = 0;
 
     for (let i = 0; i < poll.answers.length; i++) {
-      votes = votes + poll.results[i];
-    }
-    for (let i = 0; i < poll.answers.length; i++) {
-      percentages.push((poll.results[i] / votes) * 100);
-      if ((poll.results[i] / votes) * 100 > maxPercentage) {
-        maxPercentage = (poll.results[i] / votes) * 100;
+      percentages.push((poll.results[i] / this.props.poll.votes) * 100);
+      if ((poll.results[i] / this.props.poll.votes) * 100 > maxPercentage) {
+        maxPercentage = (poll.results[i] / this.props.poll.votes) * 100;
       }
     }
     let alreadyVoted = false;
@@ -97,6 +105,14 @@ export default class You extends Component {
           alreadyVoted = true;
           break;
         }
+      }
+    }
+
+    let alreadyLiked = false;
+    for (var i = 0; i < this.props.poll.likers.length; i++) {
+      if (this.props.poll.likers[i] === this.props.voter) {
+        alreadyLiked = true;
+        break;
       }
     }
 
@@ -168,9 +184,14 @@ export default class You extends Component {
                 voter={this.props.voter}
                 hasUpdated={this.state.hasUpdated}
                 width={new Animated.Value(0)}
-                percentage={(this.props.poll.results[i] / votes) * 100}
+                percentage={
+                  this.props.poll.votes > 0
+                    ? (this.props.poll.results[i] / this.props.poll.votes) * 100
+                    : 0
+                }
                 maxPercentage={maxPercentage}
                 alreadyVoted={alreadyVoted}
+                alreadyLiked={alreadyLiked}
                 animate={this.props.animate}
                 isSelf={this.props.voter.id === this.props.poll.by}
               />
@@ -182,13 +203,27 @@ export default class You extends Component {
               alignSelf: "center",
               flexDirection: "row",
               //alignItems: "space-between",
-              marginTop: 10
+              marginTop: 0
             }}
           >
-            <Stat items={this.props.poll.voters} type="votes" icon="vote" />
+            <Stat
+              items={this.props.poll.votes}
+              //replace items with this.props.poll.voters eventually
+              type="votes"
+              icon="vote"
+            />
+            <Stat
+              items={this.props.poll.likes}
+              //replace items with this.props.poll.voters eventually
+              type="likes"
+              icon="hand-peace"
+              like={this.like}
+              alreadyLiked={alreadyLiked}
+            />
             <Stat
               items={this.props.poll.comments}
               type="comments"
+              commenters={[]}
               icon="comment-text-multiple-outline"
             />
           </View>

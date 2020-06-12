@@ -181,7 +181,7 @@ export default class Post extends Component {
                   getRef={ref => {
                     this.SearchInput = ref;
                   }}
-                  val={this.state.answer4}
+                  value={this.state.answer4}
                   onChangeText={val => this.setState({ answer4: val })}
                   id="answer4"
                   style={styles.answer}
@@ -246,7 +246,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginVertical: 100,
+    marginTop: 21,
+    marginBottom: 100,
     paddingVertical: 10,
     marginHorizontal: 20,
     shadowColor: "#d9d9d9",

@@ -201,7 +201,7 @@ export default class Welcome extends Component {
               )
             }}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             style={{ backgroundColor: "gray" }}
             name="Discover"
             component={DiscoverScreen}
@@ -211,7 +211,7 @@ export default class Welcome extends Component {
                 <Ionicons name="ios-globe" color={color} size={40} />
               )
             }}
-          />
+          /> */}
           <Tab.Screen
             style={{ backgroundColor: "white" }}
             name="Ask"
