@@ -41,7 +41,8 @@ export default class Comment extends Component {
               alignItems: "center",
               justifyContent: "flex-start",
               //marginLeft: -2,
-              marginVertical: 5
+              marginVertical: 5,
+              paddingLeft:5
 
             }}
           >
@@ -53,6 +54,7 @@ export default class Comment extends Component {
                 borderRadius: 12,
                 marginRight: 10,
                 alignSelf: "center",
+                zIndex:99
                 //width: "10%"
               }}
             />

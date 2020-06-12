@@ -5,11 +5,13 @@ import {
   Content,
   Button,
   Form,
+  Root,
   Item,
   Input,
   Thumbnail,
   Textarea,
-  Label
+  Label,
+  Toast
 } from "native-base";
 
 import { ScrollView } from "react-native-gesture-handler";
@@ -25,7 +27,8 @@ export default class Post extends Component {
       answer1: "",
       answer2: "",
       answer3: "",
-      answer4: ""
+      answer4: "",
+      showToast: false
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -38,7 +41,12 @@ export default class Post extends Component {
       this.state.answer2 === ""
     ) {
       // Works on both Android and iOS
-      alert("Please fill out the question and at least 2 answers!");
+      Toast.show({
+        text: `You must fill out:\n   • the question \n   • at least 2 answers`,
+        buttonText: "Okay",
+        position: "bottom",
+        duration: 3000
+      });
     } else {
       let poll = {
         by: this.state.user.id,
@@ -74,7 +82,14 @@ export default class Post extends Component {
             answer3: "",
             answer4: ""
           },
-          alert("Poll was submitted! Check the feed to see responses!")
+
+          Toast.show({
+            text: "Post submitted!",
+            buttonText: "Okay",
+            type: "success",
+            position: "bottom",
+            duration: 3000
+          })
         )
       )
       .catch(error => {
@@ -84,150 +99,156 @@ export default class Post extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <Content contentContainerStyle={styles.contentContainerOuter}>
-          <View style={styles.container}>
-            <Content contentContainerStyle={styles.contentContainerInner}>
-              {this.state.user ? (
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: 40,
-                    marginBottom: 0
-                  }}
-                >
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: "row",
-                      justifyContet: "center",
-                      alignItems: "center"
-                    }}
-                  >
-                    <Thumbnail
-                      source={{ uri: `${this.state.user.picture.data.url}` }}
-                      style={{
-                        width: 30,
-                        height: 30,
-                        borderRadius: 15,
-                        marginRight: 10
-                      }}
-                    />
+      <Root>
+        <Container>
+          <Content>
+            <ScrollView>
+              <Content contentContainerStyle={styles.contentContainerOuter}>
+                <View style={styles.container}>
+                  <Content contentContainerStyle={styles.contentContainerInner}>
+                    {this.state.user ? (
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: 40,
+                          marginBottom: 0
+                        }}
+                      >
+                        <View
+                          style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContet: "center",
+                            alignItems: "center"
+                          }}
+                        >
+                          <Thumbnail
+                            source={{
+                              uri: `${this.state.user.picture.data.url}`
+                            }}
+                            style={{
+                              width: 30,
+                              height: 30,
+                              borderRadius: 15,
+                              marginRight: 10
+                            }}
+                          />
+                          <Text
+                            style={{ color: "#202020" }}
+                          >{`${this.state.user.name}`}</Text>
+                        </View>
+                      </View>
+                    ) : (
+                      <View></View>
+                    )}
+                    <Form>
+                      <Input
+                        placeholder="Type your poll here (e.g. Am I pretty?)"
+                        placeholderTextColor="gray"
+                        value={this.state.question}
+                        style={styles.question}
+                        getRef={ref => {
+                          this.SearchInput = ref;
+                        }}
+                        onChangeText={val => this.setState({ question: val })}
+                        id="question"
+                      />
+
+                      <Input
+                        placeholder="  Answer 1"
+                        placeholderTextColor="#E9E9E9"
+                        value={this.state.answer1}
+                        getRef={ref => {
+                          this.SearchInput = ref;
+                        }}
+                        onChangeText={val => this.setState({ answer1: val })}
+                        id="answer1"
+                        style={styles.answer}
+                      />
+
+                      <Input
+                        placeholder="  Answer 2"
+                        placeholderTextColor="#E9E9E9"
+                        getRef={ref => {
+                          this.SearchInput = ref;
+                        }}
+                        value={this.state.answer2}
+                        onChangeText={val => this.setState({ answer2: val })}
+                        id="answer2"
+                        style={styles.answer}
+                      />
+
+                      <Input
+                        placeholder="  Answer 3 (optional)"
+                        placeholderTextColor="#E9E9E9"
+                        getRef={ref => {
+                          this.SearchInput = ref;
+                        }}
+                        value={this.state.answer3}
+                        onChangeText={val => this.setState({ answer3: val })}
+                        id="answer3"
+                        style={styles.answer}
+                      />
+
+                      <Input
+                        placeholder="  Answer 4 (optional)"
+                        placeholderTextColor="#E9E9E9"
+                        getRef={ref => {
+                          this.SearchInput = ref;
+                        }}
+                        value={this.state.answer4}
+                        onChangeText={val => this.setState({ answer4: val })}
+                        id="answer4"
+                        style={styles.answer}
+                      />
+                    </Form>
+
+                    <TouchableOpacity style={styles.button}>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          alignSelf: "center",
+                          color: "#202020"
+                        }}
+                        onPress={this.onSubmit}
+                      >
+                        Submit Poll
+                      </Text>
+                    </TouchableOpacity>
                     <Text
-                      style={{ color: "#202020" }}
-                    >{`${this.state.user.name}`}</Text>
-                  </View>
+                      style={{
+                        marginBottom: 5,
+                        marginHorizontal: 10,
+                        textAlign: "left",
+                        fontStyle: "italic",
+                        fontSize: 12,
+                        alignSelf: "flex-start",
+                        color: "gray"
+                      }}
+                    >
+                      {`Note: The poll will be visible to all your Facebook friends!`}
+                    </Text>
+                  </Content>
                 </View>
-              ) : (
-                <View></View>
-              )}
-              <Form>
-                  <Input
-                    placeholder="Type your poll here (e.g. Am I pretty?)"
-                    placeholderTextColor="gray"
-                    value={this.state.question}
-                    style={styles.question}
-                    getRef={ref => {
-                      this.SearchInput = ref;
-
-                    }}
-                    onChangeText={val => this.setState({ question: val })}
-                    id="question"
-                  />
-
-
-                <Input
-                  placeholder="Answer 1"
-                  placeholderTextColor="#E9E9E9"
-                  value={this.state.answer1}
-                  getRef={ref => {
-                    this.SearchInput = ref;
-                  }}
-                  onChangeText={val => this.setState({ answer1: val })}
-                  id="answer1"
-                  style={styles.answer}
-                />
-
-                <Input
-                  placeholder="Answer 2"
-                  placeholderTextColor="#E9E9E9"
-                  getRef={ref => {
-                    this.SearchInput = ref;
-                  }}
-                  value={this.state.answer2}
-                  onChangeText={val => this.setState({ answer2: val })}
-                  id="answer2"
-                  style={styles.answer}
-                />
-
-                <Input
-                  placeholder="Answer 3 (optional)"
-                  placeholderTextColor="#E9E9E9"
-                  getRef={ref => {
-                    this.SearchInput = ref;
-                  }}
-                  value={this.state.answer3}
-                  onChangeText={val => this.setState({ answer3: val })}
-                  id="answer3"
-                  style={styles.answer}
-                />
-
-                <Input
-                  placeholder="Answer 4 (optional)"
-                  placeholderTextColor="#E9E9E9"
-                  getRef={ref => {
-                    this.SearchInput = ref;
-                  }}
-                  value={this.state.answer4}
-                  onChangeText={val => this.setState({ answer4: val })}
-                  id="answer4"
-                  style={styles.answer}
-                />
-              </Form>
-
-              <TouchableOpacity style={styles.button}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    alignSelf: "center",
-                    color: "#202020"
-                  }}
-                  onPress={this.onSubmit}
-                >
-                  Submit Poll
-                </Text>
-              </TouchableOpacity>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  marginHorizontal: 10,
-                  textAlign: "left",
-                  fontStyle: "italic",
-                  fontSize: 12,
-                  alignSelf: "flex-start",
-                  color: "gray"
-                }}
-              >
-                {`Note: The poll will be visible to all your Facebook friends!`}
-              </Text>
-            </Content>
-          </View>
-        </Content>
-      </ScrollView>
+              </Content>
+            </ScrollView>
+          </Content>
+        </Container>
+      </Root>
     );
   }
 }
 
 const styles = StyleSheet.create({
   contentContainerOuter: {
-    justifyContent: "center",
+    justifyContent: "center"
   },
   contentContainerInner: {
     justifyContent: "center",
-    paddingHorizontal: 5,
+    paddingHorizontal: 5
   },
   outter: {
     borderWidth: 1,
@@ -260,13 +281,13 @@ const styles = StyleSheet.create({
     elevation: 30
   },
   question: {
-    fontSize: 15,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#202020",
     marginBottom: 20,
     borderBottomWidth: 1,
     borderColor: "#E9E9E9",
-    padding:0
+    padding: 0
   },
   answer: {
     fontSize: 15,
@@ -277,8 +298,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: "100%",
     alignSelf: "center",
-    marginVertical: 3,
-
+    marginVertical: 3
   },
   button: {
     borderRadius: 25,

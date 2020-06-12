@@ -3,8 +3,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
+  FlatList,
   Button,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Modal from "react-native-modal";
@@ -51,10 +53,12 @@ export default class Stat extends Component {
           animationOut="zoomOut"
           transparent={true}
           isVisible={commentsVisible}
+          //onSwipeComplete={() => this.setState({ commentsVisible: false })}
+          //swipeDirection={['right']}
           backdropColor="#FFFFFF"
           backdropOpacity={0.75}
           onBackdropPress={() => this.setState({ commentsVisible: false })}
-          scrollOffset={0}
+          scrollOffset={100}
 
           //https://blog.theodo.com/2018/08/awesome-modal/
         >
@@ -63,7 +67,9 @@ export default class Stat extends Component {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
+                marginTop: 5,
                 marginBottom: 10
+
               }}
             >
               <Input
@@ -89,6 +95,8 @@ export default class Stat extends Component {
                 />
               </TouchableOpacity>
             </Form>
+            <SafeAreaView style={{maxHeight: 320, padding: 0, margin:0}}>
+            <ScrollView style={{maxHeight: 320, padding: 0, margin:0}}>
             {this.props.type === "comments"
               ? this.props.items.map((comment, i) => (
                   <Comment
@@ -98,6 +106,7 @@ export default class Stat extends Component {
                   />
                 ))
               : null}
+              </ScrollView></SafeAreaView>
           </View>
         </Modal>
         <TouchableOpacity
@@ -144,7 +153,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 0,
-    width: "85%",
+    width: "90%",
     backgroundColor: "#EF7458",
     borderRadius: 20,
     //borderWidth: 1,
