@@ -36,10 +36,9 @@ export default class Stat extends Component {
         backdropOpacity={0.7}
         backdropColor="white"
         onBackdropPress={() => this.setState({ commentsVisible: false })}
-        onSwipeComplete={() => this.setState({ commentsVisible: false })}
         //https://blog.theodo.com/2018/08/awesome-modal/
       >
-        <View style={styles.centeredView}>
+
           <View style={styles.modalView}>
             {this.props.type === "comments" ? this.props.items.map((comment, i) => <Comment key={i} comment={comment} commenter={this.props.commenters[i]}/>) : null}
             <TouchableHighlight
@@ -51,7 +50,7 @@ export default class Stat extends Component {
               <Text style={styles.textStyle}>Hide Modal</Text>
             </TouchableHighlight>
           </View>
-        </View>
+
       </Modal>
       <TouchableOpacity
         style={{
@@ -111,7 +110,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 10,
     elevation: 30,
-    borderWidth:3
+    borderWidth:3,
+    alignSelf: "center"
   },
   openButton: {
     backgroundColor: "#F194FF",

@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Thumbnail } from "native-base";
+import { Divider } from 'react-native-elements';
 
 export default class Comment extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ export default class Comment extends Component {
             borderWidth: 1,
             alignItems: "center",
             justifyContent: "flex-start",
-            margin: 0
+            marginLeft: -5
           }}
         >
           <Thumbnail
@@ -54,7 +55,7 @@ export default class Comment extends Component {
               borderWidth: 1,
               borderColor: "red",
               justifyContent: "center",
-              width: "85%"
+              width: "90%"
             }}
           >
             <Text>
@@ -63,11 +64,12 @@ export default class Comment extends Component {
               >{`${this.state.user.name}: `}</Text>
               <Text style={[styles.answer], {fontStyle: "italic"}}>{this.props.comment}</Text>
             </Text>
+          <View style={{borderBottomWidth: 1, borderColor: "#EEEEEE"}}></View>
           </View>
         </View>
       );
     } else {
-      return <Text style={styles.answer}></Text>;
+      return <Text></Text>;
     }
   }
 }
