@@ -51,7 +51,8 @@ export default class Stat extends Component {
           animationOut="zoomOut"
           transparent={true}
           isVisible={commentsVisible}
-          backdropOpacity={0.1}
+          backdropColor="#FFFFFF"
+          backdropOpacity={0.75}
           onBackdropPress={() => this.setState({ commentsVisible: false })}
           scrollOffset={0}
 
@@ -62,12 +63,12 @@ export default class Stat extends Component {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-
+                marginBottom: 10
               }}
             >
               <Input
-                placeholder="type here"
-                placeholderTextColor="#E9E9E9"
+                placeholder="  ...type here"
+                placeholderTextColor="#FFFFFF"
                 value={this.state.newComment}
                 getRef={ref => {
                   this.SearchInput = ref;
@@ -144,11 +145,11 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 0,
     width: "85%",
-    backgroundColor: "white",
+    backgroundColor: "#EF7458",
     borderRadius: 20,
     //borderWidth: 1,
     //borderColor: "#FDC100",
-    paddingHorizontal: 10,
+    padding: 15,
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "flex-start",
@@ -167,14 +168,16 @@ const styles = StyleSheet.create({
     zIndex:999
   },
   sendButton: {
-    backgroundColor: "#FDC100",
+    backgroundColor: "#EF7458",
     borderRadius: 20,
     height: 40,
     width: 40,
     padding: 0,
     marginLeft: 10,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderColor: "#FFFFFF",
+    borderWidth: 1
   },
   textStyle: {
     color: "white",
@@ -183,13 +186,14 @@ const styles = StyleSheet.create({
   },
   comment: {
     fontSize: 15,
-    color: "#202020",
+    color: "#FFFFFF",
+    backgroundColor: "#EF7458",
     borderWidth: 1,
-    borderColor: "#E9E9E9",
+    borderColor: "#FFFFFF",
     borderRadius: 20,
     height: 40,
     width: "100%",
     alignSelf: "center",
-    marginVertical: 3
+    marginVertical: 3,
   }
 });

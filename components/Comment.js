@@ -42,17 +42,18 @@ export default class Comment extends Component {
               justifyContent: "flex-start",
               //marginLeft: -2,
               marginVertical: 5
+
             }}
           >
             <Thumbnail
               source={{ uri: this.state.user.url }}
               style={{
-                width: 30,
-                height: 30,
-                borderRadius: 15,
+                width: 24,
+                height: 24,
+                borderRadius: 12,
                 marginRight: 10,
                 alignSelf: "center",
-                width: "10%"
+                //width: "10%"
               }}
             />
             <View
@@ -64,9 +65,9 @@ export default class Comment extends Component {
             >
               <Text>
                 <Text
-                  style={[styles.answer, styles.name]}
+                  style={[styles.name]}
                 >{`${this.state.user.name}: `}</Text>
-                <Text style={([styles.answer], { fontStyle: "italic" })}>
+                <Text style={([styles.answer])}>
                   {this.props.comment}
                 </Text>
               </Text>
@@ -82,9 +83,12 @@ export default class Comment extends Component {
 const styles = StyleSheet.create({
   answer: {
     fontSize: 15,
-    color: "#202020"
+    color: "#FFFFFF",
+    fontStyle: "italic"
   },
   name: {
-    fontWeight: "bold"
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#FFFFFF"
   }
 });
