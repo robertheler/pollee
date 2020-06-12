@@ -19,6 +19,7 @@ export default class You extends Component {
     };
     this.handleVote = this.handleVote.bind(this);
     this.like = this.like.bind(this);
+    this.comment = this.comment.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +36,27 @@ export default class You extends Component {
       })
       .catch(error => {
         console.error(error);
+      });
+  }
+
+  comment(comment) {
+    let id = this.props.poll.id;
+    let commenter = this.props.voter;
+    let handleComment = this.props.handleComment;
+
+    fetch(`http://3.221.234.184:3001/api/comment/${id}/${commenter}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      method: "patch",
+      body: JSON.stringify({comment})
+    })
+      .then(function(response) {
+        handleComment(id);
+      })
+      .catch(error => {
+        console.error("Error:", error);
       });
   }
 
@@ -212,6 +234,7 @@ export default class You extends Component {
               //replace items with this.props.poll.voters eventually
               type="votes"
               icon="vote"
+              user={this.props.voter}
             />
             <Stat
               items={this.props.poll.likes}
@@ -219,13 +242,16 @@ export default class You extends Component {
               type="likes"
               icon="hand-peace"
               like={this.like}
+              user={this.props.voter}
               alreadyLiked={alreadyLiked}
             />
             <Stat
               items={this.props.poll.comments}
+              user={this.state.user}
               type="comments"
               commenters={this.props.poll.commenters}
               icon="comment-text-multiple-outline"
+              comment={this.comment}
             />
           </View>
         </View>

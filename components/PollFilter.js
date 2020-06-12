@@ -16,6 +16,7 @@ export default class PollFilter extends Component {
     this.hardRefresh = this.hardRefresh.bind(this);
     this.handleVote = this.handleVote.bind(this);
     this.handleLike = this.handleLike.bind(this);
+
   }
 
   componentDidMount() {
@@ -131,6 +132,7 @@ export default class PollFilter extends Component {
                       voter={this.props.route.userData.id}
                       handleVote={this.handleVote}
                       handleLike={this.handleLike}
+                      handleComment={this.handleLike}
                       animate={shouldAnimate}
                       alreadyVoted={alreadyVoted}
                     />
