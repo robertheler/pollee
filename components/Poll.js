@@ -275,34 +275,4 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginVertical: 15
   },
-  container2: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-  bodyViewStyle: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerLayoutStyle: {
-    width,
-    height: 100,
-    backgroundColor: 'orange',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  slidingPanelLayoutStyle: {
-    width,
-    height,
-    backgroundColor: '#7E52A0',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  commonTextStyle: {
-    color: 'white',
-    fontSize: 18,
-  },
 });

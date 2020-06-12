@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from "react";
-import { Thumbnail, Text, View } from "native-base";
-import { createLanguageService } from "typescript";
+import { Text, View, StyleSheet } from "react-native";
+import { Thumbnail } from "native-base";
 
 export default class Comment extends Component {
   constructor(props) {
@@ -29,22 +29,54 @@ export default class Comment extends Component {
   render() {
     if (this.state.user) {
       return (
-        <View>
+        <View
+          style={{
+            flexDirection: "row",
+            borderWidth: 1,
+            alignItems: "center",
+            justifyContent: "flex-start",
+            margin: 0
+          }}
+        >
           <Thumbnail
-            source={{ uri: `${this.state.user.url}` }}
+            source={{ uri: this.state.user.url }}
             style={{
               width: 30,
               height: 30,
               borderRadius: 15,
-              marginRight: 10
+              marginRight: 10,
+              alignSelf: "center",
+              width: "10%"
             }}
           />
-          <Text style={{ color: "#202020" }}>{`${this.state.user.name}`}</Text>
-          <Text>{this.props.comment}</Text>
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: "red",
+              justifyContent: "center",
+              width: "85%"
+            }}
+          >
+            <Text>
+              <Text
+                style={[styles.answer, styles.name]}
+              >{`${this.state.user.name}: `}</Text>
+              <Text style={[styles.answer], {fontStyle: "italic"}}>{this.props.comment}</Text>
+            </Text>
+          </View>
         </View>
       );
     } else {
-      return <Text>{this.props.comment}</Text>;
+      return <Text style={styles.answer}></Text>;
     }
   }
 }
+const styles = StyleSheet.create({
+  answer: {
+    fontSize: 15,
+    color: "#202020"
+  },
+  name: {
+    fontWeight: "bold"
+  }
+});
