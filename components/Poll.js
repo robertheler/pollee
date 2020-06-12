@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button} from "react-native";
 import { Thumbnail } from "native-base";
 import Choice from "./Choice.js";
 import moment from "moment"; // require
-import { Animated } from "react-native";
+import { Animated, Dimensions } from "react-native";
 moment().format();
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Stat from "./Stat";
+import SlidingPanel from 'react-native-sliding-up-down-panels';
+const { width, height } = Dimensions.get('window');
 
 export default class You extends Component {
   constructor(props) {
@@ -222,7 +224,7 @@ export default class You extends Component {
             <Stat
               items={this.props.poll.comments}
               type="comments"
-              commenters={[]}
+              commenters={this.props.poll.commenters}
               icon="comment-text-multiple-outline"
             />
           </View>
@@ -272,5 +274,35 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginVertical: 15
-  }
+  },
+  container2: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  bodyViewStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerLayoutStyle: {
+    width,
+    height: 100,
+    backgroundColor: 'orange',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  slidingPanelLayoutStyle: {
+    width,
+    height,
+    backgroundColor: '#7E52A0',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  commonTextStyle: {
+    color: 'white',
+    fontSize: 18,
+  },
 });

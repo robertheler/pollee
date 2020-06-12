@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, Button } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   Alert,
@@ -8,6 +8,7 @@ import {
   View
 } from "react-native";
 import Comment from './Comment.js';
+import SlidingUpPanel from 'rn-sliding-up-panel';
 
 export default class Stat extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class Stat extends Component {
     const { commentsVisible } = this.state;
     return (<View style={styles.centeredView}>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={commentsVisible}
         onRequestClose={() => {
@@ -38,7 +39,6 @@ export default class Stat extends Component {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello Grindr!</Text>
             {this.props.type === "comments" ? this.props.items.map((comment, i) => <Comment key={i} comment={comment} commenter={this.props.commenters[i]}/>) : null}
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
@@ -93,6 +93,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
+    width: '90%',
+    marginHorizontal: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 15,
