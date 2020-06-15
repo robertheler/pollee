@@ -26,20 +26,21 @@ export default class Stat extends Component {
     this.comment = this.comment.bind(this);
   }
   handleClick = isVisible => {
-    if (this.props.type == "comments" && this.props.items.length > 0) {
+    if (this.props.type == "comments" && this.props.items.length >= 0) {
       this.setState({ commentsVisible: isVisible });
-    } else if (
-      this.props.type === "likes" &&
-      this.props.alreadyLiked === false
-    ) {
-      this.props.like();
+    } else if (this.props.type === "likes") {
+      if (this.props.alreadyLiked === false) {
+        this.props.like();
+      } else {
+        //unlike
+      }
     }
   };
 
-  comment () {
+  comment() {
     if (this.state.newComment !== "") {
-      this.props.comment(this.state.newComment)
-      this.setState({newComment: ""})
+      this.props.comment(this.state.newComment);
+      this.setState({ newComment: "" });
     }
   }
 
@@ -53,10 +54,10 @@ export default class Stat extends Component {
           animationOut="zoomOut"
           transparent={true}
           isVisible={commentsVisible}
-          //onSwipeComplete={() => this.setState({ commentsVisible: false })}
+          onSwipeComplete={() => this.setState({ commentsVisible: false })}
           //swipeDirection={['right']}
           backdropColor="#FFFFFF"
-          backdropOpacity={0.75}
+          backdropOpacity={0.4}
           onBackdropPress={() => this.setState({ commentsVisible: false })}
           scrollOffset={100}
 
@@ -69,7 +70,6 @@ export default class Stat extends Component {
                 alignItems: "center",
                 marginTop: 5,
                 marginBottom: 10
-
               }}
             >
               <Input
@@ -83,6 +83,7 @@ export default class Stat extends Component {
                 id="newComment"
                 style={styles.comment}
               />
+
               <TouchableOpacity
                 style={styles.sendButton}
                 onPress={this.comment}
@@ -95,18 +96,19 @@ export default class Stat extends Component {
                 />
               </TouchableOpacity>
             </Form>
-            <SafeAreaView style={{maxHeight: 320, padding: 0, margin:0}}>
-            <ScrollView style={{maxHeight: 320, padding: 0, margin:0}}>
-            {this.props.type === "comments"
-              ? this.props.items.map((comment, i) => (
-                  <Comment
-                    key={i}
-                    comment={comment}
-                    commenter={this.props.commenters[i]}
-                  />
-                ))
-              : null}
-              </ScrollView></SafeAreaView>
+            <SafeAreaView style={{ maxHeight: 320, padding: 0, margin: 0 }}>
+              <ScrollView style={{ maxHeight: 320, padding: 0, margin: 0 }}>
+                {this.props.type === "comments"
+                  ? this.props.items.map((comment, i) => (
+                      <Comment
+                        key={i}
+                        comment={comment}
+                        commenter={this.props.commenters[i]}
+                      />
+                    ))
+                  : null}
+              </ScrollView>
+            </SafeAreaView>
           </View>
         </Modal>
         <TouchableOpacity
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 0,
     width: "90%",
-    backgroundColor: "#EF7458",
+    backgroundColor: "#EF7254", //"#EF7458",
     borderRadius: 20,
     //borderWidth: 1,
     //borderColor: "#FDC100",
@@ -174,7 +176,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     alignSelf: "center",
     paddingVertical: 10,
-    zIndex:999
+    zIndex: 999
   },
   sendButton: {
     backgroundColor: "#EF7458",
@@ -203,6 +205,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: "100%",
     alignSelf: "center",
-    marginVertical: 3,
+    marginVertical: 3
   }
 });

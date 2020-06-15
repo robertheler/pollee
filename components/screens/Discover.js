@@ -125,20 +125,17 @@ export default class Post extends Component {
                 <View></View>
               )}
               <Form>
-                  <Input
-                    placeholder="Type your poll here (e.g. Am I pretty?)"
-                    placeholderTextColor="gray"
-                    value={this.state.question}
-                    style={styles.question}
-                    getRef={ref => {
-                      this.SearchInput = ref;
-
-                    }}
-                    onChangeText={val => this.setState({ question: val })}
-                    id="question"
-
-                  />
-
+                <Input
+                  placeholder="Type your poll here (e.g. Am I pretty?)"
+                  placeholderTextColor="gray"
+                  value={this.state.question}
+                  style={styles.question}
+                  getRef={ref => {
+                    this.SearchInput = ref;
+                  }}
+                  onChangeText={val => this.setState({ question: val })}
+                  id="question"
+                />
 
                 <Input
                   placeholder="Answer 1"
@@ -224,11 +221,11 @@ export default class Post extends Component {
 
 const styles = StyleSheet.create({
   contentContainerOuter: {
-    justifyContent: "center",
+    justifyContent: "center"
   },
   contentContainerInner: {
     justifyContent: "center",
-    paddingHorizontal: 5,
+    paddingHorizontal: 5
   },
   outter: {
     borderWidth: 1,
@@ -266,7 +263,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderBottomWidth: 1,
     borderColor: "#E9E9E9",
-    padding:0
+    padding: 0
   },
   answer: {
     fontSize: 15,
@@ -277,8 +274,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: "100%",
     alignSelf: "center",
-    marginVertical: 3,
-
+    marginVertical: 3
   },
   button: {
     borderRadius: 25,

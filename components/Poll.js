@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button} from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { Thumbnail } from "native-base";
 import Choice from "./Choice.js";
 import moment from "moment"; // require
@@ -7,8 +7,8 @@ import { Animated, Dimensions } from "react-native";
 moment().format();
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Stat from "./Stat";
-import SlidingPanel from 'react-native-sliding-up-down-panels';
-const { width, height } = Dimensions.get('window');
+import SlidingPanel from "react-native-sliding-up-down-panels";
+const { width, height } = Dimensions.get("window");
 
 export default class You extends Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export default class You extends Component {
         "Content-Type": "application/json"
       },
       method: "patch",
-      body: JSON.stringify({comment})
+      body: JSON.stringify({ comment })
     })
       .then(function(response) {
         handleComment(id);
@@ -300,5 +300,5 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginVertical: 15
-  },
+  }
 });

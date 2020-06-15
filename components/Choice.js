@@ -10,7 +10,7 @@ export default class Choice extends Component {
 
   handleVote() {
     this.loadGraphBars(this.props.percentage);
-    if (! this.props.alreadyVoted) {
+    if (!this.props.alreadyVoted) {
       this.props.handleVote(this.props.index);
     }
   }
@@ -21,7 +21,7 @@ export default class Choice extends Component {
       duration: 1500,
       easing: Easing.bounce //can delete, it's pretty aggressive
     }).start();
-  };
+  }
 
   render() {
     this.props.animate ? this.loadGraphBars(this.props.percentage) : null;
@@ -31,10 +31,12 @@ export default class Choice extends Component {
           <Animated.View
             style={{
               borderRadius: 20,
-              width: this.props.animate ? this.props.width.interpolate({
-                inputRange: [0, 100],
-                outputRange: ["0%", "100%"]
-              }) : `${this.props.percentage}%`,
+              width: this.props.animate
+                ? this.props.width.interpolate({
+                    inputRange: [0, 100],
+                    outputRange: ["0%", "100%"]
+                  })
+                : `${this.props.percentage}%`,
               backgroundColor: "#FDC100",
               height: "auto",
               position: "absolute",
@@ -58,7 +60,9 @@ export default class Choice extends Component {
     } else {
       return (
         <TouchableOpacity style={styles.outter} onPress={this.handleVote}>
-          <Text style={styles.answer}>{this.props.poll.answers[this.props.index]} </Text>
+          <Text style={styles.answer}>
+            {this.props.poll.answers[this.props.index]}{" "}
+          </Text>
         </TouchableOpacity>
       );
     }

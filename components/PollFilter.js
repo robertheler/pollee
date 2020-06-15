@@ -16,7 +16,6 @@ export default class PollFilter extends Component {
     this.hardRefresh = this.hardRefresh.bind(this);
     this.handleVote = this.handleVote.bind(this);
     this.handleLike = this.handleLike.bind(this);
-
   }
 
   componentDidMount() {
@@ -104,7 +103,6 @@ export default class PollFilter extends Component {
                   }
                 }
 
-
                 let justVoted = false; //this.state.justVoted.includes(poll.id)
                 for (let i = 0; i < this.state.justVoted.length; i++) {
                   if (this.state.justVoted[i] === poll.id) {
@@ -116,9 +114,13 @@ export default class PollFilter extends Component {
 
                 // && !justLiked
                 if (poll.id === this.state.lastVoted) {
-                    shouldAnimate = true;
+                  shouldAnimate = true;
+                }
+                if (alreadyVoted && !justVoted) {
+                  shouldAnimate = false;
                 }
 
+                //shouldAnimate = true
                 if (
                   (this.props.showSelf == byUser &&
                     this.props.showAlreadyVoted == alreadyVoted &&

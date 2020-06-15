@@ -13,9 +13,10 @@ import {
   Label,
   Toast
 } from "native-base";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { ScrollView } from "react-native-gesture-handler";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Switch } from "react-native";
 
 export default class Post extends Component {
   constructor({ route, navigation }) {
@@ -28,10 +29,32 @@ export default class Post extends Component {
       answer2: "",
       answer3: "",
       answer4: "",
-      showToast: false
+      showToast: false,
+      anonymous: false
     };
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.toggleSwitch = this.toggleSwitch.bind(this);
+  }
+
+  toggleSwitch() {
+    if (!this.state.anonymous) {
+      this.setState({ anonymous: true });
+      Toast.show({
+        text: `Anonymous mode\nNo one will know you created this poll!`,
+        buttonText: "Okay",
+        position: "bottom",
+        duration: 2000
+      });
+    } else {
+      this.setState({ anonymous: false });
+      Toast.show({
+        text: `Your poll will be public!`,
+        buttonText: "Okay",
+        position: "bottom",
+        duration: 2000
+      });
+    }
   }
 
   onSubmit() {
@@ -49,7 +72,7 @@ export default class Post extends Component {
       });
     } else {
       let poll = {
-        by: this.state.user.id,
+        by: !this.state.anonymous ? this.state.user.id : "1",
         question: this.state.question,
         answers: [this.state.answer1, this.state.answer2]
       };
@@ -127,7 +150,9 @@ export default class Post extends Component {
                         >
                           <Thumbnail
                             source={{
-                              uri: `${this.state.user.picture.data.url}`
+                              uri: !this.state.anonymous
+                                ? `${this.state.user.picture.data.url}`
+                                : "https://adidasproducts.s3-us-west-1.amazonaws.com/images/anonymous.png"
                             }}
                             style={{
                               width: 30,
@@ -136,9 +161,11 @@ export default class Post extends Component {
                               marginRight: 10
                             }}
                           />
-                          <Text
-                            style={{ color: "#202020" }}
-                          >{`${this.state.user.name}`}</Text>
+                          <Text style={{ color: "#202020" }}>
+                            {!this.state.anonymous
+                              ? `${this.state.user.name}`
+                              : "Anonymous"}
+                          </Text>
                         </View>
                       </View>
                     ) : (
@@ -204,12 +231,45 @@ export default class Post extends Component {
                         id="answer4"
                         style={styles.answer}
                       />
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "space-between",
+                          justifyContent: "center",
+                          marginTop: 30
+                        }}
+                      >
+                        <Switch
+                          trackColor={{ false: "white", true: "#FCC101" }}
+                          // thumbColor={this.state.anonymous ? "#f5dd4b" : "#f4f3f4"}
+                          ios_backgroundColor="#E7E7E7"
+                          onValueChange={this.toggleSwitch}
+                          value={this.state.anonymous}
+                          style={{ alignSelf: "center" }}
+                        />
+                        <MaterialCommunityIcons
+                          name={"guy-fawkes-mask"}
+                          color={this.state.anonymous ? "#FCC101" : "#D5D5D7"}
+                          size={36}
+                          style={{
+                            alignSelf: "center",
+                            paddingLeft: 10,
+                            shadowColor: "#FCC101",
+                            shadowOffset: {
+                              width: 0,
+                              height: 0
+                            },
+                            shadowOpacity: this.state.anonymous ? 1 : 0,
+                            shadowRadius: 5
+                          }}
+                        />
+                      </View>
                     </Form>
 
                     <TouchableOpacity style={styles.button}>
                       <Text
                         style={{
-                          fontSize: 18,
+                          fontSize: 15,
                           alignSelf: "center",
                           color: "#202020"
                         }}
@@ -229,7 +289,8 @@ export default class Post extends Component {
                         color: "gray"
                       }}
                     >
-                      {`Note: The poll will be visible to all your Facebook friends!`}
+                      {" "}
+                      {`A public poll will be visible to all your Facebook friends!`}
                     </Text>
                   </Content>
                 </View>
@@ -301,11 +362,12 @@ const styles = StyleSheet.create({
     marginVertical: 3
   },
   button: {
-    borderRadius: 25,
-    height: 50,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    margin: 40,
+    borderRadius: 20,
+    height: 40,
+
+    paddingHorizontal: 15,
+    marginTop: 30,
+    marginBottom: 30,
     alignSelf: "center",
     backgroundColor: "#FDC100",
     alignItems: "center",

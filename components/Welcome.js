@@ -52,16 +52,16 @@ function AnswerScreen({ route, navigation }) {
 function ResultsScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: "#FDC100"
-      },
-      headerTintColor: "#202020",
-      headerTitleStyle: {
-        fontWeight: "bold"
-      }
-      //headerShown: false
-    }}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FDC100"
+        },
+        headerTintColor: "#202020",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+        //headerShown: false
+      }}
     >
       <HomeStack.Screen
         name="A C T I V I T Y"
@@ -75,16 +75,16 @@ function ResultsScreen({ route, navigation }) {
 function DiscoverScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: "#FDC100"
-      },
-      headerTintColor: "#202020",
-      headerTitleStyle: {
-        fontWeight: "bold"
-      }
-      //headerShown: false
-    }}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FDC100"
+        },
+        headerTintColor: "#202020",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+        //headerShown: false
+      }}
     >
       <HomeStack.Screen
         name="D I S C O V E R"
@@ -98,16 +98,16 @@ function DiscoverScreen({ route, navigation }) {
 function AskScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: "#FDC100"
-      },
-      headerTintColor: "#202020",
-      headerTitleStyle: {
-        fontWeight: "bold"
-      }
-      //headerShown: false
-    }}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FDC100"
+        },
+        headerTintColor: "#202020",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+        //headerShown: false
+      }}
     >
       <HomeStack.Screen
         name="N E W  P O L L"
@@ -121,16 +121,16 @@ function AskScreen({ route, navigation }) {
 function YouScreen({ route, navigation }) {
   return (
     <HomeStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: "#FDC100"
-      },
-      headerTintColor: "#202020",
-      headerTitleStyle: {
-        fontWeight: "bold"
-      }
-      //headerShown: false
-    }}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#FDC100"
+        },
+        headerTintColor: "#202020",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+        //headerShown: false
+      }}
     >
       <HomeStack.Screen
         name="Y O U"
@@ -148,7 +148,9 @@ export default class Welcome extends Component {
     super(props);
     this.saveUser(this.props.userData);
   }
-
+  logout () {
+    this.props.logout()
+  }
   saveUser(userData) {
     let newUser = {
       id: userData.id,
@@ -219,7 +221,11 @@ export default class Welcome extends Component {
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <MaterialIcons name="add-circle-outline" color={color} size={42} />
+                <MaterialIcons
+                  name="add-circle-outline"
+                  color={color}
+                  size={42}
+                />
               )
             }}
           />
@@ -245,11 +251,7 @@ export default class Welcome extends Component {
             initialParams={{ props: this.props }}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <FontAwesome
-                  name="user"
-                  color={color}
-                  size={35}
-                />
+                <FontAwesome name="user" color={color} size={35} />
               )
             }}
           />
