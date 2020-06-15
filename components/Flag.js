@@ -12,7 +12,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Modal from "react-native-modal";
 //import { ScrollView } from "react-native-gesture-handler";
-import { Input, Form, Thumbnail, Switch, Toast, Root} from "native-base";
+import { Input, Form, Thumbnail, Switch, Toast, Root } from "native-base";
 import { Alert, TouchableHighlight, View } from "react-native";
 import Comment from "./Comment.js";
 
@@ -45,125 +45,164 @@ export default class Flag extends Component {
   }
 
   report() {
-    this.setState({ commentsVisible: false});
+    this.setState({ commentsVisible: false });
+    // report to true in poll
+    let block ={
+      blockee: this.props.by.id,
+      blocker: this.props.voter
+    }
+    console.log(JSON.stringify(block))
+    // add user to blocked list
+    fetch(
+      `http://3.221.234.184:3001/api/block`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "patch",
+        body: JSON.stringify(block)
+      }
+    )
+      .then(response => {
+        // flag the poll
+        fetch(`http://3.221.234.184:3001/api/flag/${this.props.poll.id}`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          method: "patch"
+        });
+      })
 
-   // }
+      .catch(error => {
+        console.log(error);
+      });
+
+    // }
   }
 
   render() {
     const { commentsVisible } = this.state;
     return (
-    <Root>
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="fade"
-          animationIn="zoomIn"
-          animationOut="zoomOut"
-          transparent={true}
-          isVisible={commentsVisible}
-          onSwipeComplete={() => this.setState({ commentsVisible: false })}
-          //swipeDirection={['right']}
-          backdropColor="#FFFFFF"
-          backdropOpacity={0.4}
-          onBackdropPress={() => this.setState({ commentsVisible: false })}
-          scrollOffset={100}
+      <Root>
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="fade"
+            animationIn="zoomIn"
+            animationOut="zoomOut"
+            transparent={true}
+            isVisible={commentsVisible}
+            onSwipeComplete={() => this.setState({ commentsVisible: false })}
+            //swipeDirection={['right']}
+            backdropColor="#FFFFFF"
+            backdropOpacity={0.4}
+            onBackdropPress={() => this.setState({ commentsVisible: false })}
+            scrollOffset={100}
 
-          //https://blog.theodo.com/2018/08/awesome-modal/
-        >
-          <View style={styles.modalView}>
-            <Text
-              style={{ color: "white", alignSelf: "center", paddingBottom: 10 }}
-            >
-              Report Objectionable Content
-            </Text>
-            <Form
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 5,
-                marginBottom: 10
-              }}
-            >
-              <Input
-                placeholder=" Tell us why you are reporting this"
-                placeholderTextColor="#FFFFFF"
-                value={this.state.newComment}
-                getRef={ref => {
-                  this.SearchInput = ref;
+            //https://blog.theodo.com/2018/08/awesome-modal/
+          >
+            <View style={styles.modalView}>
+              <Text
+                style={{
+                  color: "white",
+                  alignSelf: "center",
+                  paddingBottom: 10
                 }}
-                onChangeText={val => this.setState({ newComment: val })}
-                id="newComment"
-                style={styles.comment}
-              />
-
-              <TouchableOpacity style={styles.sendButton} onPress={this.report}>
-                <MaterialCommunityIcons
-                  name="send"
-                  color={"white"}
-                  size={18}
-                  style={{ alignSelf: "center", paddingLeft: 5 }}
+              >
+                Report Objectionable Content
+              </Text>
+              <Form
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: 5,
+                  marginBottom: 10
+                }}
+              >
+                <Input
+                  placeholder=" Tell us why you are reporting this"
+                  placeholderTextColor="#FFFFFF"
+                  value={this.state.newComment}
+                  getRef={ref => {
+                    this.SearchInput = ref;
+                  }}
+                  onChangeText={val => this.setState({ newComment: val })}
+                  id="newComment"
+                  style={styles.comment}
                 />
-              </TouchableOpacity>
-            </Form>
-            <SafeAreaView style={{ maxHeight: 320, padding: 0, margin: 0 }}>
-              <ScrollView style={{ maxHeight: 320, padding: 0, margin: 0 }}>
-                {this.props.type === "comments"
-                  ? this.props.items.map((comment, i) => (
-                      <Comment
-                        key={i}
-                        comment={comment}
-                        commenter={this.props.commenters[i]}
-                      />
-                    ))
-                  : null}
-                <View style={{ flexDirection: "row", paddingTop: 10 }}>
-                  <Text
-                    style={{ color: "white", paddingHorizontal: 10 }}
-                  >{`Block ${this.props.by.name}?`}</Text>
-                  <Switch
-                    trackColor={{ false: "white", true: "#FCC101" }}
-                    // thumbColor={this.state.anonymous ? "#f5dd4b" : "#f4f3f4"}
-                    ios_backgroundColor="#E7E7E7"
-                    onValueChange={this.toggleSwitch}
-                    value={this.state.block}
-                    style={{ alignSelf: "center" }}
+
+                <TouchableOpacity
+                  style={styles.sendButton}
+                  onPress={this.report}
+                >
+                  <MaterialCommunityIcons
+                    name="send"
+                    color={"white"}
+                    size={18}
+                    style={{ alignSelf: "center", paddingLeft: 5 }}
                   />
-                </View>
-              </ScrollView>
-            </SafeAreaView>
-          </View>
-        </Modal>
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            marginHorizontal: 10
-          }}
-          onPress={() => {
-            this.handleClick(true);
-          }}
-        >
-          <Text
+                </TouchableOpacity>
+              </Form>
+              <SafeAreaView style={{ maxHeight: 320, padding: 0, margin: 0 }}>
+                <ScrollView style={{ maxHeight: 320, padding: 0, margin: 0 }}>
+                  {this.props.type === "comments"
+                    ? this.props.items.map((comment, i) => (
+                        <Comment
+                          key={i}
+                          comment={comment}
+                          commenter={this.props.commenters[i]}
+                        />
+                      ))
+                    : null}
+                  <View style={{ flexDirection: "row", paddingTop: 10 }}>
+                    <Text
+                      style={{ color: "white", paddingHorizontal: 10 }}
+                    >{`Block ${this.props.by.name}?`}</Text>
+                    <Switch
+                      trackColor={{ false: "white", true: "#FCC101" }}
+                      // thumbColor={this.state.anonymous ? "#f5dd4b" : "#f4f3f4"}
+                      ios_backgroundColor="#E7E7E7"
+                      onValueChange={this.toggleSwitch}
+                      value={this.state.block}
+                      style={{ alignSelf: "center" }}
+                    />
+                  </View>
+                </ScrollView>
+              </SafeAreaView>
+            </View>
+          </Modal>
+          <TouchableOpacity
             style={{
-              color: "#ee6c4d",
-              fontWeight: "bold",
-              fontSize: 15,
-              paddingRight: 5
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginHorizontal: 10
+            }}
+            onPress={() => {
+              this.handleClick(true);
             }}
           >
-            {this.props.type === "comments"
-              ? this.props.items.length
-              : this.props.items}
-          </Text>
-          <MaterialIcons
-            name={this.props.icon}
-            color={"black"}
-            size={20}
-            style={{ alignSelf: "center" }}
-          />
-        </TouchableOpacity>
-      </View>
+            <Text
+              style={{
+                color: "#ee6c4d",
+                fontWeight: "bold",
+                fontSize: 15,
+                paddingRight: 5
+              }}
+            >
+              {this.props.type === "comments"
+                ? this.props.items.length
+                : this.props.items}
+            </Text>
+            <MaterialIcons
+              name={this.props.icon}
+              color={"black"}
+              size={20}
+              style={{ alignSelf: "center" }}
+            />
+          </TouchableOpacity>
+        </View>
       </Root>
     );
   }
