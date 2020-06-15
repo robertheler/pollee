@@ -5,9 +5,12 @@ import {
   View,
   Image,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Linking
 } from "react-native";
 import { ImageBackground } from "react-native";
+import CheckBox from "react-native-elements";
+
 import Welcome from "./components/Welcome.js";
 // import * as Crypto from "expo-crypto";
 import * as AppleAuthentication from "expo-apple-authentication";
@@ -19,7 +22,6 @@ export default function App() {
   const [isLoggedin, setLoggedinStatus] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isImageLoading, setImageLoadStatus] = useState(false);
-
 
   skipLogin = () => {
     setLoggedinStatus(true);
@@ -117,6 +119,19 @@ export default function App() {
               continue as a guest
             </Text>
           </TouchableOpacity>
+          <Text
+            style={{ fontStyle: "italic", fontSize: 12, alignSelf: "center", paddingTop:10, paddingBottom:3}}
+          >
+            By signing in you acknowledge that you read the
+          </Text>
+          <Text
+            style={{ fontStyle: "italic", fontSize: 12, alignSelf: "center", textDecorationLine: "underline"}}
+            onPress={() =>
+              Linking.openURL("https://www.robertheler.com/privacy")
+            }
+          >
+            End User License Agreement
+          </Text>
         </ImageBackground>
       </View>
     );
