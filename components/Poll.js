@@ -7,6 +7,7 @@ import { Animated, Dimensions } from "react-native";
 moment().format();
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Stat from "./Stat";
+import Flag from "./Flag";
 import SlidingPanel from "react-native-sliding-up-down-panels";
 const { width, height } = Dimensions.get("window");
 
@@ -252,6 +253,14 @@ export default class You extends Component {
               commenters={this.props.poll.commenters}
               icon="comment-text-multiple-outline"
               comment={this.comment}
+            />
+            <Flag
+              //items={this.props.poll.comments}
+              by={this.state.user}
+              voter={this.props.voter}
+              poll={this.props.poll}
+              type="flag"
+              icon="report"
             />
           </View>
         </View>
