@@ -164,7 +164,7 @@ export default class Post extends Component {
                           <Text style={{ color: "#202020" }}>
                             {!this.state.anonymous
                               ? `${this.state.user.name}`
-                              : "Anonynous"}
+                              : "Anonymous"}
                           </Text>
                         </View>
                       </View>
