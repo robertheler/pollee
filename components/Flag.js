@@ -47,37 +47,56 @@ export default class Flag extends Component {
   report() {
     this.setState({ commentsVisible: false });
     // report to true in poll
-    let block ={
+    let block = {
       blockee: this.props.by.id,
       blocker: this.props.voter
-    }
-    console.log(JSON.stringify(block))
+    };
+    console.log(JSON.stringify(block));
     // add user to blocked list
-    fetch(
-      `http://3.221.234.184:3001/api/block`,
-      {
+    if (this.state.block) {
+
+      fetch(`http://3.221.234.184:3001/api/block`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json"
         },
         method: "patch",
         body: JSON.stringify(block)
-      }
-    )
-      .then(response => {
-        // flag the poll
-        fetch(`http://3.221.234.184:3001/api/flag/${this.props.poll.id}`, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          method: "patch"
-        });
       })
+        .then(response => {
+          // flag the poll
+          fetch(`http://3.221.234.184:3001/api/flag/${this.props.poll.id}`, {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            method: "patch"
+          }).then(response => {
+            //alert("Contnent flagged and user blocked. Please refresh!");
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        })
 
-      .catch(error => {
-        console.log(error);
-      });
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+
+      fetch(`http://3.221.234.184:3001/api/flag/${this.props.poll.id}`, {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            method: "patch"
+          }).then(response => {
+            //alert("Contnent flagged! Please refresh!");
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    }
 
     // }
   }

@@ -140,7 +140,16 @@ export default class You extends Component {
       }
     }
 
+    let blocked = false;
     if (this.state.user) {
+      for (let  i = 0; i < this.state.user.blocked.length; i++) {
+        if (this.state.user.blocked[i] == this.props.poll.by) {
+          blocked = true;
+          break
+        }
+      }
+    }
+    if (this.state.user && !blocked  && !this.props.poll.reported) {
       return (
         <View style={[styles.container]}>
           <View

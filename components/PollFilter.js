@@ -120,6 +120,10 @@ export default class PollFilter extends Component {
                   shouldAnimate = false;
                 }
 
+
+                // check if poll.by in blocker of voter
+                // let blocked = false;
+                // for(let i = 0; i < this.props.)
                 //shouldAnimate = true
                 if (
                   (this.props.showSelf == byUser &&
