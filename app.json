@@ -8,7 +8,7 @@
       "android",
       "web"
     ],
-    "version": "1.2.4",
+    "version": "1.2.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.robertheler.pollee",
-      "buildNumber": "1.2.4",
+      "buildNumber": "1.2.5",
       "usesAppleSignIn": true
     }
   }
