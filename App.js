@@ -80,11 +80,11 @@ export default function App() {
             }
             cornerRadius={5}
             style={{ width: 220, height: 44, padding: 20, margin: 20 }}
-              try {
             onPress={async () => {
+              try {
                 const credential = await AppleAuthentication.signInAsync({
-                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
                   requestedScopes: [
+                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
                     AppleAuthentication.AppleAuthenticationScope.EMAIL
                   ]
                 });
