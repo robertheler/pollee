@@ -9,7 +9,6 @@ import {
   Linking
 } from "react-native";
 import { ImageBackground } from "react-native";
-import CheckBox from "react-native-elements";
 
 import Welcome from "./components/Welcome.js";
 // import * as Crypto from "expo-crypto";
@@ -114,6 +113,11 @@ export default function App() {
               }
             }}
           />
+          <TouchableOpacity style={styles.loginBtn}>
+          <Text style={{ fontSize: 20, color: "#e9ebee" }}>
+            Login with Facebook
+          </Text>
+        </TouchableOpacity>
           <TouchableOpacity onPress={this.skipLogin}>
             <Text style={{ fontSize: 20, color: "#e9ebee", padding: 20 }}>
               continue as a guest
@@ -164,6 +168,12 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "cover",
     alignItems: "center"
+  },
+  loginBtn: {
+    backgroundColor: "#4267b2",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30
   },
   text: {
     paddingTop: 80,
