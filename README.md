@@ -1,6 +1,5 @@
 # Pollee 
 ![](/assets/samples.png) 
-![](/assets/screenshots/appStore.png) 
 ### ![](/assets/screenshots/appStore.png)  [Now available on the App Store!](https://apps.apple.com/us/app/pollee/id1518427274?ls=1) 
 
 Pollee is a full stack app that allows users to create and respond to public polls:
