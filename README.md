@@ -5,7 +5,7 @@
 Pollee is a full stack app that allows users to create and respond to public polls:
 
 • The Front End is written in React Native with NativeBase and StyleSheets <br>
-• [The Back End](https://github.com/robertheler/pollee-server) features Express and Postgres, deployed to an EC2 instance.
+• [The Back End](https://github.com/robertheler/pollee-server) features Express and Postgres, deployed to an AWS EC2 instance.
 
 # Features
 * [Facebook and Apple Login](#facebook-and-apple-login)
