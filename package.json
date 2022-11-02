@@ -19,7 +19,7 @@
     "crypto": "^1.0.1",
     "expo": "^37.0.0",
     "expo-apple-authentication": "~2.1.0",
-    "expo-cli": "^3.21.5",
+    "expo-cli": "^6.0.6",
     "expo-crypto": "~8.1.0",
     "express": "^4.17.1",
     "i": "^0.3.6",
