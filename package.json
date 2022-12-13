@@ -21,7 +21,7 @@
     "expo-apple-authentication": "~2.1.0",
     "expo-cli": "^3.21.5",
     "expo-crypto": "~8.1.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "i": "^0.3.6",
     "jquery": "^3.5.1",
     "moment": "^2.26.0",
