@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import PollFilter from "../PollFilter.js";
 import { Thumbnail } from "native-base";
 import { TouchableOpacity, Text } from "react-native";
+import Result from "../Result.js";
 
 export default function({ route, navigation }) {
   console.log(route.params.route);
@@ -16,6 +17,12 @@ export default function({ route, navigation }) {
         </Text>
       </TouchableOpacity>
       <PollFilter
+        route={route.params.route}
+        showSelf={true}
+        showAlreadyVoted={true}
+        showRejected={false}
+      />
+       <Result
         route={route.params.route}
         showSelf={true}
         showAlreadyVoted={true}
