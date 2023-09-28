@@ -22,6 +22,8 @@ Pollee is a full stack app that allows users to create and respond to public pol
 ![](/assets/gifs/post.gif) 
 # Comment
 ![](/assets/gifs/comment.gif) 
+# Results
+![](/assets/gifs/comment.gif) 
 # Anonymous Mode
 ![](/assets/gifs/anonymous.gif) 
 # Report and Block
